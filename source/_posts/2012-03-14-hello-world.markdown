@@ -10,7 +10,7 @@ categories: others
 
 ## 以下用几种方式(Octopress)来贴HelloWorld的代码
 ### Backtick Code Blocks
-~~~
+``` java HelloWorld.java
 /**
  *
  * @author ShunLi
@@ -20,10 +20,13 @@ categories: others
 		System.out.println("Hello World!");
 	}
 }
-~~~
+```
 
 ### Include Code Snippets
 {% include_code helloworld/HelloWorld.java %}
+
+### Gist Embedding
+{% gist 2036900 %}	
 
 ### Inline Code Blocks
 {% codeblock lang:java %}
@@ -38,8 +41,6 @@ categories: others
 }
 {% endcodeblock %}
 
-### Gist Embedding
-{% gist 2036900 %}	
 
 ## P.S. 悲催地体验——在Windows下安装Octopress
 在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
@@ -65,15 +66,14 @@ categories: others
 4. 中文问题
 
 	设置环境变量
-{% codeblock%}
-set LC_ALL=zh_CN.UTF-8
-set LANG=zh_CN.UTF-8
-{% endcodeblock %}
 
+		set LC_ALL=zh_CN.UTF-8
+		set LANG=zh_CN.UTF-8
 
 5. 就请欢乐得拥抱Octopress/Jekyll吧。
 
 还有一个问题
+对有序序列支持不好，比如上面应该是5的，现在变成了1。
 
 %PYTHON_HOME%
 http://railsinstaller.org/

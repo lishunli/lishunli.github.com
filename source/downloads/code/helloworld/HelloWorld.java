@@ -1,5 +1,3 @@
-package org.usc;
-
 /**
  *
  * @author ShunLi
