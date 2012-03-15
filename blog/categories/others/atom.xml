@@ -4,7 +4,7 @@
   <title><![CDATA[Category: others | I'm Here]]></title>
   <link href="http://lishunli.github.com/blog/categories/others/atom.xml" rel="self"/>
   <link href="http://lishunli.github.com/"/>
-  <updated>2012-03-15T16:09:58+08:00</updated>
+  <updated>2012-03-15T17:04:52+08:00</updated>
   <id>http://lishunli.github.com/</id>
   <author>
     <name><![CDATA[lishunli]]></name>
@@ -24,7 +24,7 @@
 
 <h3>Backtick Code Blocks</h3>
 
-<p>~~~
+<p>``` java HelloWorld.java
 /<em>*
  *
  * @author ShunLi
@@ -37,7 +37,7 @@ public static void main(String[] args) {
 </code></pre>
 
 <p>}
-~~~</p>
+```</p>
 
 <h3>Include Code Snippets</h3>
 
@@ -51,11 +51,7 @@ public static void main(String[] args) {
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cm">/**</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
 </span><span class='line'><span class="cm"> *</span>
 </span><span class='line'><span class="cm"> * @author ShunLi</span>
 </span><span class='line'><span class="cm"> */</span>
@@ -65,6 +61,23 @@ public static void main(String[] args) {
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h3>Gist Embedding</h3>
+
+<p><div><script src='https://gist.github.com/2036900.js?file='></script>
+<noscript><pre><code>package org.usc;
+
+/**
+ *
+ * @author ShunLi
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello World!&quot;);
+    }
+}
+</code></pre></noscript></div>
+</p>
 
 <h3>Inline Code Blocks</h3>
 
@@ -94,23 +107,6 @@ public static void main(String[] args) {
 </span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;}</span>
 </span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
-<h3>Gist Embedding</h3>
-
-<p><div><script src='https://gist.github.com/2036900.js?file='></script>
-<noscript><pre><code>package org.usc;
-
-/**
- *
- * @author ShunLi
- */
-public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println(&quot;Hello World!&quot;);
-    }
-}
-</code></pre></noscript></div>
-</p>
-
 <h2>P.S. 悲催地体验——在Windows下安装Octopress</h2>
 
 <p>在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
@@ -133,16 +129,17 @@ public class HelloWorld {
 <p> 这个官网已经有介绍了，上面都完美做了话，应该比较简单。</p></li>
 <li><p>中文问题</p>
 
-<p> 设置环境变量
-<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>set LC_ALL=zh_CN.UTF-8
-</span><span class='line'>set LANG=zh_CN.UTF-8</span></code></pre></td></tr></table></div></figure></notextile></div></p></li>
+<p> 设置环境变量</p>
+
+<pre><code> set LC_ALL=zh_CN.UTF-8
+ set LANG=zh_CN.UTF-8
+</code></pre></li>
 <li><p>就请欢乐得拥抱Octopress/Jekyll吧。</p></li>
 </ol>
 
 
-<p>还有一个问题</p>
+<p>还有一个问题
+对有序序列支持不好，比如上面应该是5的，现在变成了1。</p>
 
 <p>%PYTHON_HOME%
 http://railsinstaller.org/

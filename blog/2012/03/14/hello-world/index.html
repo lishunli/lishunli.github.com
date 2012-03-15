@@ -9,9 +9,16 @@
   <meta name="author" content="lishunli">
 
   
-  <meta name="description" content="程序员的第一篇博客，一般都是Hello World，我也习俗下。 以下用几种方式(Octopress)来贴HelloWorld的代码 Backtick Code Blocks ~~~
-/* * * @author ShunLi / public class HelloWorld {
-public &hellip;">
+  <meta name="description" content="程序员的第一篇博客，一般都是Hello World，我也习俗下。 以下用几种方式(Octopress)来贴HelloWorld的代码 Backtick Code Blocks HelloWorld.java1
+2
+3
+4
+5
+6
+7
+8
+9
+/** * * @author ShunLi */ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -98,20 +105,26 @@ public &hellip;">
 
 <h3>Backtick Code Blocks</h3>
 
-<p>~~~
-/<em>*
- *
- * @author ShunLi
- </em>/</p>
+<figure class='code'><figcaption><span>HelloWorld.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<pre><code>public class HelloWorld {
-public static void main(String[] args) {
-    System.out.println("Hello World!");
-}
-</code></pre>
-
-<p>}
-~~~</p>
 
 <h3>Include Code Snippets</h3>
 
@@ -125,11 +138,7 @@ public static void main(String[] args) {
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="cm">/**</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
 </span><span class='line'><span class="cm"> *</span>
 </span><span class='line'><span class="cm"> * @author ShunLi</span>
 </span><span class='line'><span class="cm"> */</span>
@@ -139,6 +148,23 @@ public static void main(String[] args) {
 </span><span class='line'>    <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Gist Embedding</h3>
+
+<div><script src='https://gist.github.com/2036900.js?file='></script>
+<noscript><pre><code>package org.usc;
+
+/**
+ *
+ * @author ShunLi
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello World!&quot;);
+    }
+}
+</code></pre></noscript></div>
 
 
 <h3>Inline Code Blocks</h3>
@@ -164,23 +190,6 @@ public static void main(String[] args) {
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>Gist Embedding</h3>
-
-<div><script src='https://gist.github.com/2036900.js?file='></script>
-<noscript><pre><code>package org.usc;
-
-/**
- *
- * @author ShunLi
- */
-public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println(&quot;Hello World!&quot;);
-    }
-}
-</code></pre></noscript></div>
-
-
 <h2>P.S. 悲催地体验——在Windows下安装Octopress</h2>
 
 <p>在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
@@ -203,22 +212,17 @@ public class HelloWorld {
 <p> 这个官网已经有介绍了，上面都完美做了话，应该比较简单。</p></li>
 <li><p>中文问题</p>
 
-<p> 设置环境变量</p></li>
+<p> 设置环境变量</p>
+
+<pre><code> set LC_ALL=zh_CN.UTF-8
+ set LANG=zh_CN.UTF-8
+</code></pre></li>
+<li><p>就请欢乐得拥抱Octopress/Jekyll吧。</p></li>
 </ol>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>set LC_ALL=zh_CN.UTF-8
-</span><span class='line'>set LANG=zh_CN.UTF-8</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
-<li>就请欢乐得拥抱Octopress/Jekyll吧。</li>
-</ol>
-
-
-<p>还有一个问题</p>
+<p>还有一个问题
+对有序序列支持不好，比如上面应该是5的，现在变成了1。</p>
 
 <p>%PYTHON_HOME%
 http://railsinstaller.org/
