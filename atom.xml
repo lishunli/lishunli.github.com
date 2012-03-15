@@ -1,101 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>I'm Here</title>
-  <meta name="author" content="lishunli">
-
-  
-  <meta name="description" content="程序员的第一篇博客，一般都是Hello World，我也习俗下。 以下用几种方式(Octopress)来贴HelloWorld的代码 Backtick Code Blocks ~~~
-/* * * @author ShunLi / public class HelloWorld {
-public &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://lishunli.github.com">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="I'm Here" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">I'm Here</a></h1>
-  
-    <h2>love to learn and keen to share</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:lishunli.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
+  <title><![CDATA[I'm Here]]></title>
+  <link href="http://lishunli.github.com/atom.xml" rel="self"/>
+  <link href="http://lishunli.github.com/"/>
+  <updated>2012-03-15T16:09:58+08:00</updated>
+  <id>http://lishunli.github.com/</id>
+  <author>
+    <name><![CDATA[lishunli]]></name>
     
-      <h1 class="entry-title"><a href="/blog/2012/03/14/hello-world/">Hello World</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2012-03-14T21:33:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>程序员的第一篇博客，一般都是Hello World，我也习俗下。</p>
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/14/hello-world/"/>
+    <updated>2012-03-14T21:33:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/14/hello-world</id>
+    <content type="html"><![CDATA[<p>程序员的第一篇博客，一般都是Hello World，我也习俗下。</p>
 
 <h2>以下用几种方式(Octopress)来贴HelloWorld的代码</h2>
 
@@ -118,7 +41,7 @@ public static void main(String[] args) {
 
 <h3>Include Code Snippets</h3>
 
-<figure class='code'><figcaption><span> (HelloWorld.java)</span> <a href='/downloads/code/helloworld/HelloWorld.java'>download</a></figcaption>
+<figure class='code'><figcaption><span> (HelloWorld.java)</span> <a href='http://lishunli.github.com/downloads/code/helloworld/HelloWorld.java'>download</a></figcaption>
  <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -231,69 +154,7 @@ http://ruby-taiwan.org/topics/46</p>
 https://github.com/imathis/octopress/issues/262</p>
 
 <p><a href="http://blogjava.net/lishunli">顺利</a></p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/03/14/hello-world/">Hello World</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - lishunli -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
