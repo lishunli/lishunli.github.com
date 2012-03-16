@@ -26,7 +26,7 @@ categories: others
 {% include_code helloworld/HelloWorld.java %}
 
 ### Gist Embedding
-{% gist 2036900 %}	
+{% gist 2036900 %}
 
 ### Inline Code Blocks
 {% codeblock lang:java %}
@@ -40,7 +40,7 @@ categories: others
 	}
 }
 {% endcodeblock %}
-
+B.T.W. 我以后应该比较常用Backtick code blocks 和 Include code sinipets.
 
 ## P.S. 悲催地体验——在Windows下安装Octopress
 在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
@@ -48,7 +48,7 @@ categories: others
 
 1. 安装 
 
-	如果你不怕麻烦的话，可以选择装ruby+kit，windows下安装ruby可以通过ruby installer，不过好像经常需要翻Wall过去才能打开， kit也要安装不然在bundle install 这步附近应该会有问题）
+	如果你不怕麻烦的话，可以选择装ruby+Devkit，更方便地方法是windows下安装ruby可以通过ruby installer，不过好像经常需要翻Wall过去才能打开， kit也要安装不然在bundle install 这步附近应该会有问题）
 
 2. 安装 python
 
