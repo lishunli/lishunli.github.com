@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[I'm Here]]></title>
+  <link href="http://lishunli.github.com/atom.xml" rel="self"/>
+  <link href="http://lishunli.github.com/"/>
+  <updated>2012-03-15T17:04:52+08:00</updated>
+  <id>http://lishunli.github.com/</id>
+  <author>
+    <name><![CDATA[lishunli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/14/hello-world/"/>
+    <updated>2012-03-14T21:33:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/14/hello-world</id>
+    <content type="html"><![CDATA[<p>程序员的第一篇博客，一般都是Hello World，我也习俗下。</p>
+
+<h2>以下用几种方式(Octopress)来贴HelloWorld的代码</h2>
+
+<h3>Backtick Code Blocks</h3>
+
+<figure class='code'><figcaption><span>HelloWorld.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Include Code Snippets</h3>
+
+<figure class='code'><figcaption><span> (HelloWorld.java)</span> <a href='http://lishunli.github.com/downloads/code/helloworld/HelloWorld.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Gist Embedding</h3>
+
+<div><script src='https://gist.github.com/2036900.js?file='></script>
+<noscript><pre><code>package org.usc;
+
+/**
+ *
+ * @author ShunLi
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello World!&quot;);
+    }
+}
+</code></pre></noscript></div>
+
+
+<h3>Inline Code Blocks</h3>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>P.S. 悲催地体验——在Windows下安装Octopress</h2>
+
+<p>在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
+这里记录下载Windows下安装Octopress的步骤，有些真是很痛苦。</p>
+
+<ol>
+<li><p>安装</p>
+
+<p> 如果你不怕麻烦的话，可以选择装ruby+kit，windows下安装ruby可以通过ruby installer，不过好像经常需要翻Wall过去才能打开， kit也要安装不然在bundle install 这步附近应该会有问题）</p></li>
+<li><p>安装 python</p>
+
+<p> 这个真的需要，ruby中有用到，
+ 如果不行的话，请按照这个顺序来一步一步检查是否ok
+ 安装 python-xxx.msi -> pywin32-xxx.exe -> 把python home（e.g. C:\Python27）加到windows环境变量下 -> gem update
+ 请注意，一定要把python home（e.g. C:\Python27）加到windows环境变量下。
+ 还有，如果没有python的话，朋友们可能会碰到下面的问题，在Octopress的代码高亮部分（）
+ 不然在上面的代码高亮include_code部分会有错误出现，</p></li>
+<li><p>安装octopress</p>
+
+<p> 这个官网已经有介绍了，上面都完美做了话，应该比较简单。</p></li>
+<li><p>中文问题</p>
+
+<p> 设置环境变量</p>
+
+<pre><code> set LC_ALL=zh_CN.UTF-8
+ set LANG=zh_CN.UTF-8
+</code></pre></li>
+<li><p>就请欢乐得拥抱Octopress/Jekyll吧。</p></li>
+</ol>
+
+
+<p>还有一个问题
+对有序序列支持不好，比如上面应该是5的，现在变成了1。</p>
+
+<p>%PYTHON_HOME%
+http://railsinstaller.org/
+http://ruby-taiwan.org/topics/46</p>
+
+<p>http://blog.yesmryang.net/windows-octopress-python/
+https://github.com/imathis/octopress/issues/262</p>
+
+<p><a href="http://blogjava.net/lishunli">顺利</a></p>
+]]></content>
+  </entry>
+  
+</feed>
