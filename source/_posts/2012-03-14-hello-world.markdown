@@ -46,7 +46,7 @@ B.T.W. 我以后应该比较常用Backtick code blocks 和 Include code sinipets
 在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
 这里记录下载Windows下安装Octopress的步骤，有些真是很痛苦。
 
-1. 安装 
+1. 安装 ruby
 
 	如果你不怕麻烦的话，可以选择装ruby+Devkit，更方便地方法是windows下安装ruby可以通过ruby installer，不过好像经常需要翻Wall过去才能打开， kit也要安装不然在bundle install 这步附近应该会有问题）
 
@@ -54,8 +54,9 @@ B.T.W. 我以后应该比较常用Backtick code blocks 和 Include code sinipets
 
 	这个真的需要，ruby中有用到，
 	如果不行的话，请按照这个顺序来一步一步检查是否ok
-	安装 python-xxx.msi -> pywin32-xxx.exe -> 把python home（e.g. C:\Python27）加到windows环境变量下 -> gem update
+	安装 python-xxx.msi -> 把python home（e.g. C:\Python27）加到windows环境变量下 -> gem update
 	请注意，一定要把python home（e.g. C:\Python27）加到windows环境变量下。
+	pywin32-xxx.exe ->
 	还有，如果没有python的话，朋友们可能会碰到下面的问题，在Octopress的代码高亮部分（）
 	不然在上面的代码高亮include_code部分会有错误出现，
 
@@ -74,6 +75,8 @@ B.T.W. 我以后应该比较常用Backtick code blocks 和 Include code sinipets
 
 还有一个问题
 对有序序列支持不好，比如上面应该是5的，现在变成了1。
+
+Liquid error: No such file or directory - python -c “import sys; print sys.executable”
 
 %PYTHON_HOME%
 http://railsinstaller.org/
