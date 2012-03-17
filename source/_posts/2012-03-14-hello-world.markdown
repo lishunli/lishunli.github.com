@@ -9,7 +9,7 @@ categories: others
 程序员的第一篇博客，一般都是Hello World，我也习俗下。
 
 ## 以下用几种方式(Octopress)来贴HelloWorld的代码
-### Backtick Code Blocks
+* Backtick Code Blocks
 ``` java HelloWorld.java
 /**
  *
@@ -22,13 +22,13 @@ categories: others
 }
 ```
 
-### Include Code Snippets
+* Include Code Snippets
 {% include_code helloworld/HelloWorld.java %}
 
-### Gist Embedding
+* Gist Embedding
 {% gist 2036900 %}
 
-### Inline Code Blocks
+* Inline Code Blocks
 {% codeblock lang:java %}
 /**
  *
@@ -46,44 +46,37 @@ B.T.W. 我以后应该比较常用Backtick code blocks 和 Include code sinipets
 在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
 这里记录下载Windows下安装Octopress的步骤，有些真是很痛苦。
 
-1. 安装 ruby
+* 安装 ruby	
+如果你不怕麻烦的话，可以选择装ruby+Devkit(Devkit也要安装不然在bundle install这步附近应该会有问题)，Windows下安装ruby可以通过RubyInstaller(不过好像经常需要翻Wall过去才能打开)，更方便地方法是直接通过[railsinstaller](http://railsinstaller.org/) 来安装，里面包括很多需要的工具。
 
-	如果你不怕麻烦的话，可以选择装ruby+Devkit，更方便地方法是windows下安装ruby可以通过ruby installer，不过好像经常需要翻Wall过去才能打开， kit也要安装不然在bundle install 这步附近应该会有问题）
-
-2. 安装 python
-
-	这个真的需要，ruby中有用到，
-	如果不行的话，请按照这个顺序来一步一步检查是否ok
-	安装 python-xxx.msi -> 把python home（e.g. C:\Python27）加到windows环境变量下 -> gem update
-	请注意，一定要把python home（e.g. C:\Python27）加到windows环境变量下。
-	pywin32-xxx.exe ->
-	还有，如果没有python的话，朋友们可能会碰到下面的问题，在Octopress的代码高亮部分（）
-	不然在上面的代码高亮include_code部分会有错误出现，
-
-3. 安装octopress
-	
-	这个官网已经有介绍了，上面都完美做了话，应该比较简单。
-
-4. 中文问题
-
-	设置环境变量
-
-		set LC_ALL=zh_CN.UTF-8
-		set LANG=zh_CN.UTF-8
-
-5. 就请欢乐得拥抱Octopress/Jekyll吧。
-
-还有一个问题
-对有序序列支持不好，比如上面应该是5的，现在变成了1。
-
+* 安装 python	
+这个真的需要，ruby核心部分有用到。如果没有安装Python的话，在Octopress的代码高亮(include_code 等)部分可能会出现问题：	
+比如：
+``` ruby
 Liquid error: No such file or directory - python -c “import sys; print sys.executable”
+# or
+Liquid error: undefined method `Py_IsInitialized’ for RubyPython::Python:Module
+```	
+请先安装 python-xxx.msi，然后把python home（e.g. C:\Python27）加到windows环境变量下	
+请注意，一定要把python home加到windows环境变量下。
 
-%PYTHON_HOME%
-http://railsinstaller.org/
-http://ruby-taiwan.org/topics/46
+如果还不行的话，请参考这个[issue](https://github.com/imathis/octopress/issues/262)，应该能够解决。
+	
 
+* 安装octopress	
+这个官网已经有介绍了，应该比较简单。
 
-http://blog.yesmryang.net/windows-octopress-python/
-https://github.com/imathis/octopress/issues/262
+* 中文问题	
+Windows下如果有中文的话，在generate步骤就会失败，网上给出的解决方法也很简单，就是设置自己本机的环境变量		
+![](/images/helloworld/env_vars.png)	
+具体的就是这样设置的
+```
+set LC_ALL=zh_CN.UTF-8
+set LANG=zh_CN.UTF-8
+```
 
-[顺利](http://blogjava.net/lishunli)
+* 还有一个问题	
+对有序序列支持不好，我已经提了一个[bug](https://github.com/imathis/octopress/issues/488)了。
+
+* 就请欢乐地拥抱Octopress/Jekyll吧。
+
