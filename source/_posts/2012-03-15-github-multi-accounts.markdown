@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "GitHub多账户使用"
-date: 2012-03-18 13:43
+date: 2012-03-15 13:43
 comments: true
 categories: [github, ssh]
 ---
