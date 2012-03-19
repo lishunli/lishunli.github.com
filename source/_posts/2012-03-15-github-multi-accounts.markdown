@@ -46,7 +46,7 @@ git@github.com:YourAcccountName/YourRepoName.git
 这篇文章没有点点技术,主要用于以下用途：
 
 * 仅记之；
-* 学习并使用Markdown，简单快捷高效地写文章(本文用markdown编辑而成),你可以通过这里观看效果 [GitHub-Multi-Accounts](http://lishunli.github.com/blog/2012/03/18/github-multi-accounts/)；
+* 学习并使用Markdown，简单快捷高效地写文章(本文用markdown编辑而成),你可以通过这里观看效果 [GitHub多账户使用](http://lishunli.github.com/blog/2012/03/18/github-multi-accounts/)；
 * 学习git，学习使用[Octopress](http://octopress.org/)。
 
 [github]: https://github.com/
