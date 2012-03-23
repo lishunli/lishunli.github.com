@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="MIC2" resourceRoot="" soapui-version="4.0.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="MICWebServiceServiceSoapBinding" type="wsdl" bindingName="{http://mic2.taifook.com/}MICWebServiceServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://10.100.53.154:8080/mic2/service/mic2?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://10.100.53.154:8080/mic2/service/mic2?wsdl"><con:part><con:url>http://10.100.53.154:8080/mic2/service/mic2?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="MICWebServiceService" targetNamespace="http://mic2.taifook.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://mic2.taifook.com/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://mic2.taifook.com/">
+      <xsd:element name="login" type="tns:login"/>
+      <xsd:complexType name="login">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="arg0" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="arg1" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="loginResponse" type="tns:loginResponse"/>
+      <xsd:complexType name="loginResponse">
+        <xsd:sequence>
+          <xsd:element name="return" type="xsd:long"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="logout" type="tns:logout"/>
+      <xsd:complexType name="logout">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="arg0" type="xsd:long"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="logoutResponse" type="tns:logoutResponse"/>
+      <xsd:complexType name="logoutResponse">
+        <xsd:sequence/>
+      </xsd:complexType>
+      <xsd:element name="send" type="tns:send"/>
+      <xsd:complexType name="send">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="arg0" type="xsd:long"/>
+          <xsd:element minOccurs="0" name="arg1" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="arg2" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="arg3" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="sendResponse" type="tns:sendResponse"/>
+      <xsd:complexType name="sendResponse">
+        <xsd:sequence>
+          <xsd:element name="return" type="xsd:long"/>
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="sendResponse">
+    <wsdl:part element="tns:sendResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="login">
+    <wsdl:part element="tns:login" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="send">
+    <wsdl:part element="tns:send" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part element="tns:loginResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="logout">
+    <wsdl:part element="tns:logout" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="logoutResponse">
+    <wsdl:part element="tns:logoutResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="MICService">
+    <wsdl:operation name="login">
+      <wsdl:input message="tns:login" name="login"></wsdl:input>
+      <wsdl:output message="tns:loginResponse" name="loginResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logout">
+      <wsdl:input message="tns:logout" name="logout"></wsdl:input>
+      <wsdl:output message="tns:logoutResponse" name="logoutResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send">
+      <wsdl:input message="tns:send" name="send"></wsdl:input>
+      <wsdl:output message="tns:sendResponse" name="sendResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MICWebServiceServiceSoapBinding" type="tns:MICService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="login">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="login">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logout">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="logout">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="logoutResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="send">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="send">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sendResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MICWebServiceService">
+    <wsdl:port binding="tns:MICWebServiceServiceSoapBinding" name="MICWebServicePort">
+      <soap:address location="http://10.100.53.154:8080/mic2/service/mic2"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://127.0.0.1:8080/mic2/service/mic2</con:endpoint><con:endpoint>http://10.100.53.154:8080/mic2/service/mic2</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="login" bindingOperationName="login" type="Request-Response" outputName="loginResponse" inputName="login" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.100.53.154:8080/mic2/service/mic2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mic2="http://mic2.taifook.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mic2:login>
+         <!--Optional:-->
+         <arg0>gero et</arg0>
+         <!--Optional:-->
+         <arg1>sonoras imperio</arg1>
+      </mic2:login>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mic2.taifook.com/MICService/login"/></con:call></con:operation><con:operation isOneWay="false" action="" name="logout" bindingOperationName="logout" type="Request-Response" outputName="logoutResponse" inputName="logout" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.100.53.154:8080/mic2/service/mic2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mic2="http://mic2.taifook.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mic2:logout>
+         <!--Optional:-->
+         <arg0>10</arg0>
+      </mic2:logout>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mic2.taifook.com/MICService/logout"/></con:call></con:operation><con:operation isOneWay="false" action="" name="send" bindingOperationName="send" type="Request-Response" outputName="sendResponse" inputName="send" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.100.53.154:8080/mic2/service/mic2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mic2="http://mic2.taifook.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mic2:send>
+         <!--Optional:-->
+         <arg0>10</arg0>
+         <!--Optional:-->
+         <arg1>gero et</arg1>
+         <!--Optional:-->
+         <arg2>sonoras imperio</arg2>
+         <!--Optional:-->
+         <arg3>quae divum incedo</arg3>
+      </mic2:send>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://mic2.taifook.com/MICService/send"/></con:call></con:operation></con:interface><con:testSuite name="MIC2_File"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="true" maxResults="0" name="Approval" searchProperties="true" timeout="0" wsrmEnabled="false" wsrmVersion="1.0" wsrmAckTo="" amfAuthorisation="false" amfEndpoint="" amfLogin="" amfPassword="" id="5e0a9dd5-0236-4749-b130-4467a21b12e4"><con:settings/><con:testStep type="groovy" name="load data"><con:settings/><con:config><script>import au.com.bytecode.opencsv.CSVReader;
+
+def filename = testRunner.testCase.getPropertyValue( "filename" )
+log.info("[load data] CSV File Path and Name: " + filename)
+log.info("[load data] Reading the CSV...")
+
+CSVReader reader = new CSVReader(new FileReader(filename));
+
+def isHeader = true
+List approvalList = []
+
+while ((nextLine = reader.readNext()) != null) {
+	if (isHeader) {
+	    isHeader = false
+	} else {
+		approvalList.add nextLine  
+	}
+}
+//set property to test case context 
+def loopCount = 0
+log.info("[load data] Number of Approval: " + approvalList.size())
+context.setProperty("approvalList",approvalList)
+context.setProperty("loopCount",loopCount);
+</script></con:config></con:testStep><con:testStep type="groovy" name="loop start"><con:settings/><con:config><script>log.info("[loop start] Current Loop Count: " + context.loopCount);
+
+def msg = context.approvalList.remove(0)
+
+testRunner.testCase.testSuite.getTestCaseByName("Approval").setPropertyValue("userid",msg[0])
+testRunner.testCase.testSuite.getTestCaseByName("Approval").setPropertyValue("password",msg[1])
+testRunner.testCase.testSuite.getTestCaseByName("Approval").setPropertyValue("key",msg[2])
+testRunner.testCase.testSuite.getTestCaseByName("Approval").setPropertyValue("body","&lt;![CDATA[" + msg[3].trim() + "]]&gt;")
+
+context.setProperty("loopCount",++context.loopCount);</script></con:config></con:testStep><con:testStep type="request" name="login"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>MICWebServiceServiceSoapBinding</con:interface><con:operation>login</con:operation><con:request name="login"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.100.53.154:8080/mic2/service/mic2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mic2="http://mic2.taifook.com/">
+   <soapenv:Header/>
+   <soapenv:Body><mic2:login>
+
+         <arg0>${#TestCase#userid}</arg0>
+
+         <arg1>${#TestCase#password}</arg1>
+      </mic2:login>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="transfer" name="Property Transfer"><con:settings/><con:config xsi:type="con:PropertyTransfersStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" ignoreEmpty="false" transferToAll="false" useXQuery="false" entitize="false" transferChildNodes="false" disabled="false"><con:name>sid</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>login</con:sourceStep><con:sourcePath>declare namespace ns1='http://mic2.taifook.com/';
+//ns1:loginResponse/return</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>send</con:targetStep><con:targetPath>declare namespace mic2='http://mic2.taifook.com/';
+//mic2:send/arg0
+</con:targetPath></con:transfers><con:transfers setNullOnMissingSource="true" transferTextContent="true" failOnError="true" disabled="false" entitize="false" ignoreEmpty="false" transferChildNodes="false" transferToAll="false" useXQuery="false"><con:name>sid</con:name><con:sourceType>Response</con:sourceType><con:sourceStep>login</con:sourceStep><con:sourcePath>declare namespace ns1='http://mic2.taifook.com/';
+//ns1:loginResponse/return</con:sourcePath><con:targetType>Request</con:targetType><con:targetStep>logout</con:targetStep><con:targetPath>declare namespace mic2='http://mic2.taifook.com/';
+//mic2:logout/arg0
+</con:targetPath></con:transfers></con:config></con:testStep><con:testStep type="groovy" name="rand"><con:settings/><con:config><script>import static java.util.UUID.randomUUID
+randomUUID() as String</script></con:config></con:testStep><con:testStep type="request" name="send"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>MICWebServiceServiceSoapBinding</con:interface><con:operation>send</con:operation><con:request name="send"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.100.53.154:8080/mic2/service/mic2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mic2="http://mic2.taifook.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mic2:send>
+        <arg0>1330677322966</arg0>
+
+         <arg1>${#TestCase#key}</arg1>
+
+         <arg2>${rand#result}</arg2>
+
+          <arg3>${#TestCase#body}</arg3>
+
+      </mic2:send>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="request" name="logout"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>MICWebServiceServiceSoapBinding</con:interface><con:operation>logout</con:operation><con:request name="logout"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.100.53.154:8080/mic2/service/mic2</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mic2="http://mic2.taifook.com/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mic2:logout><!--Optional:-->
+         <arg0>1330677322966</arg0>
+      </mic2:logout>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="loop end"><con:settings/><con:config><script><![CDATA[def request = testRunner.testCase.getTestStepByName( "send" );
+def property = request.getProperty( "Response" );
+
+def isSuccess = property.value.indexOf("<return>0</return>") >= 0
+
+if(isSuccess)
+	log.info("Successly send")
+else 
+	log.info("Send Failed")
+
+if( context.approvalList != null && !context.approvalList.isEmpty() && isSuccess) {
+	testRunner.gotoStepByName("loop start")
+} else {
+	log.info("[loop end] Number of Approval: " + context.approvalList.size())
+}
+
+
+]]></script></con:config></con:testStep><con:loadTest name="mutiSend"><con:settings/><con:threadCount>10</con:threadCount><con:startDelay>0</con:startDelay><con:sampleInterval>250</con:sampleInterval><con:calculateTPSOnTimePassed>true</con:calculateTPSOnTimePassed><con:resetStatisticsOnThreadCountChange>true</con:resetStatisticsOnThreadCountChange><con:historyLimit>-1</con:historyLimit><con:testLimit>10000</con:testLimit><con:limitType>COUNT_PER_THREAD</con:limitType><con:loadStrategy><con:type>Thread</con:type><con:config><startThreadCount>10</startThreadCount><endThreadCount>10</endThreadCount></con:config></con:loadStrategy><con:assertion type="Step Status" name="Step Status"/><con:maxAssertionErrors>100</con:maxAssertionErrors><con:cancelExcessiveThreads>true</con:cancelExcessiveThreads><con:strategyInterval>500</con:strategyInterval></con:loadTest><con:properties><con:property><con:name>count</con:name><con:value>3</con:value></con:property><con:property><con:name>filename</con:name><con:value>C:\temp\msg.csv</con:value></con:property><con:property><con:name>stockInOutTransactionId</con:name><con:value>EquityTradeAdd</con:value></con:property><con:property><con:name>key</con:name><con:value>EquityTradeAdd</con:value></con:property><con:property><con:name>body</con:name><con:value>&lt;![CDATA[&lt;MSG>&lt;REC instrCode="985" isShortSell="N" tradePrice="0.135" settlementTradeId="2225507" channelCode="OFFLINE" acId="02-6000006-22" cmpnyCode="TFS" isLiquidate="N" settlementAmount="319.28" aeAcesGrpCode="043" instrTypeGroupCode="EQUITY" tradeSide="BUY" tradeDate="2011-09-30" mrktCode="HKEX" tradeCcyCode="HKD" settlementCcyCode="HKD" quantity="2365" />&lt;/MSG>]]&gt;</con:value></con:property><con:property><con:name>userid</con:name><con:value>MTS-E</con:value></con:property><con:property><con:name>password</con:name><con:value>abc123</con:value></con:property></con:properties></con:testCase><con:properties><con:property><con:name>count</con:name><con:value>1</con:value></con:property></con:properties></con:testSuite><con:properties/><con:wssContainer/></con:soapui-project>
