@@ -91,7 +91,7 @@ svn checkout http://jdbcdslog-exp.googlecode.com/svn/trunk/
 <xa-datasource-property name="URL">jdbc:oracle:thin:@10.100.53.85:1521:cmn?targetDS=oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-property>
 ```
 3). 配置log4j，可以记录jdbcdslog 的 log，修改 jboss_xxx\server\rs\conf\log4j.xml，添加
-```
+``` xml
   <!-- logger: jdbcdslog -->
   <logger name="org.jdbcdslog.StatementLogger">
     <level value="INFO"/>
@@ -132,16 +132,22 @@ MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用
 {% img /images/first-last-day/screenshot-20120327104943.png 562.5 514.5 'File Import' 'File Import'%}
 
 #### 3.2 Property Transfer
-Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 [Transferring Property Values](http://www.soapui.org/Functional-Testing/transfering-property-values.html)。
-```
+Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 [Transferring Property Values](http://www.soapui.org/Functional-Testing/transfering-property-values.html)。通过下面的实例图你就创建了一个Property Transfer并添加了一个Transfer Value，而每个Transfer Value都有两个部分，一个是Source，一个是Target，都可以选择不同的Step和不同的Property。		
+{% img /images/first-last-day/screenshot-20120328181006.png %}			
+如何配置这些内容，请看一个例子。e.g.				
+			
+在Mic2中，send msg step 需要一个参数，而这个参数是 login step 成功后的response，那么这种情况就可以这样：		
+{% img /images/first-last-day/screenshot-20120328173450.png 602 436 %}		
+贴上要写的配置信息：
+``` xml Source
 declare namespace ns1='http://mic2.taifook.com/';
 //ns1:loginResponse/return
 ```
-
-```
+``` xml Target
 declare namespace mic2='http://mic2.taifook.com/';
 //mic2:send/arg0
 ```
+
 #### 3.3 Groovy
 在SoapUI中可以写一些脚本，这个脚本语言就是Groovy，实际上简单的使用Groovy还是很简单的（因为和Java和类似），
 ``` groovy getAccount
@@ -161,13 +167,16 @@ String[] acList = [
 "02-9000009-22"
 ]
 acList[num]
-
 ```
 参考：		
 [Tips & Tricks](http://www.soapui.org/Scripting-Properties/tips-a-tricks.html)			
 [Property Expansion](http://www.soapui.org/Scripting-Properties/property-expansion.html)		
 
-共享中有一份User Manual.doc的文档，是前面测试Mic2性能时候写的，配合 .xml email ，大家也可以参考下，这个 Test Case 几乎包含了我所知道的所有内容（知道的本就很少）。
+#### 3.4 Load Tests		 
+[Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。
+{% img /images/first-last-day/screenshot-20120328181558.png %}			
+	
+共享中有一份MIC2 SoapUI User Manual.doc的文档，是前面测试Mic2性能时候写的，加上MIC2-soapui-project.xml 和 MIC2 SoapUI Test.eml(email)，应该就包括了上面的所有SoapUI知识了。
 
 ### 四、Eclipse常用插件
 #### 4.1 Easy Explore
