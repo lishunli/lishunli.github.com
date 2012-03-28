@@ -32,7 +32,7 @@ Java开发中，很多会有依赖或者关联关系，有的时候，你想移�
 这是一款小工具，用途吗，就是对海通系的密码进行加解密，比如 bdf579 会 解密为 abc123。	
 效果图：		
 ![MSS-X User PWD De-Encryption Tool](/images/first-last-day/De-Encryption.gif)				
-p.s. 文中提到的东西或者资料，我都会放到共享目录([\\\\\\\\10.100.53.124\test\slli\shares](//10.100.53.124/test/slli/shars))里，大家随时可以访问（下同）。这个就是共享中的 MSS-X User PWD De-Encryption Tool.exe，注意，请保证环境中安装了jdk1.5+。
+p.s. 文中提到的东西或者资料，我都会放到共享目录(\\\\\\\\10.100.53.49\MSSTeam\Training\Shunli\Shares)里，大家随时可以访问（下同）。这个就是共享中的 MSS-X User PWD De-Encryption Tool.exe，注意，请保证环境中安装了jdk1.5+。
 
 ### 二、开源库
 #### 2.1 jdbcdslog-exp		
