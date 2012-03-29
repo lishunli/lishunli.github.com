@@ -128,7 +128,7 @@ svn checkout http://table-data-copier.googlecode.com/svn/trunk/
 ### 三、SoapUI		
 关于SoapUI的简单使用，大家都很清楚，这里就不说了，下面说的是一些不常见的用法，再加一些性能测试方面的经验（这部分好早好早以前Lilian就有想法叫我讲的，现在只能靠这个机会弥补下了）。
 #### 3.1 File Import
-MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用SoapUI做INT的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte\[](File)的参数了，实际上，也很简单，看图就很清楚了（如果看不清，麻烦请另存后再看大图，全篇文章通用）。
+MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用SoapUI做INT的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte\[](File)的参数了，实际上，也很简单，看图就很清楚了（如果看不清，麻烦请另存后再看大图，全篇文章通用）。			
 {% img /images/first-last-day/screenshot-20120327104943.png 562.5 514.5 'File Import' 'File Import'%}
 
 #### 3.2 Property Transfer
@@ -231,7 +231,7 @@ context.setProperty("loopCount", ++context.loopCount);
 [Property Expansion](http://www.soapui.org/Scripting-Properties/property-expansion.html)		
 
 #### 3.4 Load Tests		 
-[Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。
+[Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。		
 {% img /images/first-last-day/screenshot-20120328181558.png %}			
 	
 共享中有一份MIC2 SoapUI User Manual.doc的文档，是前面测试Mic2性能时候写的，加上MIC2-soapui-project.xml 和 MIC2 SoapUI Test.eml(email)，应该就包括了上面的所有SoapUI知识了。
