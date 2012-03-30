@@ -8,7 +8,7 @@ categories: others
 
 今天是我在演天的最后一天了，本想写一大段感激加温馨的话，发现这也是我不擅长的，所以以这种方式感谢大家对我的照顾和关心（好快，来演天都两年了）。	
 
-这是一篇博客，记载了我在演天工作中一些比较常用的工具和一些技术的分享，本想以技术串讲的方式，后来发现以文字的方式更能留得住回忆。
+这是一篇博客，记载了我在演天工作中一些比较常用的工具和一些“另类”的技术，本想以技术串讲的方式，后来想以文字的方式也许更能留得住回忆。
 <!-- more -->
 ### 一、软件（利器）
 #### 1.1 Everything	
@@ -18,7 +18,7 @@ Tips：尽量加一个快速打开的快捷键，比如我设置为F7，并过�
 {% img /images/first-last-day/everything.gif 800 600 'Everything' 'Everything' %}
 
 #### 1.2 Evernote			
-一款极致的免费笔记资料管理软件，支持多平台的数据网络同步（支持PC、手机多平台... 遗憾的是不支持Linux)，有了它，你就可以随时记录一些“灵感”，让你不在担心“哎，昨天我想什么来着？”，借用[阿秋博客](http://liwenqiu.github.com/)里的一句话——The palest ink is better than the best memory。		
+一款极致的免费笔记资料管理软件，支持多平台（支持PC、手机多平台... 遗憾的是不支持Linux）的数据网络同步，有了它，你就可以随时记录一些“灵感”，让你不在担心“哎，昨天我想什么来着？”，借用[阿秋博客](http://liwenqiu.github.com/)里的一句话——The palest ink is better than the best memory。		
 
 #### 1.3 Unlocker		
 Java开发中，很多会有依赖或者关联关系，有的时候，你想移动或者删除一个文件（夹），但是发现“它正在使用”，那这个时候你就可以使用[Unlocker](http://www.emptyloop.com/unlocker/), 它还可以帮助你，弹出USB的时候报设备正在使用的问题。	
@@ -38,10 +38,10 @@ svn checkout http://jdbcdslog-exp.googlecode.com/svn/trunk/
 ```
 
 这里详细说一下在我们的项目中如何使用：		
-**1). MSS-X(Weblogic)**			
+**1). MSS-E(Weblogic)**			
 a)	把下载好的jdbcdslog.jar(e.g. jdbcdslog-1.0.6.2.jar) 放到 domains\msseDomain\lib 下;		
-b)	配置classpath，windows下修改 msseDomain\bin\setDomainEnv.cmd 中的 set PRE_CLASSPATH= ... ,加上 jdbcdslog 的文件路径;		
-c)	可以使用 Datasource(也就是修改 primary 下的 appctx-mss-app-main.xml ，参考jdbcdslog 的 Wiki)，建议使用 jdbc config，进入 msseDomain\config\jdbc 这个文件夹，具体修改如下：		
+b)	配置classpath，Windows下修改 msseDomain\bin\setDomainEnv.cmd 中的 set PRE_CLASSPATH= ... ,加上 jdbcdslog 的文件路径;		
+c)	可以使用 Datasource(也就是修改 primary 下的 appctx-mss-app-main.xml中的 xxDataSource ，参考jdbcdslog 的 Wiki)，建议使用 jdbc config，进入 msseDomain\config\jdbc 这个文件夹，具体修改如下：		
 ``` xml
 <driver-name>oracle.jdbc.xa.client.OracleXADataSource</driver-name>
 ==>
@@ -51,7 +51,7 @@ c)	可以使用 Datasource(也就是修改 primary 下的 appctx-mss-app-main.xm
 ==>
 <url>jdbc:oracle:thin:@10.100.53.85:1521:cmn?targetDS=oracle.jdbc.xa.client.OracleXADataSource</url>	
 ```	
-请按照上面的规则，替换jdbc文件夹下所有的配置文件（有7个，实际上也可以不用所有的都替换，替换需要的就可以了，还有最好先备份，也方便随时还原或者切换jdbc配置文件）。		
+请按照上面的规则，替换jdbc文件夹下所有的配置文件（有7个，实际上也可以不用所有的都替换，替换需要的就可以了，还有最好先备份，方便随时还原或者切换jdbc配置文件）。		
 d) 配置log4j，可以记录jdbcdslog 的 log， 修改 msseDomain\extconf\log4j.xml，添加
 ``` xml 
   <!-- logger: jdbcdslog -->
@@ -120,9 +120,9 @@ svn checkout http://table-data-copier.googlecode.com/svn/trunk/
 {% img /images/first-last-day/table-data-copier.gif 800 600 'TableDataCopier' 'TableDataCopier' %}	
 
 ### 三、SoapUI		
-关于SoapUI的简单使用，大家都很清楚，这里就不说了，下面说的是一些不常见的用法，再加一些性能测试方面的经验。（这部分好早好早以前Lilian就有想法叫我讲的，现在只能靠这个机会弥补下了）
+关于SoapUI的简单使用，大家都很清楚，这里就不说了，下面说的是一些不常见的用法，再加一些性能测试方面的经验（这部分好早好早以前Lilian就有想法叫我讲的，现在只能靠这个机会弥补下了）。
 #### 3.1 File Import
-MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用SoapUI做INT的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte[](File)的参数了，实际上，也很简单，看图就很清楚了（如果看不清，麻烦请另存后再看大图，全篇文章通用）。
+MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用SoapUI做INT的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte\[](File)的参数了，实际上，也很简单，看图就很清楚了（如果看不清，麻烦请另存后再看大图，全篇文章通用）。			
 {% img /images/first-last-day/screenshot-20120327104943.png 562.5 514.5 'File Import' 'File Import'%}
 
 #### 3.2 Property Transfer
@@ -149,7 +149,7 @@ e.g.1
 import static java.util.UUID.randomUUID
 randomUUID() as String
 ```
-这个就是用UUID作为一个随机字符串的例子，在Test Step中可以这样使用（上面Groovy Script name 为 rand）
+这个就是用UUID作为一个随机字符串的例子，在Test Step中可以这样使用（上面Groovy Script 文件名为 rand）
 ``` xml
 <arg2>${rand#result}</arg2>
 ```
@@ -172,9 +172,11 @@ String[] acList = [
 ]
 acList[num]
 ```
-这个就是顺序并轮流从一个长度为10的字符串数组里取一个元素（第一句有些错误，一开始得不到 count PropertyValue ,你可以用类似第三句先 set count = 0 后删除，或者手动添加 count PropertyValue，如何添加？请看共享文档），这个可以用来做一些性能测试的一些数据输入（可以做到尽量不同），用法和上面一样
+这个就是顺序并轮流从一个长度为10的字符串数组里取一个元素（第一行有些错误，一开始得不到 count's PropertyValue ,你可以用类似第三行先 set count = 0 后删除，或者手动添加 count PropertyValue，如何添加？请看共享文档），这个可以用来做一些性能测试的一些数据输入（可以做到尽量不同），用法和上面一样
 ``` xml
-<arg3>${getAccount#result}</arg3>
+<arg3>    
+&lt;MSG>&lt;REC instrCode="985" ... acId="${getAccount#result}" ... />&lt;/MSG>
+</arg3>
 ```
 e.g.3
 ``` groovy initData
@@ -213,7 +215,7 @@ testRunner.testCase.testSuite.getTestCaseByName("Approval").setPropertyValue("bo
 
 context.setProperty("loopCount", ++context.loopCount);
 ```
-看到没有，这个例子就很像Java了，用其它的Jar包（opencsv-xxx.jar，请把它放到SoapUI安装路径下的lib目录下）里的方法来读Csv File，并把结果放到List中并存到context中，后面还用到了getTestCaseByName获得当前的Test Case（本例中TestCase名为Approval，请注意：不是Test Step名），并赋值以供使用。使用这里的值，也很简单
+看到没有，这个例子就很像Java了，用其它的Jar包（opencsv-xxx.jar，请把它放到SoapUI安装路径下的lib目录下）里的方法来读csv格式的文件，然后把读出来的数据放到List中并存到context中，后面还用到了getTestCaseByName获得当前的Test Case（本例中TestCase名为Approval，请注意：不是Test Step名），并赋值以供使用。使用这里的值，也很简单
 ``` xml
 <arg0>${#TestCase#userid}</arg0>
 ```
@@ -223,7 +225,7 @@ context.setProperty("loopCount", ++context.loopCount);
 [Property Expansion](http://www.soapui.org/Scripting-Properties/property-expansion.html)		
 
 #### 3.4 Load Tests		 
-[Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。
+[Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。		
 {% img /images/first-last-day/screenshot-20120328181558.png %}			
 	
 共享中有一份MIC2 SoapUI User Manual.doc的文档，是前面测试Mic2性能时候写的，加上MIC2-soapui-project.xml 和 MIC2 SoapUI Test.eml(email)，应该就包括了上面的所有SoapUI知识了。
@@ -257,7 +259,7 @@ context.setProperty("loopCount", ++context.loopCount);
 	<tr><td>Ctrl+Shift+T</td><td>打开类型（查找文件很方便）</td></tr>
 	<tr><td>Ctrl+Shift+R</td><td>打开资源，和Ctrl+Shift+T不同的是，T是打开Java类文件，而R是所有文件</td></tr>
 	<tr><td>F2</td><td>显示详细信息</td></tr>
-	<tr><td>F3</td><td>跳到声明或定义的地方（这个我现在都是选择类或者方法，按 ctrl+鼠标左击就可以了）</td></tr>
+	<tr><td>F3</td><td>跳到声明或定义的地方（这个我现在一般都使用Ctrl+鼠标左击了）</td></tr>
 	<tr><td>Ctrl+T</td><td>快速显示当前类的继承结构</td></tr>
 	<tr><td>Ctrl+/</td><td>在代码窗口中是这种注释（推荐使用Ctrl +Shift + C注释）</td></tr>
 	<tr><td>Ctrl+Shift + / </td><td>块注释，不推荐使用，格式化后如果再想取消就比较麻烦了</td></tr>
