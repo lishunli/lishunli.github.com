@@ -27,13 +27,7 @@ Java开发中，很多会有依赖或者关联关系，有的时候，你想移�
 
 #### 1.4 Chrome		
 这个不用我说了，只要你喜欢，什么浏览器都行，用着习惯就好。
-
-#### 1.5 MSS-X User PWD De-Encryption Tool
-这是一款小工具，用途吗，就是对海通系的密码进行加解密，比如 bdf579 会 解密为 abc123。	
-效果图：		
-![MSS-X User PWD De-Encryption Tool](/images/first-last-day/De-Encryption.gif)				
-p.s. 文中提到的东西或者资料，我都会放到共享目录(\\\\\\\\10.100.53.49\MSSTeam\Training\Shunli\Shares)里，大家随时可以访问（下同）。这个就是共享中的 MSS-X User PWD De-Encryption Tool.exe，注意，请保证环境中安装了jdk1.5+。
-
+			
 ### 二、开源库
 #### 2.1 jdbcdslog-exp		
 介绍[jdbcdslog-exp]之前我先来介绍下[jdbcdslog]，jdbcdslog是一款jdbc spy的开源项目，主要用来记录SQL中参数的真实值，使用Hibernate的你，应该知道，Log中SQL有很多的 "?" ，这就是参数，但是Hibernate并不能帮助我们显示出来，有这样的需求就可以使用jdbcdslog，当然jdbcdslog的功能不止这些，详情请浏览jdbcdslog的网站 <http://code.google.com/p/jdbcdslog/> 和使用指南 <http://code.google.com/p/jdbcdslog/wiki/UserGuide> 。	
