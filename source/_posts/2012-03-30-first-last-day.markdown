@@ -275,7 +275,6 @@ context.setProperty("loopCount", ++context.loopCount);
 </table>			
 
 ### 六、我的联系方式：		
-Tel: 13724388694	
 QQ: 506817493		
 E-mail: <leeshunli@qq.com> , <lishunli.me@gmail.com>	
 MSN: <lishunli@live.com>	
@@ -285,9 +284,6 @@ Facebook: [李顺利](http://www.facebook.com/lishunli)
 Blog：<http://blogjava.net/lishunli> , <http://lishunli.github.com/>			
 （够详细吧，找到我，很简单！）
 
-**内部分享，谨防泄密，**	
-**版权所有，翻版必究。**	
-**(It's a joke, you can do anything you want to do!)**
 
 *B.T.W 这是我的第一次，借用某游戏中的一句话：我要走了，下次再玩吧！*		
 
