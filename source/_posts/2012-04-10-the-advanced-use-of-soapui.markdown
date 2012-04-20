@@ -111,7 +111,7 @@ context.setProperty("loopCount", ++context.loopCount);
 [Property Expansion](http://www.soapui.org/Scripting-Properties/property-expansion.html)				
 
 #### Load Tests		 
-[Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。		
+[Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，目前我用到的是用它来做一些性能测试，很直观明了。使用它很简单，直接在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。		
 {% img /images/first-last-day/screenshot-20120328181558.png %}				
 
 这个也是在工作中的一个分享，对象是有使用SoapUI经验的同事，所以，您看这部分，可能会有一些不清楚的，如果有什么建议或问题的话，可以通过微博 <http://weibo.com/lishunli> 或 QQ：506817493 或 Email：<leeshunli@qq.com> 联系到我，大家一起交流学习。
