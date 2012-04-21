@@ -8,7 +8,7 @@ categories: [jdk, concurrent]
 
 这篇(系列)文章，是在[《张孝祥-Java多线程与并发库高级应用》](http://edu.csdn.net/heima/video.html)学习中，自己的一些梳理和总结，虽然张孝祥老师先离开了我们，但是他留下来的东西，终生受用，在此缅怀一下张孝祥老师。
 强烈建议先看看 《张孝祥-Java多线程与并发库高级应用》。 
-
+<!-- more -->
 ## 创建线程的两种传统方式
 * 在Thread子类覆盖的run方法中编写运行代码
 * 在传递给Thread对象的Runnable对象的run方法中编写代码	

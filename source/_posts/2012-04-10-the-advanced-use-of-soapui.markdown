@@ -6,7 +6,7 @@ comments: true
 categories: SoapUI
 ---
 关于SoapUI的简单使用，大家可以参考网上并自己摸索下，这里就不说了，下面说的是一些不常见的用法（但是又很有用），再加一些性能测试方面的经验。		
-
+<!-- more -->
 #### File Import
 很多时候会有 File Import（Upload）类的Functions的，如果要用SoapUI做集成测试的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte\[](File)的参数了，实际上，也很简单，看图就很清楚了。			
 {% img /images/first-last-day/screenshot-20120327104943.png%}

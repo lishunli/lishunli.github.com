@@ -8,7 +8,7 @@ categories: [github, ssh]
 
 在[github]托管了一些项目，而且自己创建的几个github账号， 比如有 lishunli, jdbcdslog 等。 github 使用ssh进行验证连接，但是如果你本地创建一个ssh key的话，等你切换到另一个账号的话，添加ssh key，就会有“SSH 已经被使用”的出错信息，当然这个时候想到的就是，使用多个SSH Key，那么如何能够让Github知道你使用的多个key了（Github 默认只会找 id_rsa 的 key）。
 当然解决的办法也很简单，就是配置 ssh 的 config， 具体请参考 [多个github帐号的SSH key切换](http://omiga.org/blog/archives/2269) ，这篇文章已经介绍了很详细了，我这里只说一些关键的地方：
-
+<!-- more -->
 * 不需要使用ssh-add命令来添加ssh keys，我本机测试过，生成很多keys，只要config配置正确，都ok
 * config 的配置关键点在于： 
 ```	ruby

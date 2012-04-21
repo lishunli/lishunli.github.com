@@ -9,6 +9,7 @@ categories: others
 程序员的第一篇博客，一般都是Hello World，我也习俗下。
 
 ## 以下用几种方式(Octopress)来贴HelloWorld的代码
+<!-- more -->
 * Backtick Code Blocks
 ``` java HelloWorld.java
 /**
