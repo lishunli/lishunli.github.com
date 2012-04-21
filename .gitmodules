@@ -1,3 +1,0 @@
-[submodule "source/downloads/code/concurrent"]
-	path = source/downloads/code/concurrent
-	url = git@github.com:lishunli/concurrent.git
