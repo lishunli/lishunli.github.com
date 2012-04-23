@@ -23,7 +23,7 @@ b)	*分区*
 ### Ubuntu的使用
 1).	修改启动项		
 a)	设置Windows7为首启动项	
-```
+``` bash
 sudo mv /etc/grub.d/30_os-prober /etc/grub.d/06_os-prober
 ```
 b)	更新启动项
@@ -114,7 +114,17 @@ alias vi=vim
 
 source .bashrc # 立即生效
 
-14).	待续…		
+14). 重启tomcat服务器		
+新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了。
+```  bash restart.sh
+#!/bin/sh
+
+ps -ef|grep tomcat |awk '{print $2}' |xargs kill -9
+./startup.sh
+tail ../logs/catalina.out -f
+```
+
+xx).	待续…		
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>		
