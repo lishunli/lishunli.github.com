@@ -55,7 +55,7 @@ done
 这个步骤可能在上面安装的时候也做一下比较好，因为安装的时候，下载比较慢（比如语言包）。待测试，下次再安装的时候，我来试试。
 		
 5).	查看配置				
-这个是为了以后买预装Linux系统的电脑准备的。记住一些常见的就可以了。
+这个是为了以后买预装Linux系统的电脑准备的。记住一些常见的就可以了。来源 [Linux终端模式下查看电脑硬件配置情况](http://www.pcdog.com/edu/linux/19/03/y320447.html)
 ```
 lsb_release -a #查看系统版本
 uname -a #查看系统信息
@@ -64,7 +64,7 @@ lspci #查看主板信息
 free #查内存
 df -h #查硬盘
 ```
-来源 [Linux终端模式下查看电脑硬件配置情况](http://www.pcdog.com/edu/linux/19/03/y320447.html)
+{% img /images/ubuntu-personal-use-notes/config.png %}		
 		
 6).	安装Chrome		
 简单，下载chrome（deb包），一般默认就会使用“软件管理器”打开，即可安装，或者使用sudo dpkg -i xxx.deb 命令。		
@@ -112,13 +112,11 @@ chmod 744 pwf #使其有执行权限
 比较简单，参考这篇文章就可以搞定了，[win7，ubuntu双系统删除ubuntu](http://www.cppblog.com/koson/archive/2010/03/24/110433.html)。	
 	
 12).	 快捷键		
-完整的Ubuntu里的快捷键可以看这里：[Gnome快捷键](http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE) ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键		
-a) 打开终端			
-Ubuntu 的默认打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键，具体的修改请参考：[Ubuntu 系统下终端快捷键设置](http://www.cnblogs.com/yukun/archive/2010/01/31/1660345.html)			
-
-b) 显示桌面		
-Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用。修改如下：		
-打开终端输入： gconf-editor，到“Apps->Metacity->Global keybingdings" 出找 “show desktop”编辑值为<Super>D即可（win键在Ubuntu中名为<Super>）。		
+完整的Ubuntu里的快捷键可以看这里：[Gnome快捷键](http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE) ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。		
+修改如下：		
+打开终端输入： gconf-editor，到“Apps->Metacity->Global keybingdings" 出找 “show desktop”编辑值为<Super>d即可（win键在Ubuntu中名为<Super>）；找到“run_comman_termina”编辑值为<Super>r即可使用 win + R 来打开终端了。			
+{% img /images/ubuntu-personal-use-notes/shortcuts.png %}		
+如果想要更好的定制ubuntu的话，gconf-editor 里面有很多有用的东西，比如地址导航栏修改为显示路径等...		
 
 13).	 使用vim替换vi		
 vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的问题，所以还是有必要使用vim替换vi的。 替换过程如下：
@@ -131,7 +129,8 @@ alias vi=vim
 
 source .bashrc # 立即生效
 ```
-
+{% img /images/ubuntu-personal-use-notes/load.png %}			
+		
 14). 重启tomcat服务器		
 又是shell编程，可见了解shell很重要啊。新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。
 ```  bash restart.sh
