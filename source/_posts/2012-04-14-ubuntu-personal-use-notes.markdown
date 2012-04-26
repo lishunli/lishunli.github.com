@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Ubuntu个人使用笔记（持续更新）"
+title: "我是这样使用Ubuntu的"
 date: 2012-04-14 15:54
 comments: true
-categories: 
+categories: [Linux, Ubuntu, Tips]
 ---
 
 最近读了[《鸟哥的Linux私房菜》](http://vbird.dic.ksu.edu.tw/)([豆瓣](http://book.douban.com/subject/2208530/))，并认真学习了如何使用Linux，这里做个小笔记。		
@@ -119,7 +119,7 @@ chmod 744 pwf #使其有执行权限
 如果想要更好的定制ubuntu的话，gconf-editor 里面有很多有用的东西，比如地址导航栏修改为显示路径等...		
 
 13).	 使用vim替换vi		
-vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的问题，所以还是有必要使用vim替换vi的。 替换过程如下：
+vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的问题，所以还是有必要使用vim替换vi的。简单地话，可以直接使用“alias vi=vim”命令即可，不过这样只能在这次启动的时候有用，下次启动后，这条就无效了，如果想下次还能使用，那么就需要修改用户自启动配置文件.bashrc，具体的修改如下： 
 ```	
 sudo apt-get install vim-gtk #安装vim，Ubuntu默认好像没有安装vim
 
@@ -151,5 +151,5 @@ xx).	待续…
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>		
 2012年4月14日<br>
-最后更新于2012年4月21日
+最后更新于2012年4月26日
 </p>
