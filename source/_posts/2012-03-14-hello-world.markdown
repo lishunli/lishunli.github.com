@@ -81,3 +81,15 @@ set LANG=zh_CN.UTF-8
 
 * 就请欢乐地拥抱Octopress/Jekyll吧。
 
+## 后记
+Octopress 重装记
+
+1. 参考[本文](http://lishunli.github.com/blog/2012/03/14/hello-world/) ，安装ROR，Python并配置好环境配置（中文编码、python）
+2. git clone git@github.com:lishunli/lishunli.github.com.git (change it by yourself)
+3. git checkout source
+4. bundle install or bundle update
+5. rake setup_github_pages
+6. rake generate, rake preview, rake deploy
+
+
+顺利更新于2012年9月17日
