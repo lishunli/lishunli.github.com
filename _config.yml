@@ -3,11 +3,12 @@
 # ----------------------- #
 
 url: http://lishunli.github.com
-title: 李顺利的博客
+title: 等待着你
 subtitle: 码民 软件控 喜欢学习 热衷分享 挚爱Java
 author: 李顺利
 simple_search: http://google.com/search
-description:
+description: lishunlis' github homepage
+keywords: lishunli, 李顺利, java, javaee, code, xunlei, it, javase, jdk, share, linux, tips
 
 # Default date format is "ordinal" (resulting in "July 22nd 2007")
 # You can customize the format as defined in
@@ -19,7 +20,7 @@ date_format: "ordinal"
 subscribe_rss: /atom.xml
 subscribe_email:
 # RSS feeds can list your email address if you like
-email:
+email: lishunli.me<at>gmail.com
 
 # ----------------------- #
 #    Jekyll & Plugins     #
