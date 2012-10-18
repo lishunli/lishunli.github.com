@@ -69,7 +69,7 @@ Gift [index=7, gitfId=P7, giftName=物品7, probability=0.0080], count=7961, pro
 2. 所有礼物加起来的概率可以不是1，可以认为这里的概率是一个权重；
 		
 		
-小小分享了，如果有什么建议或问题的话，可以通过微博 <http://weibo.com/lishunli> 联系到我，大家一起交流学习。
+小小分享了，倒是觉得大家可以自己先想想，如果你来写这样的小程序，如何来写，有没有其它的创意和想法？如果有什么建议或问题的话，可以通过微博 <http://weibo.com/lishunli> 联系到我，大家一起交流学习。
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>		
