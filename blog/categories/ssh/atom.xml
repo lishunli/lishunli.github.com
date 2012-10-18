@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ssh | 等待着你]]></title>
+  <link href="http://lishunli.github.com/blog/categories/ssh/atom.xml" rel="self"/>
+  <link href="http://lishunli.github.com/"/>
+  <updated>2012-10-18T08:06:53+08:00</updated>
+  <id>http://lishunli.github.com/</id>
+  <author>
+    <name><![CDATA[李顺利]]></name>
+    <email><![CDATA[lishunli.me<at>gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub多账户使用]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/15/github-multi-accounts/"/>
+    <updated>2012-03-15T13:43:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/15/github-multi-accounts</id>
+    <content type="html"><![CDATA[<p>在<a href="https://github.com/">github</a>托管了一些项目，而且自己创建的几个github账号， 比如有 lishunli, jdbcdslog 等。 github 使用ssh进行验证连接，但是如果你本地创建一个ssh key的话，等你切换到另一个账号的话，添加ssh key，就会有“SSH 已经被使用”的出错信息，当然这个时候想到的就是，使用多个SSH Key，那么如何能够让Github知道你使用的多个key了（Github 默认只会找 id_rsa 的 key）。
+当然解决的办法也很简单，就是配置 ssh 的 config， 具体请参考 <a href="http://omiga.org/blog/archives/2269">多个github帐号的SSH key切换</a> ，这篇文章已经介绍了很详细了，我这里只说一些关键的地方：</p>
+
+<!-- more -->
+
+
+<ul>
+<li>不需要使用ssh-add命令来添加ssh keys，我本机测试过，生成很多keys，只要config配置正确，都ok</li>
+<li>config 的配置关键点在于：
+<code>ruby
+Host github.cn
+HostName github.com
+</code>
+这里Host的怎么配置，你github的repo ssh 连接url就要相应的修改成这样，比如如上面的配置，原连接地址是
+<code>
+git@github.com:lishunli/GitHub-Multi-Accounts.git
+</code>
+那么根据上面的配置，就要把github.com 修改成github.cn, 那么ssh解析的时候就会自动的把github.cn 转换为 github.com，这样地址就一样了。修改后就是
+<code>
+git@github.cn:lishunli/GitHub-Multi-Accounts.git
+</code>
+这样的配置，类似hosts，当然你可以任意配置上面的Host，例如可以这样
+<code>
+Host lishunli.github.com
+HostName github.com
+</code>     <br/>
+那么 你git clone 或者 git remote add origin 后面就应该类似这样
+```   <br/>
+git@lishunli.github.com:YourAcccountName/YourRepoName.git
+
+<h1>原始是</h1>
+
+<p>git@github.com:YourAcccountName/YourRepoName.git
+```
+是不是很简单，记得把原HostName变换成你配置的Host就可以了。<br>搜索的时候，经常受到的是官方帮助文档<a href="http://help.github.com/manage-multiple-clients/">Manage multiple clients</a>, 说是创建Org，但是据我所知，并不能很好的解决多账户问题（可能本人所知有限，并没有很好地体会Org的作用），想要了解更多 github org，请参看<br><a href="http://forcefront.com/tag/organization/">如何在 GitHub 建立组织</a><br>
+<a href="http://www.worldhello.net/gotgithub/04-work-with-others/030-organization.html">组织和团队</a></p></li>
+</ul>
+
+
+<p>附本人的ssh config 文件
+<div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (config)</span> <a href='/downloads/code/github-multi-accounts/config'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># usc github user</span>
+</span><span class='line'><span class="no">Host</span> <span class="n">usc</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">HostName</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">User</span> <span class="n">git</span>
+</span><span class='line'> <span class="no">IdentityFile</span> <span class="o">~</span><span class="sr">/.ssh/i</span><span class="n">d_rsa_usc</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># lishunli github user</span>
+</span><span class='line'><span class="no">Host</span> <span class="n">lishunli</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">HostName</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">User</span> <span class="n">git</span>
+</span><span class='line'> <span class="no">IdentityFile</span> <span class="o">~</span><span class="sr">/.ssh/i</span><span class="n">d_rsa_lishunli</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>无图无真相<br>
+<img src="/images/github-multi-accounts/infos.png" alt="hello lishunli" /></p>
+
+<p>这篇文章没有点点技术,主要用于以下用途：</p>
+
+<ul>
+<li>仅记之；</li>
+<li>学习并使用Markdown，简单快捷高效地写文章(本文用markdown编辑而成),你可以通过这里观看效果 <a href="http://lishunli.github.com/blog/2012/03/18/github-multi-accounts/">GitHub多账户使用</a>；</li>
+<li>学习git，学习使用<a href="http://octopress.org/">Octopress</a>。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

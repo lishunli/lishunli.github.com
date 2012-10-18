@@ -1,0 +1,11 @@
+# usc github user
+Host usc.github.com
+ HostName github.com
+ User git
+ IdentityFile ~/.ssh/id_rsa_usc
+
+# lishunli github user
+Host lishunli.github.com
+ HostName github.com
+ User git
+ IdentityFile ~/.ssh/id_rsa_lishunli

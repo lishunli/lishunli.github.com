@@ -1,0 +1,504 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SoapUI的进阶使用 - 等待着你</title>
+  <meta name="author" content="李顺利">
+  
+  
+  <meta name="description" content="lishunlis' github homepage">
+  <meta name="keywords" content="lishunli, 李顺利, java, javaee, code, it, javase, ruby, groovy, share, linux, shell, tips">
+ 
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="等待着你" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27888702-8']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">等待着你</a></h1>
+  
+    <h2>码民 软件控 喜欢学习 热衷分享 挚爱Java</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lishunli.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/aboutme">关于我</a></li>
+  <li><a href="/blog/archives">博客归档</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SoapUI的进阶使用</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-10T22:00:00+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>关于SoapUI的简单使用，大家可以参考网上并自己摸索下，这里就不说了，下面说的是一些不常见的用法（但是又很有用），再加一些性能测试方面的经验。</p>
+
+<!-- more -->
+
+
+<h4>File Import</h4>
+
+<p>很多时候会有 File Import（Upload）类的Functions的，如果要用SoapUI做集成测试的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte[](File)的参数了，实际上，也很简单，看图就很清楚了。        <br/>
+<img src="/images/first-last-day/screenshot-20120327104943.png"></p>
+
+<h4>Property Transfer</h4>
+
+<p>Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 <a href="http://www.soapui.org/Functional-Testing/transfering-property-values.html">Transferring Property Values</a>。通过下面的实例图你就创建了一个Property Transfer并添加了一个Transfer Value，而每个Transfer Value都有两个部分，一个是Source，一个是Target，都可以选择不同的Step和不同的Property。     <br/>
+<img src="/images/first-last-day/screenshot-20120328181006.png">          <br/>
+如何配置这些内容，请看一个例子。e.g.</p>
+
+<p>假设在一个系统中有一个function：send msg step，它需要一个参数，而这个参数是另一个Step：login 成功后的response，那么这种情况就可以这样：   <br/>
+<img src="/images/first-last-day/screenshot-20120328173450.png">      <br/>
+贴上要写的配置信息：</p>
+
+<figure class='code'><figcaption><span>Source</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>declare namespace ns1=&#39;http://mic2.taifook.com/&#39;;
+</span><span class='line'>//ns1:loginResponse/return
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Target</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>declare namespace mic2=&#39;http://mic2.taifook.com/&#39;;
+</span><span class='line'>//mic2:send/arg0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Groovy</h4>
+
+<p>在SoapUI中可以写一些脚本，这个脚本语言就是 <a href="http://groovy.codehaus.org/">Groovy</a>  ，实际上平常我们需要使用的Groovy还是很简单的（因为和Java很类似），下面举一些例子来看看：   <br/>
+e.g.1</p>
+
+<figure class='code'><figcaption><span>rand</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">UUID</span><span class="o">.</span><span class="na">randomUUID</span>
+</span><span class='line'><span class="nf">randomUUID</span><span class="o">()</span> <span class="k">as</span> <span class="n">String</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个就是用UUID作为一个随机字符串的例子，在Test Step中可以这样使用（上面Groovy Script 文件名为 rand）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg2&gt;</span>${rand#result}<span class="nt">&lt;/arg2&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>e.g.2</p>
+
+<figure class='code'><figcaption><span>getAccount</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kt">def</span> <span class="n">num</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">getPropertyValue</span><span class="o">(</span> <span class="s2">&quot;count&quot;</span> <span class="o">))</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="o">(++</span><span class="n">num</span><span class="o">)</span> <span class="o">%</span> <span class="mi">10</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">setPropertyValue</span><span class="o">(</span> <span class="s2">&quot;count&quot;</span><span class="o">,</span> <span class="n">num</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="n">String</span><span class="o">[]</span> <span class="n">acList</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'><span class="s2">&quot;02-0000000-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-1000001-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-2000002-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-3000003-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-4000004-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-5000005-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-6000006-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-7000007-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-8000008-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-9000009-22&quot;</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">acList</span><span class="o">[</span><span class="n">num</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个就是顺序并轮流从一个长度为10的字符串数组里取一个元素（第一行有些错误，一开始得不到 count&#8217;s PropertyValue ,你可以用类似第三行先 set count = 0 后删除，或者手动添加 count PropertyValue，如何添加？请自己google下），这个可以用来做一些性能测试的一些数据输入（可以做到尽量不同），用法和上面一样</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg3&gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>MSG&gt;<span class="ni">&amp;lt;</span>REC instrCode=&quot;985&quot; ... acId=&quot;${getAccount#result}&quot; ... /&gt;<span class="ni">&amp;lt;</span>/MSG&gt;
+</span><span class='line'><span class="nt">&lt;/arg3&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>e.g.3</p>
+
+<figure class='code'><figcaption><span>initData</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">au.com.bytecode.opencsv.CSVReader</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">def</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">getPropertyValue</span><span class="o">(</span> <span class="s2">&quot;filename&quot;</span> <span class="o">)</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] CSV File Path and Name: &quot;</span> <span class="o">+</span> <span class="n">filename</span><span class="o">)</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] Reading the CSV...&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">CSVReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CSVReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">filename</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">def</span> <span class="n">isHeader</span> <span class="o">=</span> <span class="kc">true</span>
+</span><span class='line'><span class="n">List</span> <span class="n">approvalList</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="o">((</span><span class="n">nextLine</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readNext</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">(</span><span class="n">isHeader</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">isHeader</span> <span class="o">=</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">approvalList</span><span class="o">.</span><span class="na">add</span> <span class="n">nextLine</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="c1">//set property to test case context </span>
+</span><span class='line'><span class="kt">def</span> <span class="n">loopCount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] Number of Approval: &quot;</span> <span class="o">+</span> <span class="n">approvalList</span><span class="o">.</span><span class="na">size</span><span class="o">())</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;approvalList&quot;</span><span class="o">,</span><span class="n">approvalList</span><span class="o">)</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;loopCount&quot;</span><span class="o">,</span><span class="n">loopCount</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// get property</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[loop start] Current Loop Count: &quot;</span> <span class="o">+</span> <span class="n">context</span><span class="o">.</span><span class="na">loopCount</span><span class="o">);</span>
+</span><span class='line'><span class="kt">def</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">approvalList</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;userid&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">0</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;password&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">1</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;key&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">2</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;body&quot;</span><span class="o">,</span><span class="s2">&quot;&amp;lt;![CDATA[&quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">[</span><span class="mi">3</span><span class="o">].</span><span class="na">trim</span><span class="o">()</span> <span class="o">+</span> <span class="s2">&quot;]]&amp;gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;loopCount&quot;</span><span class="o">,</span> <span class="o">++</span><span class="n">context</span><span class="o">.</span><span class="na">loopCount</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到没有，这个例子就很像Java了，用其它的Jar包（opencsv-xxx.jar，请把它放到SoapUI安装路径下的lib目录下）里的方法来读csv格式的文件，然后把读出来的数据放到List中并存到context中，后面还用到了getTestCaseByName获得当前的Test Case（本例中TestCase名为Approval，请注意：不是Test Step名），并赋值以供使用。使用这里的值，也很简单</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg0&gt;</span>${#TestCase#userid}<span class="nt">&lt;/arg0&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的例子只是冰山一角，更多的请参考：     <br/>
+<a href="http://www.soapui.org/Scripting-Properties/tips-a-tricks.html">Tips &amp; Tricks</a>        <br/>
+<a href="http://www.soapui.org/Scripting-Properties/property-expansion.html">Property Expansion</a></p>
+
+<h4>Load Tests</h4>
+
+<p><a href="http://www.soapui.org/Getting-Started/load-testing.html">Load Tests</a> 就是使SoapUI连续多次执行一个Test Steps，目前我用到的是用它来做一些性能测试，很直观明了。使用它很简单，直接在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。    <br/>
+<img src="/images/first-last-day/screenshot-20120328181558.png"></p>
+
+<p>这个也是在工作中的一个分享，对象是有使用SoapUI经验的同事，所以，您看这部分，可能会有一些不清楚的，如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 QQ：506817493 或 Email：<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x6c;&#x65;&#x65;&#x73;&#104;&#117;&#x6e;&#x6c;&#x69;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#x65;&#101;&#x73;&#104;&#x75;&#110;&#108;&#x69;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2012年4月10日
+</p>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李顺利</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-10T22:00:00+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/soapui/'>SoapUI</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <span>
+  <iframe 
+    width="86" 
+    scrolling="no" 
+    height="16" 
+    frameborder="0" 
+    src=
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui/&amp;type=6&amp;ralateUid=1563517210&amp;language=zh_cn" allowtransparency="true">
+  </iframe>
+  </span>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui/" data-via="" data-counturl="http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+<hr style="border-bottom:1px dotted #bdbabd;height:1px;border-top:0px;border-left:0px;border-right:0px;" />
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/03/30/first-last-day/" title="Previous Post: 技术分享——献给可爱的你们">&laquo; 技术分享——献给可爱的你们</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/04/14/ubuntu-personal-use-notes/" title="Next Post: 我是这样使用Ubuntu的">我是这样使用Ubuntu的 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>关于我</h1>
+<p>
+QQ:506817493</br>
+MSN:lishunli(at)live.com</br>
+Email:lishunli.me(at)gmail.com</br>
+weibo:<a href="http://weibo.com/lishunli" target="_blank">@李顺利Me</a></br>
+Twitter:<a href="https://twitter.com/lishunli" target="_blank">@lishunli</a></br>
+Facebook:lishunli</br>
+</p>
+</section>
+
+
+<section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/16/lottery-within-different-probability/">不同概率的抽奖</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/30/first-last-day/">技术分享——献给可爱的你们</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/18/java-5-concurrent2/">Jdk1.5并发包学习2——线程池</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1><a href = "http://weibo.com/lishunli" target="_blank">新浪微博</a></h1>
+  <ul id="weibo">
+    <li>
+      <iframe 
+        width="100%" 
+        height="550" 
+        class="share_self" 
+        frameborder="0" 
+        scrolling="no" 
+        src="http://widget.weibo.com/weiboshow/index.php?width=0&height=550&ptype=1&speed=0&skin=&isTitle=0&noborder=1&isWeibo=1&isFans=&uid=1563517210&verifier=16a8c253">
+      </iframe>
+    </li>
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="http://blogjava.net/lishunli" target="_blank">李顺利</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lishunli';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui/';
+        var disqus_url = 'http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>不同概率的抽奖 - 等待着你</title>
+  <meta name="author" content="李顺利">
+  
+  
+  <meta name="description" content="lishunlis' github homepage">
+  <meta name="keywords" content="lishunli, 李顺利, java, javaee, code, it, javase, ruby, groovy, share, linux, shell, tips">
+ 
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="等待着你" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27888702-8']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">等待着你</a></h1>
+  
+    <h2>码民 软件控 喜欢学习 热衷分享 挚爱Java</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lishunli.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/aboutme">关于我</a></li>
+  <li><a href="/blog/archives">博客归档</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">不同概率的抽奖</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-16T21:56:00+08:00" pubdate data-updated="true">Oct 16<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>今天为大家写个小程序。</p>
+
+<p>工作中有遇到一些抽奖的活动，但是你懂得，抽奖物品的概率肯定不是一样，你会发现好的东西很难抽到，经常抽到一些垃圾的东西，嘿嘿，这就是本文要说的，我们要控制抽奖物品的概率。还有顺便说一句，网上这种小程序几乎没有，很多都是等概率的抽奖balabala&#8230;</p>
+
+<!-- more -->
+
+
+<p>需求很简单，为了更加形象，这里我们列一个表格来显示我们抽奖的物品和对应的概率（没有边框，大家凑合着看看吧，不想改造Octopress的样式了）</p>
+
+<table border="2" width="50%">
+    <tr>
+        <td>序号</td><td>物品名称</td><td>物品ID</td><td>抽奖概率</td>
+    </tr>
+    <tr>
+        <td>1</td><td>物品1</td><td>P1</td><td>0.2</td>
+    </tr>
+    <tr>
+        <td>2</td><td>物品2</td><td>P2</td><td>0.1</td>
+    </tr>
+    <tr>
+        <td>3</td><td>物品3</td><td>P3</td><td>0.4</td>
+    </tr>
+    <tr>
+        <td>4</td><td>物品4</td><td>P4</td><td>0.3</td>
+    </tr>  
+    <tr>
+        <td>5</td><td>物品5</td><td>P5</td><td>0.0</td>
+    </tr>  
+    <tr>
+        <td>6</td><td>物品6</td><td>P6</td><td>-0.1</td>
+    </tr>  
+    <tr>
+        <td>7</td><td>物品7</td><td>P7</td><td>0.008</td>
+    </tr>   
+</table>
+
+
+<p>数据很简单，那么就直接看代码了</p>
+
+<p>VO类，具体对应就是上面表格里的内容</p>
+
+<figure class='code'><figcaption><span> (Gift.java)</span> <a href='/downloads/code/lottery/src/main/java/org/usc/usc/lottery/Gift.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">lottery</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Gift</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Gift</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">String</span> <span class="n">gitfId</span><span class="o">,</span> <span class="n">String</span> <span class="n">giftName</span><span class="o">,</span> <span class="kt">double</span> <span class="n">probability</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">gitfId</span> <span class="o">=</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">giftName</span> <span class="o">=</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">probability</span> <span class="o">=</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getIndex</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getGitfId</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGitfId</span><span class="o">(</span><span class="n">String</span> <span class="n">gitfId</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">gitfId</span> <span class="o">=</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getGiftName</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGiftName</span><span class="o">(</span><span class="n">String</span> <span class="n">giftName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">giftName</span> <span class="o">=</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getProbability</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setProbability</span><span class="o">(</span><span class="kt">double</span> <span class="n">probability</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">probability</span> <span class="o">=</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;Gift [index=&quot;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s">&quot;, gitfId=&quot;</span> <span class="o">+</span> <span class="n">gitfId</span> <span class="o">+</span> <span class="s">&quot;, giftName=&quot;</span> <span class="o">+</span> <span class="n">giftName</span> <span class="o">+</span> <span class="s">&quot;, probability=&quot;</span> <span class="o">+</span> <span class="n">probability</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>工具类，真正的不同概率的抽奖就在这里</p>
+
+<figure class='code'><figcaption><span> (LotteryUtil.java)</span> <a href='/downloads/code/lottery/src/main/java/org/usc/usc/lottery/LotteryUtil.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">lottery</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Collections</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 不同概率抽奖工具包</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author Shunli</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LotteryUtil</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽奖</span>
+</span><span class='line'><span class="cm">     *</span>
+</span><span class='line'><span class="cm">     * @param orignalRates</span>
+</span><span class='line'><span class="cm">     *            原始的概率列表，保证顺序和实际物品对应</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     *         物品的索引</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">lottery</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">orignalRates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">orignalRates</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">orignalRates</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">orignalRates</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">sortOrignalRates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;(</span><span class="n">size</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">sortOrignalRates</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">orignalRates</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">sortOrignalRates</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">rates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;(</span><span class="n">size</span><span class="o">);</span>
+</span><span class='line'>        <span class="c1">// 计算总概率，这样可以保证不一定总概率是1</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">sumRate</span> <span class="o">=</span> <span class="mi">0</span><span class="n">d</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">double</span> <span class="n">rate</span> <span class="o">:</span> <span class="n">sortOrignalRates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">sumRate</span> <span class="o">+=</span> <span class="n">rate</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 计算每个物品在总概率的基础下的概率情况</span>
+</span><span class='line'>        <span class="n">Double</span> <span class="n">tempSumRate</span> <span class="o">=</span> <span class="mi">0</span><span class="n">d</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">double</span> <span class="n">rate</span> <span class="o">:</span> <span class="n">sortOrignalRates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">tempSumRate</span> <span class="o">+=</span> <span class="n">rate</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">rates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tempSumRate</span> <span class="o">/</span> <span class="n">sumRate</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">result</span> <span class="o">=</span> <span class="n">rates</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">nextDouble</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">double</span> <span class="n">rate</span> <span class="o">:</span> <span class="n">rates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">nextDouble</span> <span class="o">&gt;=</span> <span class="n">rate</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="n">result</span> <span class="o">=</span> <span class="n">rate</span><span class="o">;</span>
+</span><span class='line'>            <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 根据区块值来获取抽取到的物品索引</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">rates</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">orignalIndex</span> <span class="o">=</span> <span class="n">orignalRates</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">sortOrignalRates</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">orignalIndex</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>测试类，测试上面的抽奖是否成功，n次抽奖看抽奖结果</p>
+
+<figure class='code'><figcaption><span> (LotteryTest.java)</span> <a href='/downloads/code/lottery/src/main/java/org/usc/usc/lottery/LotteryTest.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">lottery</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Map.Entry</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 不同概率抽奖</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LotteryTest</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Gift</span><span class="o">&gt;</span> <span class="n">gifts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Gift</span><span class="o">&gt;();</span>
+</span><span class='line'>        <span class="c1">// 序号==物品Id==物品名称==概率</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;P1&quot;</span><span class="o">,</span> <span class="s">&quot;物品1&quot;</span><span class="o">,</span> <span class="mf">0.2d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;P2&quot;</span><span class="o">,</span> <span class="s">&quot;物品2&quot;</span><span class="o">,</span> <span class="mf">0.1d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;P3&quot;</span><span class="o">,</span> <span class="s">&quot;物品3&quot;</span><span class="o">,</span> <span class="mf">0.4d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="s">&quot;P4&quot;</span><span class="o">,</span> <span class="s">&quot;物品4&quot;</span><span class="o">,</span> <span class="mf">0.3d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="s">&quot;P5&quot;</span><span class="o">,</span> <span class="s">&quot;物品5&quot;</span><span class="o">,</span> <span class="mi">0</span><span class="n">d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="s">&quot;P6&quot;</span><span class="o">,</span> <span class="s">&quot;物品6&quot;</span><span class="o">,</span> <span class="o">-</span><span class="mf">0.1d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="s">&quot;P7&quot;</span><span class="o">,</span> <span class="s">&quot;物品7&quot;</span><span class="o">,</span> <span class="mf">0.008d</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">orignalRates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;(</span><span class="n">gifts</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Gift</span> <span class="n">gift</span> <span class="o">:</span> <span class="n">gifts</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kt">double</span> <span class="n">probability</span> <span class="o">=</span> <span class="n">gift</span><span class="o">.</span><span class="na">getProbability</span><span class="o">();</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">probability</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">probability</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="n">orignalRates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">probability</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// // test</span>
+</span><span class='line'>        <span class="c1">// for (int i = 0; i &lt; 10000; i++) {</span>
+</span><span class='line'>        <span class="c1">// try {</span>
+</span><span class='line'>        <span class="c1">// Gift tuple = gifts.get(LotteryUtil.lottery(orignalRates));</span>
+</span><span class='line'>        <span class="c1">// System.out.println(tuple);</span>
+</span><span class='line'>        <span class="c1">// } catch (Exception e) {</span>
+</span><span class='line'>        <span class="c1">// System.out.println(&quot;lottery failed, please check it!&quot;);</span>
+</span><span class='line'>        <span class="c1">// }</span>
+</span><span class='line'>        <span class="c1">// }</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// statistics</span>
+</span><span class='line'>        <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;();</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1000000</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">orignalIndex</span> <span class="o">=</span> <span class="n">LotteryUtil</span><span class="o">.</span><span class="na">lottery</span><span class="o">(</span><span class="n">orignalRates</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">Integer</span> <span class="n">value</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">orignalIndex</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">count</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">orignalIndex</span><span class="o">,</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Entry</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">count</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">gifts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">())</span> <span class="o">+</span> <span class="s">&quot;, count=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, probability=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">/</span> <span class="n">num</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Gift [index=1, gitfId=P1, giftName=物品1, probability=0.2], count=199139, probability=0.199139
+</span><span class='line'>Gift [index=2, gitfId=P2, giftName=物品2, probability=0.1], count=99328, probability=0.099328
+</span><span class='line'>Gift [index=3, gitfId=P3, giftName=物品3, probability=0.4], count=396575, probability=0.396575
+</span><span class='line'>Gift [index=4, gitfId=P4, giftName=物品4, probability=0.3], count=296997, probability=0.296997
+</span><span class='line'>Gift [index=7, gitfId=P7, giftName=物品7, probability=0.0080], count=7961, probability=0.007961</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>不同概率的抽奖原理很简单          <br/>
+就是把0到1的区间分块，而分块的依据就是物品占整个的比重，再根据随机数种子来产生0-1中间的某个数，来判断这个数是落在哪个区间上，而对应的就是抽到了那个物品。随机数理论上是概率均等的，产生的每个数理论上也应该概率均等，那么相应的区间所含数的多少就体现了抽奖物品概率的不同。（p.s. 当然数目是数不清楚的，具体抽象话了点）</p>
+
+<p>这个实例的数据可以说明                 <br/>
+1. 概率可以是负数和0，当然实际上中应该不会（p.s. 正常情况下可能真的有0，比如抽个iphone5，当然是抽不到的了，这个时候，构建礼物（List<Gift> gifts）的时候最好就不要加这个进去），还有可以把负数的处理放到抽奖工具类(LotteryUtil)中；      <br/>
+2. 所有礼物加起来的概率可以不是1，可以认为这里的概率是一个权重；</p>
+
+<p>小小分享了，倒是觉得大家可以自己先想想，如果你来写这样的小程序，如何来写，有没有其它的创意和想法？如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2012年10月17日
+</p>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李顺利</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-16T21:56:00+08:00" pubdate data-updated="true">Oct 16<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tips/'>Tips</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <span>
+  <iframe 
+    width="86" 
+    scrolling="no" 
+    height="16" 
+    frameborder="0" 
+    src=
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability/&amp;type=6&amp;ralateUid=1563517210&amp;language=zh_cn" allowtransparency="true">
+  </iframe>
+  </span>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability/" data-via="" data-counturl="http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+<hr style="border-bottom:1px dotted #bdbabd;height:1px;border-top:0px;border-left:0px;border-right:0px;" />
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/14/ubuntu-personal-use-notes/" title="Previous Post: 我是这样使用Ubuntu的">&laquo; 我是这样使用Ubuntu的</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>关于我</h1>
+<p>
+QQ:506817493</br>
+MSN:lishunli(at)live.com</br>
+Email:lishunli.me(at)gmail.com</br>
+weibo:<a href="http://weibo.com/lishunli" target="_blank">@李顺利Me</a></br>
+Twitter:<a href="https://twitter.com/lishunli" target="_blank">@lishunli</a></br>
+Facebook:lishunli</br>
+</p>
+</section>
+
+
+<section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/16/lottery-within-different-probability/">不同概率的抽奖</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/30/first-last-day/">技术分享——献给可爱的你们</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/18/java-5-concurrent2/">Jdk1.5并发包学习2——线程池</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1><a href = "http://weibo.com/lishunli" target="_blank">新浪微博</a></h1>
+  <ul id="weibo">
+    <li>
+      <iframe 
+        width="100%" 
+        height="550" 
+        class="share_self" 
+        frameborder="0" 
+        scrolling="no" 
+        src="http://widget.weibo.com/weiboshow/index.php?width=0&height=550&ptype=1&speed=0&skin=&isTitle=0&noborder=1&isWeibo=1&isFans=&uid=1563517210&verifier=16a8c253">
+      </iframe>
+    </li>
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="http://blogjava.net/lishunli" target="_blank">李顺利</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lishunli';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability/';
+        var disqus_url = 'http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

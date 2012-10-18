@@ -1,0 +1,519 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>我是这样使用Ubuntu的 - 等待着你</title>
+  <meta name="author" content="李顺利">
+  
+  
+  <meta name="description" content="lishunlis' github homepage">
+  <meta name="keywords" content="lishunli, 李顺利, java, javaee, code, it, javase, ruby, groovy, share, linux, shell, tips">
+ 
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="等待着你" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27888702-8']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">等待着你</a></h1>
+  
+    <h2>码民 软件控 喜欢学习 热衷分享 挚爱Java</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lishunli.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/aboutme">关于我</a></li>
+  <li><a href="/blog/archives">博客归档</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">我是这样使用Ubuntu的</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T15:54:00+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>最近读了<a href="http://vbird.dic.ksu.edu.tw/">《鸟哥的Linux私房菜》</a>(<a href="http://book.douban.com/subject/2208530/">豆瓣</a>)，并认真学习了如何使用Linux，这里做个小笔记。     <br/>
+注：以下内容网上很多，而这里是我自己的个人使用笔记，供以后查找和使用，也希望能对一些初步使用者有点帮助。</p>
+
+<!-- more -->
+
+
+<h3>Windows7下安装Ubuntu 10.04 LTS</h3>
+
+<p>1). 删除卷     <br/>
+格式化一个盘作为Ubuntu安装分区（如何删除卷，计算机管理 -> 磁盘管理，选择需要格式的盘，右键删除卷）</p>
+
+<p>2). 安装EasyBCD         <br/>
+安装Ubuntu这部分请参考 <a href="http://zxdker.com/post/ubuntu-11-04-win7-yingpan-anzhuang-shuangxitong-tuwen-jiaocheng.htm">ubuntu 11.04在win7下安装无损硬盘安装双系统的图文教程</a>
+这篇文章中写的也很详细，图文并茂，而且我试过，都没有问题。说说安装过程中可能需要注意的几个地方：      <br/>
+a)  <em>sudo umount -l /isodevice</em>       <br/>
+这个不清楚，网上都要做，我也做了，我觉得现在这个版本（10.04LTS）应该解决了这个问题，以后有机会可以试试不加这个会如何。     <br/>
+b)  <em>分区</em>          <br/>
+我选择的是手动分区， 整个区大概有18G，swap 分区1G（我内存2G），/ 分区为 8G，剩下的都给了 /home 分区（也可以自动分区）。</p>
+
+<h3>Ubuntu的使用</h3>
+
+<p>1). 修改启动项   <br/>
+a)  设置Windows7为首启动项</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo mv /etc/grub.d/30_os-prober /etc/grub.d/06_os-prober
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>b)  更新启动项</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo update-grub
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2). 修正grub等待时间    <br/>
+参考这个 <a href="http://lookluk.blogbus.com/logs/56313760.html">Ubuntu 9.10 修改Grub启动项等待时间</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/default/grub
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改 GRUB_TIMEOUT=10，默认10s，修改为自己想要的吧（e.g. GRUB_TIMEOUT=3）</p>
+
+<p>3). 修改Num Lock（小键盘）自动启动开启（亮）  <br/>
+参考这里 <a href="http://www.yucoat.com/linux/ubuntu_enable_numlock_in_boot.html">Ubuntu Linux下开机自动打开数字键的方法（Numlock）</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/rc.local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在&#8221;exit 0&#8221;前面加上</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">for </span>tty in /dev/tty<span class="o">[</span>1-9<span class="o">]</span>*;do
+</span><span class='line'>    setleds -D +num &lt; <span class="nv">$tty</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4). 更新源     <br/>
+查看这里 <a href="http://forum.ubuntu.org.cn/viewtopic.php?t=268843">Ubuntu 10.04更新源大全</a>     <br/>
+很清楚，很简单，为了更快地下载速度，我选择网易     <br/>
+这个步骤可能在上面安装的时候也做一下比较好，因为安装的时候，下载比较慢（比如语言包）。待测试，下次再安装的时候，我来试试。</p>
+
+<p>5). 查看配置              <br/>
+这个是为了以后买预装Linux系统的电脑准备的。记住一些常见的就可以了。来源 <a href="http://www.pcdog.com/edu/linux/19/03/y320447.html">Linux终端模式下查看电脑硬件配置情况</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>lsb_release -a <span class="c">#查看系统版本</span>
+</span><span class='line'>uname -a <span class="c">#查看系统信息</span>
+</span><span class='line'>cat /proc/cpuinfo <span class="c">#查看cpu信息</span>
+</span><span class='line'>lspci <span class="c">#查看主板信息</span>
+</span><span class='line'>free <span class="c">#查内存</span>
+</span><span class='line'>df -h <span class="c">#查硬盘</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/ubuntu-personal-use-notes/config.png"></p>
+
+<p>6). 安装Chrome      <br/>
+简单，下载chrome（deb包），一般默认就会使用“软件管理器”打开，即可安装，或者使用sudo dpkg -i xxx.deb 命令。   <br/>
+安装好了，当然要卸载默认的浏览器了——Firefox。个人选择chrome，是觉得比较轻便，随着现在的更加稳定（比如同步收藏夹什么的），现在已经变得很方便了，在不同的机器里用同一个账号几乎不会感觉到有什么差别的。</p>
+
+<p>7). 安装wine    <br/>
+a)  安装    <br/>
+安装应该很简单，关键是一些配置，比如关于中文字体方面的可能麻烦的，可以参考 <a href="http://wiki.ubuntu.org.cn/Wine">Ubuntu Wine Wiki</a> 和 <a href="http://forum.ubuntu.org.cn/viewtopic.php?t=72933">Wine完全使用指南——从基本到高级</a>         <br/>
+b)  中文乱码      <br/>
+还是没搞定，本想通过wine来安装一个Evernote和QQ的，不过还是有很多问题，现在也只能通过浏览器，以后很必须的时候再想办法了，e.g.安装个虚拟机。</p>
+
+<p>8). 解决切换到Windows7系统后，时间错误的问题              <br/>
+我从Ubuntu切换到Windows7后，发现时间是不正确的，修改方法参考 <a href="http://quanyu.blog.163.com/blog/static/12374147220109244824774/">解决Winddows和Ubuntu的时间差</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/default/rcS
+</span><span class='line'><span class="c">#找到这一行：UTC=yes，把 yes改为no</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>9). 修改hosts       <br/>
+这个你懂得是干什么的，推荐一个比较常更新的hosts：<a href="http://code.google.com/p/smarthosts/">http://code.google.com/p/smarthosts/</a> ，通过这里你可以下载 hosts，推荐使用 chrome（上面已介绍），强制使用 https，比如 google，YouTube。
+如果修改hosts，请查看 <a href="http://l.14551.org/2009/12/2166">Ubuntu 修改hosts</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/hosts  <span class="c">#修改hosts</span>
+</span><span class='line'><span class="c">#可以根据自己的需要添加合适的hosts记录</span>
+</span><span class='line'>sudo /etc/init.d/networking restart <span class="c">#保存后重启网络        </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>10).    查看某个文件的完整路径     <br/>
+这个就是一个简单的shell编程，unix-like系统只有pwd显示当前目录的命令，而没有显示一个文件的完整路径的命令，实际上，有这样的需求也是小部分，很少机会会需要使用到，但是我碰到了，想办法解决，后面在同事的帮助下就写了一个shell脚本，就很容易办到了，关于linux shell，推荐看看 <a href="http://www.cnblogs.com/suyang/archive/2008/05/18/1201990.html">Linux Shell编程入门</a> 。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>touch pwf
+</span><span class='line'>vi pwf <span class="c">#进入编辑模式，粘贴下面的代码后保存</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#pwf start</span>
+</span><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/<span class="nv">$1</span>
+</span><span class='line'><span class="c">#pwf end</span>
+</span><span class='line'>
+</span><span class='line'>chmod 744 pwf <span class="c">#使其有执行权限</span>
+</span><span class='line'><span class="c"># 如果想像pwd那样到处可以执行这个命令（pwf）的话，那么请把pwf所在的文件夹配置到path下。</span>
+</span><span class='line'><span class="c"># e.g. ./pwf test.txt ==&gt; /home/bin/test.txt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>11).     如果想删除Ubuntu系统，那么如何做了     <br/>
+比较简单，参考这篇文章就可以搞定了，<a href="http://www.cppblog.com/koson/archive/2010/03/24/110433.html">win7，ubuntu双系统删除ubuntu</a>。</p>
+
+<p>12).     快捷键    <br/>
+完整的Ubuntu里的快捷键可以看这里：<a href="http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE">Gnome快捷键</a> ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。      <br/>
+修改如下：   <br/>
+打开终端输入： gconf-editor，到“Apps->Metacity->Global keybingdings&#8221; 出找 “show desktop”编辑值为<Super>d即可（win键在Ubuntu中名为<Super>）；找到“run_comman_termina”编辑值为<Super>r即可使用 win + R 来打开终端了。       <br/>
+<img src="/images/ubuntu-personal-use-notes/shortcuts.png">   <br/>
+如果想要更好的定制ubuntu的话，gconf-editor 里面有很多有用的东西，比如地址导航栏修改为显示路径等&#8230;</p>
+
+<p>13).     使用vim替换vi    <br/>
+vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的问题，所以还是有必要使用vim替换vi的。简单地话，可以直接使用“alias vi=vim”命令即可，不过这样只能在这次启动的时候有用，下次启动后，这条就无效了，如果想下次还能使用，那么就需要修改用户自启动配置文件.bashrc，具体的修改如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install vim-gtk <span class="c">#安装vim，Ubuntu默认好像没有安装vim</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">cd</span> ~ <span class="c">#用户 home 目录</span>
+</span><span class='line'>vi .bashrc <span class="c">#后添加下面的alias语句到最后一行（或者合适的位置）</span>
+</span><span class='line'><span class="nb">alias </span><span class="nv">vi</span><span class="o">=</span>vim
+</span><span class='line'>
+</span><span class='line'><span class="nb">source</span> .bashrc <span class="c"># 立即生效</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/ubuntu-personal-use-notes/load.png"></p>
+
+<p>14). 重启tomcat服务器    <br/>
+又是shell编程，可见了解shell很重要啊。新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。</p>
+
+<figure class='code'><figcaption><span>restart.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'>ps -ef|grep tomcat |awk <span class="s1">&#39;{print $2}&#39;</span> |xargs <span class="nb">kill</span> -9
+</span><span class='line'>./startup.sh
+</span><span class='line'>tail ../logs/catalina.out -f
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>15). 后台运行
+在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  &amp; 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 <a href="http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/">Linux 技巧：让进程在后台可靠运行的几种方法</a></p>
+
+<p>xx).    待续…</p>
+
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 QQ：506817493 或 Email：<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x6c;&#101;&#x65;&#115;&#x68;&#x75;&#x6e;&#108;&#x69;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#101;&#101;&#x73;&#104;&#117;&#x6e;&#108;&#x69;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2012年4月14日<br>
+最后更新于2012年4月26日
+</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李顺利</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T15:54:00+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <span>
+  <iframe 
+    width="86" 
+    scrolling="no" 
+    height="16" 
+    frameborder="0" 
+    src=
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/&amp;type=6&amp;ralateUid=1563517210&amp;language=zh_cn" allowtransparency="true">
+  </iframe>
+  </span>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/" data-via="" data-counturl="http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+<hr style="border-bottom:1px dotted #bdbabd;height:1px;border-top:0px;border-left:0px;border-right:0px;" />
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/04/10/the-advanced-use-of-soapui/" title="Previous Post: SoapUI的进阶使用">&laquo; SoapUI的进阶使用</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/10/16/lottery-within-different-probability/" title="Next Post: 不同概率的抽奖">不同概率的抽奖 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>关于我</h1>
+<p>
+QQ:506817493</br>
+MSN:lishunli(at)live.com</br>
+Email:lishunli.me(at)gmail.com</br>
+weibo:<a href="http://weibo.com/lishunli" target="_blank">@李顺利Me</a></br>
+Twitter:<a href="https://twitter.com/lishunli" target="_blank">@lishunli</a></br>
+Facebook:lishunli</br>
+</p>
+</section>
+
+
+<section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/16/lottery-within-different-probability/">不同概率的抽奖</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/30/first-last-day/">技术分享——献给可爱的你们</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/18/java-5-concurrent2/">Jdk1.5并发包学习2——线程池</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1><a href = "http://weibo.com/lishunli" target="_blank">新浪微博</a></h1>
+  <ul id="weibo">
+    <li>
+      <iframe 
+        width="100%" 
+        height="550" 
+        class="share_self" 
+        frameborder="0" 
+        scrolling="no" 
+        src="http://widget.weibo.com/weiboshow/index.php?width=0&height=550&ptype=1&speed=0&skin=&isTitle=0&noborder=1&isWeibo=1&isFans=&uid=1563517210&verifier=16a8c253">
+      </iframe>
+    </li>
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - <a href="http://blogjava.net/lishunli" target="_blank">李顺利</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lishunli';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/';
+        var disqus_url = 'http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

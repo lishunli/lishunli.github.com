@@ -1,0 +1,1969 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[等待着你]]></title>
+  <link href="http://lishunli.github.com/atom.xml" rel="self"/>
+  <link href="http://lishunli.github.com/"/>
+  <updated>2012-10-18T08:06:53+08:00</updated>
+  <id>http://lishunli.github.com/</id>
+  <author>
+    <name><![CDATA[李顺利]]></name>
+    <email><![CDATA[lishunli.me<at>gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[不同概率的抽奖]]></title>
+    <link href="http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability/"/>
+    <updated>2012-10-16T21:56:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/10/16/lottery-within-different-probability</id>
+    <content type="html"><![CDATA[<p>今天为大家写个小程序。</p>
+
+<p>工作中有遇到一些抽奖的活动，但是你懂得，抽奖物品的概率肯定不是一样，你会发现好的东西很难抽到，经常抽到一些垃圾的东西，嘿嘿，这就是本文要说的，我们要控制抽奖物品的概率。还有顺便说一句，网上这种小程序几乎没有，很多都是等概率的抽奖balabala&#8230;</p>
+
+<!-- more -->
+
+
+<p>需求很简单，为了更加形象，这里我们列一个表格来显示我们抽奖的物品和对应的概率（没有边框，大家凑合着看看吧，不想改造Octopress的样式了）</p>
+
+<table border="2" width="50%">
+    <tr>
+        <td>序号</td><td>物品名称</td><td>物品ID</td><td>抽奖概率</td>
+    </tr>
+    <tr>
+        <td>1</td><td>物品1</td><td>P1</td><td>0.2</td>
+    </tr>
+    <tr>
+        <td>2</td><td>物品2</td><td>P2</td><td>0.1</td>
+    </tr>
+    <tr>
+        <td>3</td><td>物品3</td><td>P3</td><td>0.4</td>
+    </tr>
+    <tr>
+        <td>4</td><td>物品4</td><td>P4</td><td>0.3</td>
+    </tr>  
+    <tr>
+        <td>5</td><td>物品5</td><td>P5</td><td>0.0</td>
+    </tr>  
+    <tr>
+        <td>6</td><td>物品6</td><td>P6</td><td>-0.1</td>
+    </tr>  
+    <tr>
+        <td>7</td><td>物品7</td><td>P7</td><td>0.008</td>
+    </tr>   
+</table>
+
+
+<p>数据很简单，那么就直接看代码了</p>
+
+<p>VO类，具体对应就是上面表格里的内容</p>
+
+<figure class='code'><figcaption><span> (Gift.java)</span> <a href='http://lishunli.github.com/downloads/code/lottery/src/main/java/org/usc/usc/lottery/Gift.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">lottery</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Gift</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="n">String</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kt">double</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="nf">Gift</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="n">String</span> <span class="n">gitfId</span><span class="o">,</span> <span class="n">String</span> <span class="n">giftName</span><span class="o">,</span> <span class="kt">double</span> <span class="n">probability</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">gitfId</span> <span class="o">=</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">giftName</span> <span class="o">=</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">probability</span> <span class="o">=</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getIndex</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setIndex</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">index</span> <span class="o">=</span> <span class="n">index</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getGitfId</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGitfId</span><span class="o">(</span><span class="n">String</span> <span class="n">gitfId</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">gitfId</span> <span class="o">=</span> <span class="n">gitfId</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getGiftName</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setGiftName</span><span class="o">(</span><span class="n">String</span> <span class="n">giftName</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">giftName</span> <span class="o">=</span> <span class="n">giftName</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">getProbability</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setProbability</span><span class="o">(</span><span class="kt">double</span> <span class="n">probability</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">this</span><span class="o">.</span><span class="na">probability</span> <span class="o">=</span> <span class="n">probability</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nd">@Override</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s">&quot;Gift [index=&quot;</span> <span class="o">+</span> <span class="n">index</span> <span class="o">+</span> <span class="s">&quot;, gitfId=&quot;</span> <span class="o">+</span> <span class="n">gitfId</span> <span class="o">+</span> <span class="s">&quot;, giftName=&quot;</span> <span class="o">+</span> <span class="n">giftName</span> <span class="o">+</span> <span class="s">&quot;, probability=&quot;</span> <span class="o">+</span> <span class="n">probability</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>工具类，真正的不同概率的抽奖就在这里</p>
+
+<figure class='code'><figcaption><span> (LotteryUtil.java)</span> <a href='http://lishunli.github.com/downloads/code/lottery/src/main/java/org/usc/usc/lottery/LotteryUtil.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">lottery</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Collections</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Random</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 不同概率抽奖工具包</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author Shunli</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LotteryUtil</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="cm">/**</span>
+</span><span class='line'><span class="cm">     * 抽奖</span>
+</span><span class='line'><span class="cm">     *</span>
+</span><span class='line'><span class="cm">     * @param orignalRates</span>
+</span><span class='line'><span class="cm">     *            原始的概率列表，保证顺序和实际物品对应</span>
+</span><span class='line'><span class="cm">     * @return</span>
+</span><span class='line'><span class="cm">     *         物品的索引</span>
+</span><span class='line'><span class="cm">     */</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">int</span> <span class="nf">lottery</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">orignalRates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">if</span> <span class="o">(</span><span class="n">orignalRates</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">||</span> <span class="n">orignalRates</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="n">orignalRates</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">sortOrignalRates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;(</span><span class="n">size</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">sortOrignalRates</span><span class="o">.</span><span class="na">addAll</span><span class="o">(</span><span class="n">orignalRates</span><span class="o">);</span>
+</span><span class='line'>        <span class="n">Collections</span><span class="o">.</span><span class="na">sort</span><span class="o">(</span><span class="n">sortOrignalRates</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">rates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;(</span><span class="n">size</span><span class="o">);</span>
+</span><span class='line'>        <span class="c1">// 计算总概率，这样可以保证不一定总概率是1</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">sumRate</span> <span class="o">=</span> <span class="mi">0</span><span class="n">d</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">double</span> <span class="n">rate</span> <span class="o">:</span> <span class="n">sortOrignalRates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">sumRate</span> <span class="o">+=</span> <span class="n">rate</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 计算每个物品在总概率的基础下的概率情况</span>
+</span><span class='line'>        <span class="n">Double</span> <span class="n">tempSumRate</span> <span class="o">=</span> <span class="mi">0</span><span class="n">d</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">double</span> <span class="n">rate</span> <span class="o">:</span> <span class="n">sortOrignalRates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">tempSumRate</span> <span class="o">+=</span> <span class="n">rate</span><span class="o">;</span>
+</span><span class='line'>            <span class="n">rates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">tempSumRate</span> <span class="o">/</span> <span class="n">sumRate</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">result</span> <span class="o">=</span> <span class="n">rates</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">nextDouble</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="na">nextDouble</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">double</span> <span class="n">rate</span> <span class="o">:</span> <span class="n">rates</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">nextDouble</span> <span class="o">&gt;=</span> <span class="n">rate</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">continue</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="n">result</span> <span class="o">=</span> <span class="n">rate</span><span class="o">;</span>
+</span><span class='line'>            <span class="k">break</span><span class="o">;</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 根据区块值来获取抽取到的物品索引</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="n">rates</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">orignalIndex</span> <span class="o">=</span> <span class="n">orignalRates</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="n">sortOrignalRates</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">return</span> <span class="n">orignalIndex</span><span class="o">;</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>测试类，测试上面的抽奖是否成功，n次抽奖看抽奖结果</p>
+
+<figure class='code'><figcaption><span> (LotteryTest.java)</span> <a href='http://lishunli.github.com/downloads/code/lottery/src/main/java/org/usc/usc/lottery/LotteryTest.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">lottery</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Map.Entry</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 不同概率抽奖</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LotteryTest</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Gift</span><span class="o">&gt;</span> <span class="n">gifts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Gift</span><span class="o">&gt;();</span>
+</span><span class='line'>        <span class="c1">// 序号==物品Id==物品名称==概率</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="s">&quot;P1&quot;</span><span class="o">,</span> <span class="s">&quot;物品1&quot;</span><span class="o">,</span> <span class="mf">0.2d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="s">&quot;P2&quot;</span><span class="o">,</span> <span class="s">&quot;物品2&quot;</span><span class="o">,</span> <span class="mf">0.1d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="s">&quot;P3&quot;</span><span class="o">,</span> <span class="s">&quot;物品3&quot;</span><span class="o">,</span> <span class="mf">0.4d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="s">&quot;P4&quot;</span><span class="o">,</span> <span class="s">&quot;物品4&quot;</span><span class="o">,</span> <span class="mf">0.3d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="s">&quot;P5&quot;</span><span class="o">,</span> <span class="s">&quot;物品5&quot;</span><span class="o">,</span> <span class="mi">0</span><span class="n">d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">6</span><span class="o">,</span> <span class="s">&quot;P6&quot;</span><span class="o">,</span> <span class="s">&quot;物品6&quot;</span><span class="o">,</span> <span class="o">-</span><span class="mf">0.1d</span><span class="o">));</span>
+</span><span class='line'>        <span class="n">gifts</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">Gift</span><span class="o">(</span><span class="mi">7</span><span class="o">,</span> <span class="s">&quot;P7&quot;</span><span class="o">,</span> <span class="s">&quot;物品7&quot;</span><span class="o">,</span> <span class="mf">0.008d</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">orignalRates</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;(</span><span class="n">gifts</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Gift</span> <span class="n">gift</span> <span class="o">:</span> <span class="n">gifts</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kt">double</span> <span class="n">probability</span> <span class="o">=</span> <span class="n">gift</span><span class="o">.</span><span class="na">getProbability</span><span class="o">();</span>
+</span><span class='line'>            <span class="k">if</span> <span class="o">(</span><span class="n">probability</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">probability</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>            <span class="n">orignalRates</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">probability</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// // test</span>
+</span><span class='line'>        <span class="c1">// for (int i = 0; i &lt; 10000; i++) {</span>
+</span><span class='line'>        <span class="c1">// try {</span>
+</span><span class='line'>        <span class="c1">// Gift tuple = gifts.get(LotteryUtil.lottery(orignalRates));</span>
+</span><span class='line'>        <span class="c1">// System.out.println(tuple);</span>
+</span><span class='line'>        <span class="c1">// } catch (Exception e) {</span>
+</span><span class='line'>        <span class="c1">// System.out.println(&quot;lottery failed, please check it!&quot;);</span>
+</span><span class='line'>        <span class="c1">// }</span>
+</span><span class='line'>        <span class="c1">// }</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// statistics</span>
+</span><span class='line'>        <span class="n">Map</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">count</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;();</span>
+</span><span class='line'>        <span class="kt">double</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">1000000</span><span class="o">;</span>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">num</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">orignalIndex</span> <span class="o">=</span> <span class="n">LotteryUtil</span><span class="o">.</span><span class="na">lottery</span><span class="o">(</span><span class="n">orignalRates</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>            <span class="n">Integer</span> <span class="n">value</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">orignalIndex</span><span class="o">);</span>
+</span><span class='line'>            <span class="n">count</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">orignalIndex</span><span class="o">,</span> <span class="n">value</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">value</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="o">(</span><span class="n">Entry</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">entry</span> <span class="o">:</span> <span class="n">count</span><span class="o">.</span><span class="na">entrySet</span><span class="o">())</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">gifts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">entry</span><span class="o">.</span><span class="na">getKey</span><span class="o">())</span> <span class="o">+</span> <span class="s">&quot;, count=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot;, probability=&quot;</span> <span class="o">+</span> <span class="n">entry</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">/</span> <span class="n">num</span><span class="o">);</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>结果</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Gift [index=1, gitfId=P1, giftName=物品1, probability=0.2], count=199139, probability=0.199139
+</span><span class='line'>Gift [index=2, gitfId=P2, giftName=物品2, probability=0.1], count=99328, probability=0.099328
+</span><span class='line'>Gift [index=3, gitfId=P3, giftName=物品3, probability=0.4], count=396575, probability=0.396575
+</span><span class='line'>Gift [index=4, gitfId=P4, giftName=物品4, probability=0.3], count=296997, probability=0.296997
+</span><span class='line'>Gift [index=7, gitfId=P7, giftName=物品7, probability=0.0080], count=7961, probability=0.007961</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>不同概率的抽奖原理很简单          <br/>
+就是把0到1的区间分块，而分块的依据就是物品占整个的比重，再根据随机数种子来产生0-1中间的某个数，来判断这个数是落在哪个区间上，而对应的就是抽到了那个物品。随机数理论上是概率均等的，产生的每个数理论上也应该概率均等，那么相应的区间所含数的多少就体现了抽奖物品概率的不同。（p.s. 当然数目是数不清楚的，具体抽象话了点）</p>
+
+<p>这个实例的数据可以说明                 <br/>
+1. 概率可以是负数和0，当然实际上中应该不会（p.s. 正常情况下可能真的有0，比如抽个iphone5，当然是抽不到的了，这个时候，构建礼物（List<Gift> gifts）的时候最好就不要加这个进去），还有可以把负数的处理放到抽奖工具类(LotteryUtil)中；      <br/>
+2. 所有礼物加起来的概率可以不是1，可以认为这里的概率是一个权重；</p>
+
+<p>小小分享了，倒是觉得大家可以自己先想想，如果你来写这样的小程序，如何来写，有没有其它的创意和想法？如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2012年10月17日
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[我是这样使用Ubuntu的]]></title>
+    <link href="http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/"/>
+    <updated>2012-04-14T15:54:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes</id>
+    <content type="html"><![CDATA[<p>最近读了<a href="http://vbird.dic.ksu.edu.tw/">《鸟哥的Linux私房菜》</a>(<a href="http://book.douban.com/subject/2208530/">豆瓣</a>)，并认真学习了如何使用Linux，这里做个小笔记。     <br/>
+注：以下内容网上很多，而这里是我自己的个人使用笔记，供以后查找和使用，也希望能对一些初步使用者有点帮助。</p>
+
+<!-- more -->
+
+
+<h3>Windows7下安装Ubuntu 10.04 LTS</h3>
+
+<p>1). 删除卷     <br/>
+格式化一个盘作为Ubuntu安装分区（如何删除卷，计算机管理 -> 磁盘管理，选择需要格式的盘，右键删除卷）</p>
+
+<p>2). 安装EasyBCD         <br/>
+安装Ubuntu这部分请参考 <a href="http://zxdker.com/post/ubuntu-11-04-win7-yingpan-anzhuang-shuangxitong-tuwen-jiaocheng.htm">ubuntu 11.04在win7下安装无损硬盘安装双系统的图文教程</a>
+这篇文章中写的也很详细，图文并茂，而且我试过，都没有问题。说说安装过程中可能需要注意的几个地方：      <br/>
+a)  <em>sudo umount -l /isodevice</em>       <br/>
+这个不清楚，网上都要做，我也做了，我觉得现在这个版本（10.04LTS）应该解决了这个问题，以后有机会可以试试不加这个会如何。     <br/>
+b)  <em>分区</em>          <br/>
+我选择的是手动分区， 整个区大概有18G，swap 分区1G（我内存2G），/ 分区为 8G，剩下的都给了 /home 分区（也可以自动分区）。</p>
+
+<h3>Ubuntu的使用</h3>
+
+<p>1). 修改启动项   <br/>
+a)  设置Windows7为首启动项</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo mv /etc/grub.d/30_os-prober /etc/grub.d/06_os-prober
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>b)  更新启动项</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo update-grub
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2). 修正grub等待时间    <br/>
+参考这个 <a href="http://lookluk.blogbus.com/logs/56313760.html">Ubuntu 9.10 修改Grub启动项等待时间</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/default/grub
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>修改 GRUB_TIMEOUT=10，默认10s，修改为自己想要的吧（e.g. GRUB_TIMEOUT=3）</p>
+
+<p>3). 修改Num Lock（小键盘）自动启动开启（亮）  <br/>
+参考这里 <a href="http://www.yucoat.com/linux/ubuntu_enable_numlock_in_boot.html">Ubuntu Linux下开机自动打开数字键的方法（Numlock）</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/rc.local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在&#8221;exit 0&#8221;前面加上</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="k">for </span>tty in /dev/tty<span class="o">[</span>1-9<span class="o">]</span>*;do
+</span><span class='line'>    setleds -D +num &lt; <span class="nv">$tty</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4). 更新源     <br/>
+查看这里 <a href="http://forum.ubuntu.org.cn/viewtopic.php?t=268843">Ubuntu 10.04更新源大全</a>     <br/>
+很清楚，很简单，为了更快地下载速度，我选择网易     <br/>
+这个步骤可能在上面安装的时候也做一下比较好，因为安装的时候，下载比较慢（比如语言包）。待测试，下次再安装的时候，我来试试。</p>
+
+<p>5). 查看配置              <br/>
+这个是为了以后买预装Linux系统的电脑准备的。记住一些常见的就可以了。来源 <a href="http://www.pcdog.com/edu/linux/19/03/y320447.html">Linux终端模式下查看电脑硬件配置情况</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>lsb_release -a <span class="c">#查看系统版本</span>
+</span><span class='line'>uname -a <span class="c">#查看系统信息</span>
+</span><span class='line'>cat /proc/cpuinfo <span class="c">#查看cpu信息</span>
+</span><span class='line'>lspci <span class="c">#查看主板信息</span>
+</span><span class='line'>free <span class="c">#查内存</span>
+</span><span class='line'>df -h <span class="c">#查硬盘</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://lishunli.github.com/images/ubuntu-personal-use-notes/config.png"></p>
+
+<p>6). 安装Chrome      <br/>
+简单，下载chrome（deb包），一般默认就会使用“软件管理器”打开，即可安装，或者使用sudo dpkg -i xxx.deb 命令。   <br/>
+安装好了，当然要卸载默认的浏览器了——Firefox。个人选择chrome，是觉得比较轻便，随着现在的更加稳定（比如同步收藏夹什么的），现在已经变得很方便了，在不同的机器里用同一个账号几乎不会感觉到有什么差别的。</p>
+
+<p>7). 安装wine    <br/>
+a)  安装    <br/>
+安装应该很简单，关键是一些配置，比如关于中文字体方面的可能麻烦的，可以参考 <a href="http://wiki.ubuntu.org.cn/Wine">Ubuntu Wine Wiki</a> 和 <a href="http://forum.ubuntu.org.cn/viewtopic.php?t=72933">Wine完全使用指南——从基本到高级</a>         <br/>
+b)  中文乱码      <br/>
+还是没搞定，本想通过wine来安装一个Evernote和QQ的，不过还是有很多问题，现在也只能通过浏览器，以后很必须的时候再想办法了，e.g.安装个虚拟机。</p>
+
+<p>8). 解决切换到Windows7系统后，时间错误的问题              <br/>
+我从Ubuntu切换到Windows7后，发现时间是不正确的，修改方法参考 <a href="http://quanyu.blog.163.com/blog/static/12374147220109244824774/">解决Winddows和Ubuntu的时间差</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/default/rcS
+</span><span class='line'><span class="c">#找到这一行：UTC=yes，把 yes改为no</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>9). 修改hosts       <br/>
+这个你懂得是干什么的，推荐一个比较常更新的hosts：<a href="http://code.google.com/p/smarthosts/">http://code.google.com/p/smarthosts/</a> ，通过这里你可以下载 hosts，推荐使用 chrome（上面已介绍），强制使用 https，比如 google，YouTube。
+如果修改hosts，请查看 <a href="http://l.14551.org/2009/12/2166">Ubuntu 修改hosts</a></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/hosts  <span class="c">#修改hosts</span>
+</span><span class='line'><span class="c">#可以根据自己的需要添加合适的hosts记录</span>
+</span><span class='line'>sudo /etc/init.d/networking restart <span class="c">#保存后重启网络        </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>10).    查看某个文件的完整路径     <br/>
+这个就是一个简单的shell编程，unix-like系统只有pwd显示当前目录的命令，而没有显示一个文件的完整路径的命令，实际上，有这样的需求也是小部分，很少机会会需要使用到，但是我碰到了，想办法解决，后面在同事的帮助下就写了一个shell脚本，就很容易办到了，关于linux shell，推荐看看 <a href="http://www.cnblogs.com/suyang/archive/2008/05/18/1201990.html">Linux Shell编程入门</a> 。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>touch pwf
+</span><span class='line'>vi pwf <span class="c">#进入编辑模式，粘贴下面的代码后保存</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">#pwf start</span>
+</span><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>/<span class="nv">$1</span>
+</span><span class='line'><span class="c">#pwf end</span>
+</span><span class='line'>
+</span><span class='line'>chmod 744 pwf <span class="c">#使其有执行权限</span>
+</span><span class='line'><span class="c"># 如果想像pwd那样到处可以执行这个命令（pwf）的话，那么请把pwf所在的文件夹配置到path下。</span>
+</span><span class='line'><span class="c"># e.g. ./pwf test.txt ==&gt; /home/bin/test.txt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>11).     如果想删除Ubuntu系统，那么如何做了     <br/>
+比较简单，参考这篇文章就可以搞定了，<a href="http://www.cppblog.com/koson/archive/2010/03/24/110433.html">win7，ubuntu双系统删除ubuntu</a>。</p>
+
+<p>12).     快捷键    <br/>
+完整的Ubuntu里的快捷键可以看这里：<a href="http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE">Gnome快捷键</a> ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。      <br/>
+修改如下：   <br/>
+打开终端输入： gconf-editor，到“Apps->Metacity->Global keybingdings&#8221; 出找 “show desktop”编辑值为<Super>d即可（win键在Ubuntu中名为<Super>）；找到“run_comman_termina”编辑值为<Super>r即可使用 win + R 来打开终端了。       <br/>
+<img src="http://lishunli.github.com/images/ubuntu-personal-use-notes/shortcuts.png">   <br/>
+如果想要更好的定制ubuntu的话，gconf-editor 里面有很多有用的东西，比如地址导航栏修改为显示路径等&#8230;</p>
+
+<p>13).     使用vim替换vi    <br/>
+vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的问题，所以还是有必要使用vim替换vi的。简单地话，可以直接使用“alias vi=vim”命令即可，不过这样只能在这次启动的时候有用，下次启动后，这条就无效了，如果想下次还能使用，那么就需要修改用户自启动配置文件.bashrc，具体的修改如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install vim-gtk <span class="c">#安装vim，Ubuntu默认好像没有安装vim</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">cd</span> ~ <span class="c">#用户 home 目录</span>
+</span><span class='line'>vi .bashrc <span class="c">#后添加下面的alias语句到最后一行（或者合适的位置）</span>
+</span><span class='line'><span class="nb">alias </span><span class="nv">vi</span><span class="o">=</span>vim
+</span><span class='line'>
+</span><span class='line'><span class="nb">source</span> .bashrc <span class="c"># 立即生效</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="http://lishunli.github.com/images/ubuntu-personal-use-notes/load.png"></p>
+
+<p>14). 重启tomcat服务器    <br/>
+又是shell编程，可见了解shell很重要啊。新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。</p>
+
+<figure class='code'><figcaption><span>restart.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'>ps -ef|grep tomcat |awk <span class="s1">&#39;{print $2}&#39;</span> |xargs <span class="nb">kill</span> -9
+</span><span class='line'>./startup.sh
+</span><span class='line'>tail ../logs/catalina.out -f
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>15). 后台运行
+在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  &amp; 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 <a href="http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/">Linux 技巧：让进程在后台可靠运行的几种方法</a></p>
+
+<p>xx).    待续…</p>
+
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 QQ：506817493 或 Email：<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x6c;&#101;&#x65;&#115;&#x68;&#x75;&#x6e;&#108;&#x69;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#101;&#101;&#x73;&#104;&#117;&#x6e;&#108;&#x69;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2012年4月14日<br>
+最后更新于2012年4月26日
+</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SoapUI的进阶使用]]></title>
+    <link href="http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui/"/>
+    <updated>2012-04-10T22:00:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/04/10/the-advanced-use-of-soapui</id>
+    <content type="html"><![CDATA[<p>关于SoapUI的简单使用，大家可以参考网上并自己摸索下，这里就不说了，下面说的是一些不常见的用法（但是又很有用），再加一些性能测试方面的经验。</p>
+
+<!-- more -->
+
+
+<h4>File Import</h4>
+
+<p>很多时候会有 File Import（Upload）类的Functions的，如果要用SoapUI做集成测试的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte[](File)的参数了，实际上，也很简单，看图就很清楚了。        <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120327104943.png"></p>
+
+<h4>Property Transfer</h4>
+
+<p>Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 <a href="http://www.soapui.org/Functional-Testing/transfering-property-values.html">Transferring Property Values</a>。通过下面的实例图你就创建了一个Property Transfer并添加了一个Transfer Value，而每个Transfer Value都有两个部分，一个是Source，一个是Target，都可以选择不同的Step和不同的Property。     <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120328181006.png">          <br/>
+如何配置这些内容，请看一个例子。e.g.</p>
+
+<p>假设在一个系统中有一个function：send msg step，它需要一个参数，而这个参数是另一个Step：login 成功后的response，那么这种情况就可以这样：   <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120328173450.png">      <br/>
+贴上要写的配置信息：</p>
+
+<figure class='code'><figcaption><span>Source</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>declare namespace ns1=&#39;http://mic2.taifook.com/&#39;;
+</span><span class='line'>//ns1:loginResponse/return
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Target</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>declare namespace mic2=&#39;http://mic2.taifook.com/&#39;;
+</span><span class='line'>//mic2:send/arg0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Groovy</h4>
+
+<p>在SoapUI中可以写一些脚本，这个脚本语言就是 <a href="http://groovy.codehaus.org/">Groovy</a>  ，实际上平常我们需要使用的Groovy还是很简单的（因为和Java很类似），下面举一些例子来看看：   <br/>
+e.g.1</p>
+
+<figure class='code'><figcaption><span>rand</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">UUID</span><span class="o">.</span><span class="na">randomUUID</span>
+</span><span class='line'><span class="nf">randomUUID</span><span class="o">()</span> <span class="k">as</span> <span class="n">String</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个就是用UUID作为一个随机字符串的例子，在Test Step中可以这样使用（上面Groovy Script 文件名为 rand）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg2&gt;</span>${rand#result}<span class="nt">&lt;/arg2&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>e.g.2</p>
+
+<figure class='code'><figcaption><span>getAccount</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kt">def</span> <span class="n">num</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">getPropertyValue</span><span class="o">(</span> <span class="s2">&quot;count&quot;</span> <span class="o">))</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="o">(++</span><span class="n">num</span><span class="o">)</span> <span class="o">%</span> <span class="mi">10</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">setPropertyValue</span><span class="o">(</span> <span class="s2">&quot;count&quot;</span><span class="o">,</span> <span class="n">num</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="n">String</span><span class="o">[]</span> <span class="n">acList</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'><span class="s2">&quot;02-0000000-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-1000001-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-2000002-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-3000003-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-4000004-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-5000005-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-6000006-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-7000007-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-8000008-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-9000009-22&quot;</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">acList</span><span class="o">[</span><span class="n">num</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个就是顺序并轮流从一个长度为10的字符串数组里取一个元素（第一行有些错误，一开始得不到 count&#8217;s PropertyValue ,你可以用类似第三行先 set count = 0 后删除，或者手动添加 count PropertyValue，如何添加？请自己google下），这个可以用来做一些性能测试的一些数据输入（可以做到尽量不同），用法和上面一样</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg3&gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>MSG&gt;<span class="ni">&amp;lt;</span>REC instrCode=&quot;985&quot; ... acId=&quot;${getAccount#result}&quot; ... /&gt;<span class="ni">&amp;lt;</span>/MSG&gt;
+</span><span class='line'><span class="nt">&lt;/arg3&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>e.g.3</p>
+
+<figure class='code'><figcaption><span>initData</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">au.com.bytecode.opencsv.CSVReader</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">def</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">getPropertyValue</span><span class="o">(</span> <span class="s2">&quot;filename&quot;</span> <span class="o">)</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] CSV File Path and Name: &quot;</span> <span class="o">+</span> <span class="n">filename</span><span class="o">)</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] Reading the CSV...&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">CSVReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CSVReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">filename</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">def</span> <span class="n">isHeader</span> <span class="o">=</span> <span class="kc">true</span>
+</span><span class='line'><span class="n">List</span> <span class="n">approvalList</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="o">((</span><span class="n">nextLine</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readNext</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">(</span><span class="n">isHeader</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">isHeader</span> <span class="o">=</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">approvalList</span><span class="o">.</span><span class="na">add</span> <span class="n">nextLine</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="c1">//set property to test case context </span>
+</span><span class='line'><span class="kt">def</span> <span class="n">loopCount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] Number of Approval: &quot;</span> <span class="o">+</span> <span class="n">approvalList</span><span class="o">.</span><span class="na">size</span><span class="o">())</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;approvalList&quot;</span><span class="o">,</span><span class="n">approvalList</span><span class="o">)</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;loopCount&quot;</span><span class="o">,</span><span class="n">loopCount</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// get property</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[loop start] Current Loop Count: &quot;</span> <span class="o">+</span> <span class="n">context</span><span class="o">.</span><span class="na">loopCount</span><span class="o">);</span>
+</span><span class='line'><span class="kt">def</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">approvalList</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;userid&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">0</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;password&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">1</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;key&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">2</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;body&quot;</span><span class="o">,</span><span class="s2">&quot;&amp;lt;![CDATA[&quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">[</span><span class="mi">3</span><span class="o">].</span><span class="na">trim</span><span class="o">()</span> <span class="o">+</span> <span class="s2">&quot;]]&amp;gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;loopCount&quot;</span><span class="o">,</span> <span class="o">++</span><span class="n">context</span><span class="o">.</span><span class="na">loopCount</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到没有，这个例子就很像Java了，用其它的Jar包（opencsv-xxx.jar，请把它放到SoapUI安装路径下的lib目录下）里的方法来读csv格式的文件，然后把读出来的数据放到List中并存到context中，后面还用到了getTestCaseByName获得当前的Test Case（本例中TestCase名为Approval，请注意：不是Test Step名），并赋值以供使用。使用这里的值，也很简单</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg0&gt;</span>${#TestCase#userid}<span class="nt">&lt;/arg0&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的例子只是冰山一角，更多的请参考：     <br/>
+<a href="http://www.soapui.org/Scripting-Properties/tips-a-tricks.html">Tips &amp; Tricks</a>        <br/>
+<a href="http://www.soapui.org/Scripting-Properties/property-expansion.html">Property Expansion</a></p>
+
+<h4>Load Tests</h4>
+
+<p><a href="http://www.soapui.org/Getting-Started/load-testing.html">Load Tests</a> 就是使SoapUI连续多次执行一个Test Steps，目前我用到的是用它来做一些性能测试，很直观明了。使用它很简单，直接在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。    <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120328181558.png"></p>
+
+<p>这个也是在工作中的一个分享，对象是有使用SoapUI经验的同事，所以，您看这部分，可能会有一些不清楚的，如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 QQ：506817493 或 Email：<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x6c;&#x65;&#x65;&#x73;&#104;&#117;&#x6e;&#x6c;&#x69;&#x40;&#113;&#113;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#x65;&#101;&#x73;&#104;&#x75;&#110;&#108;&#x69;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2012年4月10日
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[技术分享——献给可爱的你们]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/30/first-last-day/"/>
+    <updated>2012-03-30T10:19:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/30/first-last-day</id>
+    <content type="html"><![CDATA[<p>今天是我在演天的最后一天了，本想写一大段感激加温馨的话，发现这也是我不擅长的，所以以这种方式感谢大家对我的照顾和关心（好快，来演天都两年了）。</p>
+
+<p>这是一篇博客，记载了我在演天工作中一些比较常用的工具和一些“另类”的技术，本想以技术串讲的方式，后来想以文字的方式也许更能留得住回忆。</p>
+
+<!-- more -->
+
+
+<h3>一、软件（利器）</h3>
+
+<h4>1.1 Everything</h4>
+
+<p>Everything可以快速的搜索你本地硬盘（仅支持NTFS格式）的所有文件，速度秒杀一切工具，缺点就是只能根据文件名来搜索，不能根据内容来（这个Google Desktop Search也不太好用），但是这已经足够了。  <br/>
+详情请 via <a href="http://xbeta.info/everything-search-tool.htm">善用佳软-Everything:速度最快的文件名搜索工具</a> 。    <br/>
+Tips：尽量加一个快速打开的快捷键，比如我设置为F7，并过滤一些不想显示的文件，比如 .class 文件。    <br/>
+<img src="http://lishunli.github.com/images/first-last-day/everything.gif" width="800" height="600" title="Everything" alt="Everything"></p>
+
+<h4>1.2 Evernote</h4>
+
+<p>一款极致的免费笔记资料管理软件，支持多平台（支持PC、手机多平台&#8230; 遗憾的是不支持Linux）的数据网络同步，有了它，你就可以随时记录一些“灵感”，让你不在担心“哎，昨天我想什么来着？”，借用<a href="http://liwenqiu.github.com/">阿秋博客</a>里的一句话——The palest ink is better than the best memory。</p>
+
+<h4>1.3 Unlocker</h4>
+
+<p>Java开发中，很多会有依赖或者关联关系，有的时候，你想移动或者删除一个文件（夹），但是发现“它正在使用”，那这个时候你就可以使用<a href="http://www.emptyloop.com/unlocker/">Unlocker</a>, 它还可以帮助你，弹出USB的时候报设备正在使用的问题。</p>
+
+<p><img src="http://lishunli.github.com/images/first-last-day/screenshot-20120326102540.png"><img src="http://lishunli.github.com/images/first-last-day/snapshot-000.png"></p>
+
+<h4>1.4 Chrome</h4>
+
+<p>这个不用我说了，只要你喜欢，什么浏览器都行，用着习惯就好。</p>
+
+<h3>二、开源库</h3>
+
+<h4>2.1 jdbcdslog-exp</h4>
+
+<p>介绍<a href="(http://code.google.com/p/jdbcdslog-exp/)" title="jdbcdslog-exp">jdbcdslog-exp</a>之前我先来介绍下<a href="(http://code.google.com/p/jdbcdslog/)" title="jdbcdslog">jdbcdslog</a>，jdbcdslog是一款jdbc spy的开源项目，主要用来记录SQL中参数的真实值，使用Hibernate的你，应该知道，Log中SQL有很多的 &#8220;?&#8221; ，这就是参数，但是Hibernate并不能帮助我们显示出来，有这样的需求就可以使用jdbcdslog，当然jdbcdslog的功能不止这些，详情请浏览jdbcdslog的网站 <a href="http://code.google.com/p/jdbcdslog/">http://code.google.com/p/jdbcdslog/</a> 和使用指南 <a href="http://code.google.com/p/jdbcdslog/wiki/UserGuide">http://code.google.com/p/jdbcdslog/wiki/UserGuide</a> 。</p>
+
+<p>jdbcdslog-exp是jdbcdslog的加强版（原始功能全部都有），目前由我一个人在维护，她的主页在 <a href="http://code.google.com/p/jdbcdslog-exp/">http://code.google.com/p/jdbcdslog-exp/</a> (github 上也有，就不贴了，搜搜就找到了)，主要是在原来的基础上，改进了SQL显示的效果，提供更多的配置，让你随心所欲的使用，并支持Maven。以前写过一篇博客——<a href="http://www.blogjava.net/lishunli/archive/2011/12/05/365526.html">更有效地跟踪Bug——记录带有详细参数值的SQL</a>，对比分析了几种常见的 jdbc spy 工具并介绍了 jdbcdslog-exp，大家可以看看。你还可以通过SVN Checkout下来代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>svn checkout http://jdbcdslog-exp.googlecode.com/svn/trunk/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里详细说一下在我们的项目中如何使用：     <br/>
+<strong>1). MSS-E(Weblogic)</strong>       <br/>
+a)  把下载好的jdbcdslog.jar(e.g. jdbcdslog-1.0.6.2.jar) 放到 domains\msseDomain\lib 下;   <br/>
+b)  配置classpath，Windows下修改 msseDomain\bin\setDomainEnv.cmd 中的 set PRE_CLASSPATH= &#8230; ,加上 jdbcdslog 的文件路径;   <br/>
+c)  可以使用 Datasource(也就是修改 primary 下的 appctx-mss-app-main.xml中的 xxDataSource ，参考jdbcdslog 的 Wiki)，建议使用 jdbc config，进入 msseDomain\config\jdbc 这个文件夹，具体修改如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;driver-name&gt;</span>oracle.jdbc.xa.client.OracleXADataSource<span class="nt">&lt;/driver-name&gt;</span>
+</span><span class='line'>==&gt;
+</span><span class='line'><span class="nt">&lt;driver-name&gt;</span>org.jdbcdslog.ConnectionPoolXADataSourceProxy<span class="nt">&lt;/driver-name&gt;</span>  
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;url&gt;</span>jdbc:oracle:thin:@10.100.53.85:1521:cmn<span class="nt">&lt;/url&gt;</span>
+</span><span class='line'>==&gt;
+</span><span class='line'><span class="nt">&lt;url&gt;</span>jdbc:oracle:thin:@10.100.53.85:1521:cmn?targetDS=oracle.jdbc.xa.client.OracleXADataSource<span class="nt">&lt;/url&gt;</span>  
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+请按照上面的规则，替换jdbc文件夹下所有的配置文件（有7个，实际上也可以不用所有的都替换，替换需要的就可以了，还有最好先备份，方便随时还原或者切换jdbc配置文件）。    <br/>
+d) 配置log4j，可以记录jdbcdslog 的 log， 修改 msseDomain\extconf\log4j.xml，添加</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>  <span class="c">&lt;!-- logger: jdbcdslog --&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.StatementLogger&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;INFO&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.ResultSetLogger&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;OFF&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.SlowQueryLogger&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;OFF&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.ConnectionLogger&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;OFF&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p><strong>2). Report Server(JBoss)</strong>      <br/>
+a) 把下载好的jdbcdslog.jar(e.g. jdbcdslog-1.0.6.2.jar) 放到 jboss_xxx\server\rs\lib 下;   <br/>
+b) 修改 jboss_xxx\server\rs\deploy\oracle-xa-ds.xml 的 datasource，按照下面规则全部替换就可以了</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;xa-datasource-class&gt;</span>oracle.jdbc.xa.client.OracleXADataSource<span class="nt">&lt;/xa-datasource-class&gt;</span>
+</span><span class='line'>==&gt;
+</span><span class='line'><span class="nt">&lt;xa-datasource-class&gt;</span>org.jdbcdslog.ConnectionPoolXADataSourceProxy<span class="nt">&lt;/xa-datasource-class&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;xa-datasource-property</span> <span class="na">name=</span><span class="s">&quot;URL&quot;</span><span class="nt">&gt;</span>jdbc:oracle:thin:@10.100.53.85:1521:cmn<span class="nt">&lt;/xa-datasource-property&gt;</span>
+</span><span class='line'>==&gt;
+</span><span class='line'><span class="nt">&lt;xa-datasource-property</span> <span class="na">name=</span><span class="s">&quot;URL&quot;</span><span class="nt">&gt;</span>jdbc:oracle:thin:@10.100.53.85:1521:cmn?targetDS=oracle.jdbc.xa.client.OracleXADataSource<span class="nt">&lt;/xa-datasource-property&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>c) 配置log4j，可以记录jdbcdslog 的 log，修改 jboss_xxx\server\rs\conf\log4j.xml，添加</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>  <span class="c">&lt;!-- logger: jdbcdslog --&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.StatementLogger&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;INFO&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">&quot;RS_FILE&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.SlowQueryLogger&quot;</span> <span class="na">additivity=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;INFO&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.ConnectionLogger&quot;</span> <span class="na">additivity=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;INFO&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;logger</span> <span class="na">name=</span><span class="s">&quot;org.jdbcdslog.ResultSetLogger&quot;</span> <span class="na">additivity=</span><span class="s">&quot;false&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;level</span> <span class="na">value=</span><span class="s">&quot;INFO&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/logger&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>具体的效果，请看我如何操作：    <br/>
+<img src="http://lishunli.github.com/images/first-last-day/jdbcdslog-exp.gif" width="800" height="600" title="jdbcdslog-exp" alt="jdbcdslog-exp"></p>
+
+<h4>2.2 TableDataCopier</h4>
+
+<p>TableDataCopier 是copy某个数据库中某个表的数据到另一个数据库中（存在同样的表结构），e.g. 能够copy SIT DB 的 mc_instr 到 Local DB 的 mc_instr。具体的可以看看它在google code的主页：<a href="http://code.google.com/p/table-data-copier/">http://code.google.com/p/table-data-copier/</a></p>
+
+<p>这个是以前做 OG Capture 的时候用的，主要是想从SIT搬一些数据过来，后面就做了一个统一点、有界面的程序，方便使用。现在看看，好像也没有多大的用途，不过还是分享出来，也许大家以后用得着。你也可以通过SVN Checkout下来代码</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>svn checkout http://table-data-copier.googlecode.com/svn/trunk/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也贴个运行图（仅支持 jdk1.6+）：      <br/>
+<img src="http://lishunli.github.com/images/first-last-day/table-data-copier.gif" width="800" height="600" title="TableDataCopier" alt="TableDataCopier"></p>
+
+<h3>三、SoapUI</h3>
+
+<p>关于SoapUI的简单使用，大家都很清楚，这里就不说了，下面说的是一些不常见的用法，再加一些性能测试方面的经验（这部分好早好早以前Lilian就有想法叫我讲的，现在只能靠这个机会弥补下了）。</p>
+
+<h4>3.1 File Import</h4>
+
+<p>MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用SoapUI做INT的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte[](File)的参数了，实际上，也很简单，看图就很清楚了（如果看不清，麻烦请另存后再看大图，全篇文章通用）。         <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120327104943.png" width="562"></p>
+
+<h4>3.2 Property Transfer</h4>
+
+<p>Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 <a href="http://www.soapui.org/Functional-Testing/transfering-property-values.html">Transferring Property Values</a>。通过下面的实例图你就创建了一个Property Transfer并添加了一个Transfer Value，而每个Transfer Value都有两个部分，一个是Source，一个是Target，都可以选择不同的Step和不同的Property。     <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120328181006.png">          <br/>
+如何配置这些内容，请看一个例子。e.g.</p>
+
+<p>在Mic2中，send msg step 需要一个参数，而这个参数是 login step 成功后的response，那么这种情况就可以这样：     <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120328173450.png" width="602" height="436">     <br/>
+贴上要写的配置信息：</p>
+
+<figure class='code'><figcaption><span>Source</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>declare namespace ns1=&#39;http://mic2.taifook.com/&#39;;
+</span><span class='line'>//ns1:loginResponse/return
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>Target</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'>declare namespace mic2=&#39;http://mic2.taifook.com/&#39;;
+</span><span class='line'>//mic2:send/arg0
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>3.3 Groovy</h4>
+
+<p>在SoapUI中可以写一些脚本，这个脚本语言就是 <a href="http://groovy.codehaus.org/">Groovy</a>  ，实际上平常我们需要使用的Groovy还是很简单的（因为和Java很类似），下面举一些例子来看看：   <br/>
+e.g.1</p>
+
+<figure class='code'><figcaption><span>rand</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">static</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">UUID</span><span class="o">.</span><span class="na">randomUUID</span>
+</span><span class='line'><span class="nf">randomUUID</span><span class="o">()</span> <span class="k">as</span> <span class="n">String</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个就是用UUID作为一个随机字符串的例子，在Test Step中可以这样使用（上面Groovy Script 文件名为 rand）</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg2&gt;</span>${rand#result}<span class="nt">&lt;/arg2&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>e.g.2</p>
+
+<figure class='code'><figcaption><span>getAccount</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kt">def</span> <span class="n">num</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">parseInt</span><span class="o">(</span><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">getPropertyValue</span><span class="o">(</span> <span class="s2">&quot;count&quot;</span> <span class="o">))</span>
+</span><span class='line'><span class="n">num</span> <span class="o">=</span> <span class="o">(++</span><span class="n">num</span><span class="o">)</span> <span class="o">%</span> <span class="mi">10</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">setPropertyValue</span><span class="o">(</span> <span class="s2">&quot;count&quot;</span><span class="o">,</span> <span class="n">num</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">)</span>
+</span><span class='line'><span class="n">String</span><span class="o">[]</span> <span class="n">acList</span> <span class="o">=</span> <span class="o">[</span>
+</span><span class='line'><span class="s2">&quot;02-0000000-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-1000001-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-2000002-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-3000003-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-4000004-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-5000005-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-6000006-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-7000007-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-8000008-22&quot;</span><span class="o">,</span>
+</span><span class='line'><span class="s2">&quot;02-9000009-22&quot;</span>
+</span><span class='line'><span class="o">]</span>
+</span><span class='line'><span class="n">acList</span><span class="o">[</span><span class="n">num</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个就是顺序并轮流从一个长度为10的字符串数组里取一个元素（第一行有些错误，一开始得不到 count&#8217;s PropertyValue ,你可以用类似第三行先 set count = 0 后删除，或者手动添加 count PropertyValue，如何添加？请看共享文档），这个可以用来做一些性能测试的一些数据输入（可以做到尽量不同），用法和上面一样</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg3&gt;</span>
+</span><span class='line'><span class="ni">&amp;lt;</span>MSG&gt;<span class="ni">&amp;lt;</span>REC instrCode=&quot;985&quot; ... acId=&quot;${getAccount#result}&quot; ... /&gt;<span class="ni">&amp;lt;</span>/MSG&gt;
+</span><span class='line'><span class="nt">&lt;/arg3&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>e.g.3</p>
+
+<figure class='code'><figcaption><span>initData</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">au.com.bytecode.opencsv.CSVReader</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">def</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">getPropertyValue</span><span class="o">(</span> <span class="s2">&quot;filename&quot;</span> <span class="o">)</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] CSV File Path and Name: &quot;</span> <span class="o">+</span> <span class="n">filename</span><span class="o">)</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] Reading the CSV...&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">CSVReader</span> <span class="n">reader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">CSVReader</span><span class="o">(</span><span class="k">new</span> <span class="n">FileReader</span><span class="o">(</span><span class="n">filename</span><span class="o">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">def</span> <span class="n">isHeader</span> <span class="o">=</span> <span class="kc">true</span>
+</span><span class='line'><span class="n">List</span> <span class="n">approvalList</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">while</span> <span class="o">((</span><span class="n">nextLine</span> <span class="o">=</span> <span class="n">reader</span><span class="o">.</span><span class="na">readNext</span><span class="o">())</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="o">(</span><span class="n">isHeader</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">isHeader</span> <span class="o">=</span> <span class="kc">false</span>
+</span><span class='line'>  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">approvalList</span><span class="o">.</span><span class="na">add</span> <span class="n">nextLine</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'><span class="c1">//set property to test case context </span>
+</span><span class='line'><span class="kt">def</span> <span class="n">loopCount</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[load data] Number of Approval: &quot;</span> <span class="o">+</span> <span class="n">approvalList</span><span class="o">.</span><span class="na">size</span><span class="o">())</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;approvalList&quot;</span><span class="o">,</span><span class="n">approvalList</span><span class="o">)</span>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;loopCount&quot;</span><span class="o">,</span><span class="n">loopCount</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// get property</span>
+</span><span class='line'><span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s2">&quot;[loop start] Current Loop Count: &quot;</span> <span class="o">+</span> <span class="n">context</span><span class="o">.</span><span class="na">loopCount</span><span class="o">);</span>
+</span><span class='line'><span class="kt">def</span> <span class="n">msg</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">approvalList</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="mi">0</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;userid&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">0</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;password&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">1</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;key&quot;</span><span class="o">,</span><span class="n">msg</span><span class="o">[</span><span class="mi">2</span><span class="o">])</span>
+</span><span class='line'><span class="n">testRunner</span><span class="o">.</span><span class="na">testCase</span><span class="o">.</span><span class="na">testSuite</span><span class="o">.</span><span class="na">getTestCaseByName</span><span class="o">(</span><span class="s2">&quot;Approval&quot;</span><span class="o">).</span><span class="na">setPropertyValue</span><span class="o">(</span><span class="s2">&quot;body&quot;</span><span class="o">,</span><span class="s2">&quot;&amp;lt;![CDATA[&quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">[</span><span class="mi">3</span><span class="o">].</span><span class="na">trim</span><span class="o">()</span> <span class="o">+</span> <span class="s2">&quot;]]&amp;gt;&quot;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">context</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s2">&quot;loopCount&quot;</span><span class="o">,</span> <span class="o">++</span><span class="n">context</span><span class="o">.</span><span class="na">loopCount</span><span class="o">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看到没有，这个例子就很像Java了，用其它的Jar包（opencsv-xxx.jar，请把它放到SoapUI安装路径下的lib目录下）里的方法来读csv格式的文件，然后把读出来的数据放到List中并存到context中，后面还用到了getTestCaseByName获得当前的Test Case（本例中TestCase名为Approval，请注意：不是Test Step名），并赋值以供使用。使用这里的值，也很简单</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='xml'><span class='line'><span class="nt">&lt;arg0&gt;</span>${#TestCase#userid}<span class="nt">&lt;/arg0&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里的例子只是冰山一角，更多的请参考：     <br/>
+<a href="http://www.soapui.org/Scripting-Properties/tips-a-tricks.html">Tips &amp; Tricks</a>        <br/>
+<a href="http://www.soapui.org/Scripting-Properties/property-expansion.html">Property Expansion</a></p>
+
+<h4>3.4 Load Tests</h4>
+
+<p><a href="http://www.soapui.org/Getting-Started/load-testing.html">Load Tests</a> 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。     <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120328181558.png"></p>
+
+<p>共享中有一份MIC2 SoapUI User Manual.doc的文档，是前面测试Mic2性能时候写的，加上MIC2-soapui-project.xml 和 MIC2 SoapUI Test.eml(email)，应该就包括了上面的所有SoapUI知识了。</p>
+
+<h3>四、Eclipse常用插件</h3>
+
+<h4>4.1 Easy Explore</h4>
+
+<p><a href="http://sourceforge.net/projects/easystruts/">Easy Explore</a> 顾名思义，就是使在 Eclipse 里面浏览本地文件变的很简单。官方的插件有些些不足，不过还好，网上有人已经修改了，请看 <a href="http://www.blogjava.net/terrine/archive/2008/12/29/121555.html">改造easyexplore插件</a> ，可以下载里面的plugin并安装，重启即可使用。</p>
+
+<h4>4.2 KeepResident</h4>
+
+<p><a href="http://suif.stanford.edu/pub/keepresident/index.html">KeepResident</a> 是一款改进Eclipse性能的插件，个人感觉还是不错的，大家可以试用下。我的配置如下：      <br/>
+<img src="http://lishunli.github.com/images/first-last-day/screenshot-20120326161418.png" width="458" height="360"></p>
+
+<h4>4.3 quickmarks</h4>
+
+<p><a href="http://eclipse-tools.sourceforge.net/quickmarks/index.html">quickmarks</a> 是Eclipse中的一款书签插件，很简单实用，追踪代码非常有帮助。使用超简单的， Ctrl+Shift+[0-9] 加上或者取消书签， Alt+[0-9] 打开对应的书签。</p>
+
+<h4>4.4 eclipse-fullscreen</h4>
+
+<p><a href="http://code.google.com/p/eclipse-fullscreen/">eclipse-fullscreen</a> 是一款能够让eclipse全屏的小插件，会让你的代码编辑窗口变得最大，充满整个屏幕。(小屏幕有福了，我留着备用）。</p>
+
+<h3>五、Eclipse最常用快捷键</h3>
+
+<p>以前也整理过一次（<a href="http://www.blogjava.net/lishunli/archive/2010/01/07/308612.html">Eclipse/MyEclipse最最常用的快捷键</a>），现在重新整理一次，尽量保持最简单最实用。子曰：工欲善其事，必先利其器。</p>
+
+<table>
+    <tr><td>快捷键</td><td>描述</td></tr>
+    <tr><td>Alt+/</td><td>代码提示</td></tr>
+    <tr><td>Ctrl+D</td><td>删除当前行</td></tr>
+    <tr><td>Ctrl+Shift+O</td><td>作用是缺少的Import语句被加入，多余的Import语句被删除</td></tr>
+    <tr><td>Ctrl+1</td><td>快速修复(最经典的快捷键,就不用多说了)</td></tr>
+    <tr><td>Ctrl+Shift+F</td><td>格式化当前代码</td></tr>
+    <tr><td>Ctrl+Shift+C</td><td>在代码窗口中是这种注释（再次按下，取消注释）</td></tr>
+    <tr><td>Ctrl+F</td><td>查找/替换（这个谁都知道）</td></tr>
+    <tr><td>Ctrl+Shift+T</td><td>打开类型（查找文件很方便）</td></tr>
+    <tr><td>Ctrl+Shift+R</td><td>打开资源，和Ctrl+Shift+T不同的是，T是打开Java类文件，而R是所有文件</td></tr>
+    <tr><td>F2</td><td>显示详细信息</td></tr>
+    <tr><td>F3</td><td>跳到声明或定义的地方（这个我现在一般都使用Ctrl+鼠标左击了）</td></tr>
+    <tr><td>Ctrl+T</td><td>快速显示当前类的继承结构</td></tr>
+    <tr><td>Ctrl+/</td><td>在代码窗口中是这种注释（推荐使用Ctrl +Shift + C注释）</td></tr>
+    <tr><td>Ctrl+Shift + / </td><td>块注释，不推荐使用，格式化后如果再想取消就比较麻烦了</td></tr>
+    <tr><td>Ctrl+Q</td><td>定位到最后编辑的地方</td></tr>
+    <tr><td>Ctrl[+Shift]+K</td><td>参照选中的Word快速定位到下[上]一个</td></tr>
+    <tr><td>Alt+[↓ or ↑]</td><td>当前行和下/上面一行交互位置(特别实用,可以省去先剪切,再粘贴了)</td></tr>
+    <tr><td>Ctrl+Alt+[↓ or ↑]</td><td>复制当前行到下/上一行(复制增加)</td></tr>
+    <tr><td>Ctrl+Shift+X</td><td>把当前选中的文本全部变为大写</td></tr>
+    <tr><td>Ctrl+Shift+Y</td><td>把当前选中的文本全部变为小写</td></tr>
+    <tr><td>Alt+Shift+R</td><td>重命名(当然，F2也能有一样的作用)</td></tr>
+    <tr><td>Alt+Shift+M</td><td>抽取方法 (这是重构里面最常用的方法之一了)</td></tr>
+    <tr><td>Alt+Shift+L</td><td>抽取本地变量</td></tr>
+</table>
+
+
+<p></p>
+
+<h3>六、我的联系方式：</h3>
+
+<p>QQ: 506817493     <br/>
+E-mail: <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#108;&#101;&#x65;&#x73;&#x68;&#117;&#x6e;&#108;&#105;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#108;&#x65;&#101;&#115;&#104;&#117;&#110;&#108;&#x69;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#109;</a> , <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x6c;&#x69;&#115;&#104;&#117;&#x6e;&#x6c;&#105;&#46;&#109;&#101;&#x40;&#103;&#x6d;&#97;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;">&#x6c;&#x69;&#115;&#x68;&#x75;&#x6e;&#108;&#x69;&#46;&#109;&#x65;&#64;&#x67;&#109;&#x61;&#105;&#108;&#46;&#x63;&#x6f;&#x6d;</a>  <br/>
+MSN: <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#108;&#x69;&#115;&#x68;&#117;&#x6e;&#108;&#105;&#64;&#108;&#105;&#118;&#x65;&#x2e;&#99;&#111;&#x6d;">&#108;&#105;&#115;&#104;&#x75;&#x6e;&#x6c;&#x69;&#64;&#108;&#105;&#118;&#x65;&#46;&#99;&#111;&#x6d;</a>  <br/>
+Weibo: <a href="http://weibo.com/lishunli">@李顺利Me</a>  <br/>
+Twitter: <a href="http://twitter.com/lishunli">@lishunli</a> <br/>
+Facebook: <a href="http://www.facebook.com/lishunli">李顺利</a>   <br/>
+Blog：<a href="http://blogjava.net/lishunli">http://blogjava.net/lishunli</a> , <a href="http://lishunli.github.com/">http://lishunli.github.com/</a>         <br/>
+（够详细吧，找到我，很简单！）</p>
+
+<p><em>B.T.W 这是我的第一次，借用某游戏中的一句话：我要走了，下次再玩吧！</em></p>
+
+<p align="right">
+顺利<br>      
+2012年3月30日
+</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Jdk1.5并发包学习2——线程池]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/18/java-5-concurrent2/"/>
+    <updated>2012-03-18T17:40:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/18/java-5-concurrent2</id>
+    <content type="html"><![CDATA[
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Jdk1.5并发包学习1——1.5以前的线程相关知识]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/17/java-5-concurrent1/"/>
+    <updated>2012-03-17T16:18:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/17/java-5-concurrent1</id>
+    <content type="html"><![CDATA[<p>这篇(系列)文章，是在<a href="http://edu.csdn.net/heima/video.html">《张孝祥-Java多线程与并发库高级应用》</a>学习中，自己的一些梳理和总结，虽然张孝祥老师先离开了我们，但是他留下来的东西，终生受用，在此缅怀一下张孝祥老师。
+强烈建议先看看 《张孝祥-Java多线程与并发库高级应用》。</p>
+
+<!-- more -->
+
+
+<h2>创建线程的两种传统方式</h2>
+
+<ul>
+<li>在Thread子类覆盖的run方法中编写运行代码</li>
+<li>在传递给Thread对象的Runnable对象的run方法中编写代码</li>
+</ul>
+
+
+<p><strong>总结：</strong>     <br/>
+查看Thread类的run()方法的源代码，可以看到其实这两种方式都是在调用Thread对象的run方法，如果Thread类的run方法没有被覆盖，并且为该Thread对象设置了一个Runnable对象，该run方法会调用Runnable对象的run方法。</p>
+
+<p>传统创建Thread有两种方法，一种是继承Thread类，一种是实现Runnable接口
+一般使用的话，建议使用第二种方法，也就是实现Runnable接口优于继承 Thread
+大致这样认为：     <br/>
+1. Java 是单继承的，如果继承了Thread了，那么就丢失了灵活性  <br/>
+2. 实现Runnable接口更适合于资源的共享，你可以看看上面的构造器，可以传递同一个 Runnable 的实现类。</p>
+
+<p><strong>问题：</strong>             <br/>
+如果在Thread子类覆盖的run方法中编写了运行代码，也为Thread子类对象传递了一个Runnable对象，那么，线程运行时的执行代码是子类的run方法的代码？还是Runnable对象的run方法的代码？</p>
+
+<figure class='code'><figcaption><span> (TraditionalThread.java)</span> <a href='http://lishunli.github.com/downloads/code/concurrent/src/main/java/org/usc/concurrent/TraditionalThread.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">concurrent</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 传统的创建线程方法</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TraditionalThread</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="c1">// 传统创建线程的第一种方法，创建Thread的子类（也就是继承 Thread），</span>
+</span><span class='line'>        <span class="n">Thread</span> <span class="n">thread1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;1:&quot;</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;2:&quot;</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">};</span>
+</span><span class='line'>        <span class="n">thread1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 传统创建线程的第二种方法，传递 Runnable作为构造器的参数（也就是实现 Runnable接口），</span>
+</span><span class='line'>        <span class="n">Thread</span> <span class="n">thread2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;3:&quot;</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">});</span>
+</span><span class='line'>        <span class="n">thread2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 总结，传统创建Thread有两种方法，一种是继承Thread类，一种是实现Runnable接口</span>
+</span><span class='line'>        <span class="c1">// 一般使用的话，建议使用第二种方法，也就是实现Runnable接口优于继承 Thread</span>
+</span><span class='line'>        <span class="c1">// 大致这样认为：</span>
+</span><span class='line'>        <span class="c1">// 1. Java 是单继承的，如果继承了Thread了，那么就丢失了灵活性</span>
+</span><span class='line'>        <span class="c1">// 2. 实现Runnable接口更适合于资源的共享，你可以看看上面的构造器，可以传递同一个 Runnable 的实现类。</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 综合上面两点，你觉得结果如何？</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="k">new</span> <span class="n">Runnable</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;runnable :&quot;</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">})</span> <span class="o">{</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                    <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">500</span><span class="o">);</span>
+</span><span class='line'>                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>                    <span class="o">}</span>
+</span><span class='line'>                    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;thread :&quot;</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">());</span>
+</span><span class='line'>
+</span><span class='line'>                <span class="o">}</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}.</span><span class="na">start</span><span class="o">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// 这就是 override ，所以，执行的就是子类的方法，结果你应该知道了。（无序，小心）</span>
+</span><span class='line'>        <span class="c1">// output:</span>
+</span><span class='line'>        <span class="c1">// 1:Thread-0</span>
+</span><span class='line'>        <span class="c1">// 2:Thread-0</span>
+</span><span class='line'>        <span class="c1">// thread :Thread-2</span>
+</span><span class='line'>        <span class="c1">// 3:Thread-1</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>定时器的应用</h2>
+
+<p>Java的定时器很简单，了解 Timer 和 TimerTask 类就可以的，更为复杂的可以关注下 <a href="http://quartz-scheduler.org/">Quartz</a> 。</p>
+
+<figure class='code'><figcaption><span> (TraditionalTimer.java)</span> <a href='http://lishunli.github.com/downloads/code/concurrent/src/main/java/org/usc/concurrent/TraditionalTimer.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">org</span><span class="o">.</span><span class="na">usc</span><span class="o">.</span><span class="na">concurrent</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Date</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.Timer</span><span class="o">;</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">java.util.TimerTask</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> * 传统的创建定时器</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TraditionalTimer</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="k">new</span> <span class="nf">Timer</span><span class="o">().</span><span class="na">schedule</span><span class="o">(</span><span class="k">new</span> <span class="n">TimerTask</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;定时器1执行了&quot;</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">},</span> <span class="mi">1000</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="kd">class</span> <span class="nc">MyTimerTask</span> <span class="kd">extends</span> <span class="n">TimerTask</span> <span class="o">{</span>
+</span><span class='line'>            <span class="nd">@Override</span>
+</span><span class='line'>            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">count</span> <span class="o">=</span> <span class="o">(++</span><span class="n">count</span><span class="o">)</span> <span class="o">%</span> <span class="mi">2</span><span class="o">;</span>
+</span><span class='line'>                <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;定时器 MyTimerTask 执行了&quot;</span><span class="o">);</span>
+</span><span class='line'>                <span class="k">new</span> <span class="nf">Timer</span><span class="o">().</span><span class="na">schedule</span><span class="o">(</span><span class="k">new</span> <span class="n">MyTimerTask</span><span class="o">(),</span> <span class="mi">2000</span> <span class="o">+</span> <span class="mi">2000</span> <span class="o">*</span> <span class="n">count</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">new</span> <span class="nf">Timer</span><span class="o">().</span><span class="na">schedule</span><span class="o">(</span><span class="k">new</span> <span class="n">MyTimerTask</span><span class="o">(),</span> <span class="mi">2000</span><span class="o">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>            <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">());</span>
+</span><span class='line'>            <span class="k">try</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">1000</span><span class="o">);</span>
+</span><span class='line'>            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+</span><span class='line'>            <span class="o">}</span>
+</span><span class='line'>        <span class="o">}</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>线程的同步互斥与通信</h2>
+
+<p>稍后会介绍 synchronized 和 lock 、volatile 的区别。
+总之，要同步互斥的几段代码最好是分别放在几个独立的方法中，这些方法再放在同一个类中，这样比较容易实现它们之间的同步互斥和通信。</p>
+
+<h2>多个线程访问共享对象和数据的方式</h2>
+
+<ul>
+<li>如果每个线程执行的代码相同，可以使用同一个Runnable对象，这个Runnable对象中有那个共享数据
+  例如，买票系统就可以这么做。</li>
+<li><p>如果每个线程执行的代码不同，这时候需要用不同的Runnable对象，有如下两种方式来实现这些Runnable对象之间的数据共享：</p></li>
+<li><p>将共享数据封装在另外一个对象中，然后将这个对象逐一传递给各个Runnable对象。每个线程对共享数据的操作方法也分配到那个对象身上去完成，这样容易实现针对该数据进行的各个操作的互斥和通信。</p></li>
+<li><p>将这些Runnable对象作为某一个类中的内部类，共享数据作为这个外部类中的成员变量，每个线程对共享数据的操作方法也分配给外部类，以便实现对共享数据进行的各个操作的互斥和通信，作为内部类的各个Runnable对象调用外部类的这些方法。
+(极端且简单的方式，即在任意一个类中定义一个static的变量，这将被所有线程共享。)</p></li>
+</ul>
+
+
+<h2>实现线程范围的共享变量</h2>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[GitHub多账户使用]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/15/github-multi-accounts/"/>
+    <updated>2012-03-15T13:43:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/15/github-multi-accounts</id>
+    <content type="html"><![CDATA[<p>在<a href="https://github.com/">github</a>托管了一些项目，而且自己创建的几个github账号， 比如有 lishunli, jdbcdslog 等。 github 使用ssh进行验证连接，但是如果你本地创建一个ssh key的话，等你切换到另一个账号的话，添加ssh key，就会有“SSH 已经被使用”的出错信息，当然这个时候想到的就是，使用多个SSH Key，那么如何能够让Github知道你使用的多个key了（Github 默认只会找 id_rsa 的 key）。
+当然解决的办法也很简单，就是配置 ssh 的 config， 具体请参考 <a href="http://omiga.org/blog/archives/2269">多个github帐号的SSH key切换</a> ，这篇文章已经介绍了很详细了，我这里只说一些关键的地方：</p>
+
+<!-- more -->
+
+
+<ul>
+<li>不需要使用ssh-add命令来添加ssh keys，我本机测试过，生成很多keys，只要config配置正确，都ok</li>
+<li>config 的配置关键点在于：</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Host</span> <span class="n">github</span><span class="o">.</span><span class="n">cn</span>
+</span><span class='line'>  <span class="no">HostName</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里Host的怎么配置，你github的repo ssh 连接url就要相应的修改成这样，比如如上面的配置，原连接地址是</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span><span class="ss">:lishunli</span><span class="o">/</span><span class="no">GitHub</span><span class="o">-</span><span class="no">Multi</span><span class="o">-</span><span class="no">Accounts</span><span class="o">.</span><span class="n">git</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>那么根据上面的配置，就要把github.com 修改成github.cn, 那么ssh解析的时候就会自动的把github.cn 转换为 github.com，这样地址就一样了。修改后就是</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">cn</span><span class="ss">:lishunli</span><span class="o">/</span><span class="no">GitHub</span><span class="o">-</span><span class="no">Multi</span><span class="o">-</span><span class="no">Accounts</span><span class="o">.</span><span class="n">git</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样的配置，类似hosts，当然你可以任意配置上面的Host，例如可以这样</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Host</span> <span class="n">lishunli</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'>  <span class="no">HostName</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>     <br/>
+那么 你git clone 或者 git remote add origin 后面就应该类似这样</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">git</span><span class="vi">@lishunli</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="ss">:YourAcccountName</span><span class="o">/</span><span class="no">YourRepoName</span><span class="o">.</span><span class="n">git</span>
+</span><span class='line'><span class="c1"># 原始是</span>
+</span><span class='line'><span class="n">git</span><span class="vi">@github</span><span class="o">.</span><span class="n">com</span><span class="ss">:YourAcccountName</span><span class="o">/</span><span class="no">YourRepoName</span><span class="o">.</span><span class="n">git</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>是不是很简单，记得把原HostName变换成你配置的Host就可以了。<br>搜索的时候，经常受到的是官方帮助文档<a href="http://help.github.com/manage-multiple-clients/">Manage multiple clients</a>, 说是创建Org，但是据我所知，并不能很好的解决多账户问题（可能本人所知有限，并没有很好地体会Org的作用），想要了解更多 github org，请参看<br><a href="http://forcefront.com/tag/organization/">如何在 GitHub 建立组织</a><br>
+<a href="http://www.worldhello.net/gotgithub/04-work-with-others/030-organization.html">组织和团队</a></p>
+
+<p>附本人的ssh config 文件</p>
+
+<figure class='code'><figcaption><span> (config)</span> <a href='http://lishunli.github.com/downloads/code/github-multi-accounts/config'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># usc github user</span>
+</span><span class='line'><span class="no">Host</span> <span class="n">usc</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">HostName</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">User</span> <span class="n">git</span>
+</span><span class='line'> <span class="no">IdentityFile</span> <span class="o">~</span><span class="sr">/.ssh/i</span><span class="n">d_rsa_usc</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># lishunli github user</span>
+</span><span class='line'><span class="no">Host</span> <span class="n">lishunli</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">HostName</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span>
+</span><span class='line'> <span class="no">User</span> <span class="n">git</span>
+</span><span class='line'> <span class="no">IdentityFile</span> <span class="o">~</span><span class="sr">/.ssh/i</span><span class="n">d_rsa_lishunli</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>无图无真相<br>
+<img src="http://lishunli.github.com/images/github-multi-accounts/infos.png" alt="hello lishunli" /></p>
+
+<p>这篇文章没有点点技术,主要用于以下用途：</p>
+
+<ul>
+<li>仅记之；</li>
+<li>学习并使用Markdown，简单快捷高效地写文章(本文用markdown编辑而成),你可以通过这里观看效果 <a href="http://lishunli.github.com/blog/2012/03/18/github-multi-accounts/">GitHub多账户使用</a>；</li>
+<li>学习git，学习使用<a href="http://octopress.org/">Octopress</a>。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Hello World]]></title>
+    <link href="http://lishunli.github.com/blog/2012/03/14/hello-world/"/>
+    <updated>2012-03-14T21:33:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/03/14/hello-world</id>
+    <content type="html"><![CDATA[<p>程序员的第一篇博客，一般都是Hello World，我也习俗下。</p>
+
+<h2>以下用几种方式(Octopress)来贴HelloWorld的代码</h2>
+
+<!-- more -->
+
+
+<ul>
+<li>Backtick Code Blocks</li>
+</ul>
+
+
+<figure class='code'><figcaption><span>HelloWorld.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Include Code Snippets</li>
+</ul>
+
+
+<figure class='code'><figcaption><span> (HelloWorld.java)</span> <a href='http://lishunli.github.com/downloads/code/helloworld/HelloWorld.java'>download</a></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">);</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Gist Embedding</li>
+</ul>
+
+
+<div><script src='https://gist.github.com/2036900.js?file='></script>
+<noscript><pre><code>/**
+ *
+ * @author ShunLi
+ */
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println(&quot;Hello World!&quot;);
+    }
+}</code></pre></noscript></div>
+
+
+<ul>
+<li>Inline Code Blocks</li>
+</ul>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="cm">/**</span>
+</span><span class='line'><span class="cm"> *</span>
+</span><span class='line'><span class="cm"> * @author ShunLi</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorld</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&quot;Hello World!&quot;</span><span class="o">);</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>B.T.W. 我以后应该比较常用Backtick code blocks 和 Include code sinipets.</p>
+
+<h2>P.S. 悲催地体验——在Windows下安装Octopress</h2>
+
+<p>在Windows下体验Ruby，真的是一件很痛苦的事情，有打算迁移到Ubuntu环境了。
+这里记录下载Windows下安装Octopress的步骤，有些真是很痛苦。</p>
+
+<ul>
+<li><p>安装 ruby <br/>
+如果你不怕麻烦的话，可以选择装ruby+Devkit(Devkit也要安装不然在bundle install这步附近应该会有问题)，Windows下安装ruby可以通过RubyInstaller(不过好像经常需要翻Wall过去才能打开)，更方便地方法是直接通过<a href="http://railsinstaller.org/">railsinstaller</a> 来安装，里面包括很多需要的工具。</p></li>
+<li><p>安装 python
+这个真的需要，ruby核心部分有用到。如果没有安装Python的话，在Octopress的代码高亮(include_code 等)部分可能会出现问题： <br/>
+比如：</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Liquid</span> <span class="n">error</span><span class="p">:</span> <span class="no">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span> <span class="o">-</span> <span class="n">python</span> <span class="o">-</span><span class="n">c</span> <span class="err">“</span><span class="n">import</span> <span class="n">sys</span><span class="p">;</span> <span class="nb">print</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="err">”</span>
+</span><span class='line'><span class="c1"># or</span>
+</span><span class='line'><span class="no">Liquid</span> <span class="n">error</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`Py_IsInitialized’ for RubyPython::Python:Module</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+请先安装 python-xxx.msi，然后把python home（e.g. C:\Python27）加到windows环境变量下  <br/>
+请注意，一定要把python home加到windows环境变量下。</p>
+
+<p>如果还不行的话，请参考这个<a href="https://github.com/imathis/octopress/issues/262">issue</a>，应该能够解决。</p>
+
+<ul>
+<li><p>安装octopress <br/>
+这个官网已经有介绍了，应该比较简单。</p></li>
+<li><p>中文问题<br/>
+Windows下如果有中文的话，在generate步骤就会失败，网上给出的解决方法也很简单，就是设置自己本机的环境变量   <br/>
+<img src="http://lishunli.github.com/images/hello-world/env_vars.png" alt="" /> <br/>
+具体的就是这样设置的</p></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="no">LC_ALL</span><span class="o">=</span><span class="n">zh_CN</span><span class="o">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+</span><span class='line'><span class="n">set</span> <span class="no">LANG</span><span class="o">=</span><span class="n">zh_CN</span><span class="o">.</span><span class="n">UTF</span><span class="o">-</span><span class="mi">8</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>还有一个问题  <br/>
+对有序序列支持不好，我已经提了一个<a href="https://github.com/imathis/octopress/issues/488">bug</a>了。</p></li>
+<li><p>就请欢乐地拥抱Octopress/Jekyll吧。</p></li>
+</ul>
+
+
+<h2>后记</h2>
+
+<p>Octopress 重装记</p>
+
+<ol>
+<li>参考<a href="http://lishunli.github.com/blog/2012/03/14/hello-world/">本文</a> ，安装ROR，Python并配置好环境配置（中文编码、python）</li>
+<li>git clone git@github.com:lishunli/lishunli.github.com.git (change it by yourself)</li>
+<li>git checkout source</li>
+<li>bundle install or bundle update</li>
+<li>rake setup_github_pages</li>
+<li>rake generate, rake preview, rake deploy</li>
+</ol>
+
+
+<p>顺利更新于2012年9月17日</p>
+]]></content>
+  </entry>
+  
+</feed>
