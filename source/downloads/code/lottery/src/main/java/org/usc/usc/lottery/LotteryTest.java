@@ -16,7 +16,7 @@ public class LotteryTest {
         List<Gift> gifts = new ArrayList<Gift>();
         // 序号==物品Id==物品名称==概率
         gifts.add(new Gift(1, "P1", "物品1", 0.2d));
-        gifts.add(new Gift(2, "P2", "物品2", 0.1d));
+        gifts.add(new Gift(2, "P2", "物品2", 0.2d));
         gifts.add(new Gift(3, "P3", "物品3", 0.4d));
         gifts.add(new Gift(4, "P4", "物品4", 0.3d));
         gifts.add(new Gift(5, "P5", "物品5", 0d));
