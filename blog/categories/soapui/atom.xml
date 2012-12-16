@@ -4,7 +4,7 @@
   <title><![CDATA[Category: SoapUI | 等待着你]]></title>
   <link href="http://lishunli.github.com/blog/categories/soapui/atom.xml" rel="self"/>
   <link href="http://lishunli.github.com/"/>
-  <updated>2012-10-18T08:06:53+08:00</updated>
+  <updated>2012-12-16T14:23:15+08:00</updated>
   <id>http://lishunli.github.com/</id>
   <author>
     <name><![CDATA[李顺利]]></name>
@@ -137,7 +137,7 @@ testRunner.testCase.testSuite.getTestCaseByName("Approval").setPropertyValue("bo
 <p><a href="http://www.soapui.org/Getting-Started/load-testing.html">Load Tests</a> 就是使SoapUI连续多次执行一个Test Steps，目前我用到的是用它来做一些性能测试，很直观明了。使用它很简单，直接在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。    <br/>
 <img src="/images/first-last-day/screenshot-20120328181558.png"></p>
 
-<p>这个也是在工作中的一个分享，对象是有使用SoapUI经验的同事，所以，您看这部分，可能会有一些不清楚的，如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 QQ：506817493 或 Email：<a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#x3a;&#x6c;&#x65;&#x65;&#115;&#104;&#x75;&#110;&#x6c;&#105;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#x6c;&#101;&#x65;&#x73;&#104;&#x75;&#110;&#x6c;&#105;&#64;&#113;&#x71;&#46;&#99;&#111;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+<p>这个也是在工作中的一个分享，对象是有使用SoapUI经验的同事，所以，您看这部分，可能会有一些不清楚的，个人了解也不是很深，请大家尽量在官网多查查，希望对您探索SoapUI有点点帮助。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
