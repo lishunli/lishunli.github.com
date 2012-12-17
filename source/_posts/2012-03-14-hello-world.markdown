@@ -90,6 +90,6 @@ Octopress 重装记
 4. bundle install or bundle update
 5. rake setup_github_pages
 6. rake generate, rake preview, rake deploy
+7. rake new_post["title"]		 新建的文章默认是ANSI编码的，这会导致generate步骤失败，请转换为UTF-8格式的文件后重新来过，如果还有问题，尝试其它的解决办法。
 
-
-顺利更新于2012年9月17日
+顺利更新于2012年12月17日
