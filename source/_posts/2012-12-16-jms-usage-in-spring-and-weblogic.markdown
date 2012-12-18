@@ -3,7 +3,7 @@ layout: post
 title: "Spring + Weblogic 下的JMS使用"
 date: 2012-12-16 13:59
 comments: true
-categories: 
+categories: Tips
 ---
 
 本篇文章没有做过多整理，是以前自己写的一个小笔记，希望有缘的你读过有些收获
