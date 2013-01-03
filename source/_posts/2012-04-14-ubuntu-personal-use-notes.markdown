@@ -109,7 +109,10 @@ chmod 744 pwf #使其有执行权限
 ```
 
 11).	 如果想删除Ubuntu系统，那么如何做了		
-比较简单，参考这篇文章就可以搞定了，[win7，ubuntu双系统删除ubuntu](http://www.cppblog.com/koson/archive/2010/03/24/110433.html)。	
+比较简单，参考这篇文章就可以搞定了，[MBR Fix - Fix MBR problems](http://www.sysint.no/nedlasting/mbrfix.htm)，[win7，ubuntu双系统删除ubuntu](http://www.cppblog.com/koson/archive/2010/03/24/110433.html)。	
+```
+MbrFix /drive 0 fixmbr /yes
+```		
 	
 12).	 快捷键		
 完整的Ubuntu里的快捷键可以看这里：[Gnome快捷键](http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE) ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。		
