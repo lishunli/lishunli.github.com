@@ -229,8 +229,7 @@ update-rc.d /etc/init.d/memcached defaults
 编译安装最新稳定版nginx请看[Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp](http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html),写的很详细，其中nginx开机自启动的文章 [Ubuntu Nginx 开机自启动](http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html) 也很不错
 		
 25)
-<strike>这是带有删除线的文本 </strike>			
-<del>test</del>
+		
 xx).	待续…		
 		
 注:
