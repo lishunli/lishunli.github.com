@@ -115,12 +115,23 @@
 格式化一个盘作为Ubuntu安装分区（如何删除卷，计算机管理 -> 磁盘管理，选择需要格式的盘，右键删除卷）</p>
 
 <p>2). 安装EasyBCD         <br/>
-安装Ubuntu这部分请参考 <a href="http://zxdker.com/post/ubuntu-11-04-win7-yingpan-anzhuang-shuangxitong-tuwen-jiaocheng.htm">ubuntu 11.04在win7下安装无损硬盘安装双系统的图文教程</a>
+安装Ubuntu这部分请参考 <a href="http://www.linuxbsdos.com/2012/10/11/dual-boot-windows-7-and-ubuntu-12-04-on-a-pc-with-uefi-hardware/">Dual-boot Windows 7 and Ubuntu 12.04 on a PC with UEFI hardware</a>，<a href="http://hi.baidu.com/moonlight_0/item/c7c424b8f169cdfc62388eb4">ubuntu 11.04在win7下安装无损硬盘安装双系统的图文教程</a>
 这篇文章中写的也很详细，图文并茂，而且我试过，都没有问题。说说安装过程中可能需要注意的几个地方：      <br/>
 a)  <em>sudo umount -l /isodevice</em>       <br/>
 这个不清楚，网上都要做，我也做了，我觉得现在这个版本（10.04LTS）应该解决了这个问题，以后有机会可以试试不加这个会如何。     <br/>
 b)  <em>分区</em>          <br/>
-我选择的是手动分区， 整个区大概有18G，swap 分区1G（我内存2G），/ 分区为 8G，剩下的都给了 /home 分区（也可以自动分区）。</p>
+我选择的是手动分区， 整个区大概有18G，swap 分区1G（我内存2G），/ 分区为 8G，剩下的都给了 /home 分区（也可以自动分区）。    <br/>
+c) <em>部分参考配置</em></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>title Install Ubuntu
+</span><span class='line'>root (hd0,0)
+</span><span class='line'>kernel (hd0,0)/vmlinuz boot=casper iso-scan/filename=/ubuntu-11.04-desktop-i386.iso ro quiet splash locale=zh_CN.UTF-8
+</span><span class='line'>initrd (hd0,0)/initrd.lz</span></code></pre></td></tr></table></div></figure>
+
 
 <h3>Ubuntu的使用</h3>
 
@@ -143,7 +154,9 @@ a)  设置Windows7为首启动项</p>
 参考这个 <a href="http://lookluk.blogbus.com/logs/56313760.html">Ubuntu 9.10 修改Grub启动项等待时间</a></p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo gedit /etc/default/grub
+</span><span class='line'>sudo update-grub
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -197,11 +210,13 @@ a)  设置Windows7为首启动项</p>
 简单，下载chrome（deb包），一般默认就会使用“软件管理器”打开，即可安装，或者使用sudo dpkg -i xxx.deb 命令。   <br/>
 安装好了，当然要卸载默认的浏览器了——Firefox。个人选择chrome，是觉得比较轻便，随着现在的更加稳定（比如同步收藏夹什么的），现在已经变得很方便了，在不同的机器里用同一个账号几乎不会感觉到有什么差别的。</p>
 
-<p>7). 安装wine    <br/>
+<p><del>
+7). 安装wine            <br/>
 a)  安装    <br/>
 安装应该很简单，关键是一些配置，比如关于中文字体方面的可能麻烦的，可以参考 <a href="http://wiki.ubuntu.org.cn/Wine">Ubuntu Wine Wiki</a> 和 <a href="http://forum.ubuntu.org.cn/viewtopic.php?t=72933">Wine完全使用指南——从基本到高级</a>         <br/>
 b)  中文乱码      <br/>
-还是没搞定，本想通过wine来安装一个Evernote和QQ的，不过还是有很多问题，现在也只能通过浏览器，以后很必须的时候再想办法了，e.g.安装个虚拟机。</p>
+还是没搞定，本想通过wine来安装一个Evernote和QQ的，不过还是有很多问题，现在也只能通过浏览器，以后很必须的时候再想办法了，e.g.安装个虚拟机。
+</del></p>
 
 <p>8). 解决切换到Windows7系统后，时间错误的问题              <br/>
 我从Ubuntu切换到Windows7后，发现时间是不正确的，修改方法参考 <a href="http://quanyu.blog.163.com/blog/static/12374147220109244824774/">解决Winddows和Ubuntu的时间差</a></p>
@@ -257,7 +272,14 @@ b)  中文乱码      <br/>
 
 
 <p>11).     如果想删除Ubuntu系统，那么如何做了     <br/>
-比较简单，参考这篇文章就可以搞定了，<a href="http://www.cppblog.com/koson/archive/2010/03/24/110433.html">win7，ubuntu双系统删除ubuntu</a>。</p>
+比较简单，参考这篇文章就可以搞定了，<a href="http://www.sysint.no/nedlasting/mbrfix.htm">MBR Fix - Fix MBR problems</a>，<a href="http://www.cppblog.com/koson/archive/2010/03/24/110433.html">win7，ubuntu双系统删除ubuntu</a>。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>MbrFix /drive 0 fixmbr /yes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
 
 <p>12).     快捷键    <br/>
 完整的Ubuntu里的快捷键可以看这里：<a href="http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE">Gnome快捷键</a> ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。      <br/>
@@ -304,19 +326,137 @@ vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的�
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>15). 后台运行
+<p>15). 后台运行     <br/>
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  &amp; 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 <a href="http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/">Linux 技巧：让进程在后台可靠运行的几种方法</a></p>
+
+<p>16). 开启ssh服务</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install openssh-server
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>17）使用root用户 <br/>
+终端下执行命令的时候经常需要root用户的情况下，可以最开始就使用root用户</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo su
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者直接在Ubuntu中使用用root帐号</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo passwd root
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>设置密码后就可以用使用root账号了</p>
+
+<p>18) 修改为英文   <br/>
+10.04 版本还是有点问题，修改后，home文件夹下的类似“下载”文件夹还是中文，下次安装的时候记得默认选择英文语言</p>
+
+<p>19) ubuntu下终端路径只显示当前目录<br/>
+参考 <a href="http://www.issacy.com/archives/519.html">ubuntu下终端路径只显示当前目录</a></p>
+
+<p>20) 安装jdk <br/>
+参考<a href="http://blog.csdn.net/yang_hui1986527/article/details/6677450">Ubuntu 11.04 下安装配置 JDK 7</a> 和 <a href="http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Java安装配置</a></p>
+
+<figure class='code'><figcaption><span>~/.bashrc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/jdk1.6.0_38
+</span><span class='line'><span class="nb">export </span><span class="nv">JRE_HOME</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/jre
+</span><span class='line'><span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/lib:<span class="k">${</span><span class="nv">JRE_HOME</span><span class="k">}</span>/lib
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/bin:<span class="nv">$PATH</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>21) 安装Tomcat  <br/>
+下载并解压即可</p>
+
+<p>22) 固定ip      <br/>
+开通ssh服务后，如果ip经常变动的话，就会很不方便。固定ip就会更会的提供服务。     <br/>
+参考<a href="http://blog.csdn.net/tzb251316192/article/details/7520210">ubuntu 12.04 以固定 IP 地址连接网络并配置DNS</a></p>
+
+<figure class='code'><figcaption><span>/etc/network/interfaces</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>auto eth0
+</span><span class='line'>iface eth0 inet static
+</span><span class='line'>    address 192.168.1.105
+</span><span class='line'>    netmask 255.255.255.0
+</span><span class='line'>    gateway 192.168.1.1
+</span><span class='line'>    dns-nameservers 202.96.134.133 202.96.128.166
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>23) 安装Memcached       <br/>
+Memcached 的安装可以自己编译或者直接安装，请参考<a href="http://www.mike.org.cn/articles/ubuntu-install-memcached/">Ubuntu下安装Memcached</a> 这篇文章，写的很详细，出现的问题也给出了解决方案。      <br/>
+这里就仅贴出启动和关闭Memcached的shell</p>
+
+<figure class='code'><figcaption><span>startup.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">ulimit</span> -SHn 65000
+</span><span class='line'><span class="nb">ulimit</span> -l unlimited
+</span><span class='line'>
+</span><span class='line'>/usr/local/memcached/bin/memcached  -d -p 11211 -m 1024 -u root -P /tmp/memcached.pid
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>shutdown.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="nb">kill</span> <span class="sb">`</span>cat /tmp/memcached.pid<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'>ps -ef |grep memcached|awk <span class="s1">&#39;{print $2}&#39;</span>|xargs -l -t <span class="nb">kill</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>memcached(开机自启动)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s  /usr/local/memcached/bin/startup.sh /etc/init.d/memcached
+</span><span class='line'>update-rc.d /etc/init.d/memcached defaults
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>24) 安装nginx   <br/>
+编译安装最新稳定版nginx请看<a href="http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html">Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp</a>,写的很详细，其中nginx开机自启动的文章 <a href="http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html">Ubuntu Nginx 开机自启动</a> 也很不错</p>
+
+<p>25)</p>
 
 <p>xx).    待续…</p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 QQ：506817493 或 Email：<a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#108;&#x65;&#101;&#115;&#104;&#117;&#x6e;&#x6c;&#105;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#108;&#x65;&#101;&#115;&#x68;&#117;&#x6e;&#x6c;&#x69;&#x40;&#x71;&#113;&#x2e;&#x63;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
+<p>注:
+上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
+
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 Email：<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x6c;&#101;&#x65;&#x73;&#104;&#117;&#x6e;&#x6c;&#x69;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#101;&#x65;&#x73;&#x68;&#x75;&#110;&#108;&#105;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
-2012年4月14日<br>
-最后更新于2012年4月26日
+2012年4月14日
 </p>
 
+
+<h3>更新历史</h3>
+
+<p>2013-01-08 继续更新使用中遇到的问题并安装一些服务软件 [22,23,24]         <br/>
+2013-01-06 添加开启ssh服务等内容 [16,17,18,19,20,21] <br/>
+2013-01-03 更新文章的死亡链接，使用后添加更多的注意点<br/>
+2012-04-26 添加重启tomcat服务器脚本和后台运行 [14,15]   <br/>
+2012-04-14 初步完成部分的使用习惯</p>
 </div>
 
 
@@ -435,6 +575,35 @@ Facebook:lishunli</br>
     
   </ul>
 </section>
+<section>
+  <h1>分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/soapui/'>SoapUI (1)</a></li>
+<li class='category'><a href='/blog/categories/tips/'>Tips (3)</a></li>
+<li class='category'><a href='/blog/categories/ubuntu/'>Ubuntu (1)</a></li>
+<li class='category'><a href='/blog/categories/concurrent/'>concurrent (2)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/jdk/'>jdk (2)</a></li>
+<li class='category'><a href='/blog/categories/others/'>others (2)</a></li>
+<li class='category'><a href='/blog/categories/ssh/'>ssh (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>博客链接</h1>
+  <ul>
+    <li>
+      <a href="http://coolshell.cn/">酷壳CoolShell</a>
+    </li>
+    <li>
+      <a href="http://blogjava.net/lishunli">李顺利</a>
+    </li>
+	<li>
+      <a href="https://code.google.com/p/usc/">USC's Google Code</a>
+    </li>
+  </ul>
+</section>
+
 
 <section>
   <h1><a href = "http://weibo.com/lishunli" target="_blank">新浪微博</a></h1>
@@ -457,6 +626,21 @@ Facebook:lishunli</br>
 
 
 
+<section>
+<h1>豆瓣</h1>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/lishunli/?show=collection&amp;n=12&amp;columns=3" ></script>
+</div>
+</section>
+<section>
+  <h1>分享</h1>
+  <p>
+   <img class="center" alt="License" src="/images/license.png" />
+  本站所有作品采用<a href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/">知识共享署名-非商业性使用-相同方式共享 2.5 中国大陆许可协议</a>进行许可。
+  </p>
+</section>
+
+
   
 </aside>
 
@@ -464,7 +648,7 @@ Facebook:lishunli</br>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - <a href="http://blogjava.net/lishunli" target="_blank">李顺利</a> -
+  Copyright &copy; 2013 - <a href="http://blogjava.net/lishunli" target="_blank">李顺利</a> -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tips | 等待着你]]></title>
   <link href="http://lishunli.github.com/blog/categories/tips/atom.xml" rel="self"/>
   <link href="http://lishunli.github.com/"/>
-  <updated>2012-12-17T22:19:46+08:00</updated>
+  <updated>2013-01-10T20:27:35+08:00</updated>
   <id>http://lishunli.github.com/</id>
   <author>
     <name><![CDATA[李顺利]]></name>
@@ -12,6 +12,149 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Spring + Weblogic 下的JMS使用]]></title>
+    <link href="http://lishunli.github.com/blog/2012/12/16/jms-usage-in-spring-and-weblogic/"/>
+    <updated>2012-12-16T13:59:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2012/12/16/jms-usage-in-spring-and-weblogic</id>
+    <content type="html"><![CDATA[<p>本篇文章没有做过多整理，是以前自己写的一个小笔记，希望有缘的你读过有些收获</p>
+
+<p>1). weblogic 配置 JMS步骤 <br/>
+1.1 创建 JMS 服务器      <br/>
+1.2 创建持久性存储     <br/>
+1.3 创建 JMS 模块</p>
+
+<!-- more -->
+
+
+<p>     <br/>
+下图来自于Weblogic成功配置JMS后的截图，具体的配置过程网上很多，请参考完成。       <br/>
+<img src="/images/jms-usage-in-spring-and-weblogic/jsm-in-weblogic.png"></p>
+
+<p>2). Spring 配置 applicationContext.xml</p>
+
+<p>``` xml applicationContext.xml
+&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"</p>
+
+<pre><code>xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+ http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd"&gt;
+
+&lt;!-- Use Weblogic JMS --&gt;
+&lt;jee:jndi-lookup id="batch.jmsFactory" jndi-name="jms/batch/connectionFactory"&gt;
+   &lt;jee:environment&gt;
+       java.naming.factory.initial=weblogic.jndi.WLInitialContextFactory
+       java.naming.provider.url=t3://127.0.0.1:7001
+   &lt;/jee:environment&gt;
+&lt;/jee:jndi-lookup&gt;
+&lt;jee:jndi-lookup id="batch.reqQueue.destination" jndi-name="jms/batch/reqQueue"&gt;
+   &lt;jee:environment&gt;
+       java.naming.factory.initial=weblogic.jndi.WLInitialContextFactory
+       java.naming.provider.url=t3://127.0.0.1:7001
+   &lt;/jee:environment&gt;
+&lt;/jee:jndi-lookup&gt;
+
+&lt;!-- JmsTemplate --&gt;
+&lt;bean id="jmsBatchQueueTemplate" class="org.springframework.jms.core.JmsTemplate"&gt;
+   &lt;property name="pubSubDomain" value="false" /&gt;
+   &lt;property name="connectionFactory" ref="batch.jmsFactory" /&gt;
+   &lt;property name="defaultDestination" ref="batch.reqQueue.destination" /&gt;
+&lt;/bean&gt;
+
+&lt;bean id="batchSenderAndReceiver" class="org.usc.jms.SenderAndReceiver"&gt;
+   &lt;property name="jmsTemplate" ref="jmsBatchQueueTemplate" /&gt;
+&lt;/bean&gt;
+
+&lt;bean id="batchReceiverQueueListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer"&gt;
+   &lt;property name="concurrentConsumers" value="1" /&gt;
+   &lt;property name="connectionFactory" ref="batch.jmsFactory" /&gt;
+   &lt;property name="destination" ref="batch.reqQueue.destination" /&gt;
+   &lt;property name="messageListener" ref="batchSenderAndReceiver" /&gt;
+&lt;/bean&gt;
+</code></pre>
+
+<p></beans>
+```</p>
+
+<p>3). 测试代码
+``` java SenderAndReceiver.java
+package org.usc.jms;</p>
+
+<p>import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageListener;
+import javax.jms.TextMessage;</p>
+
+<p>import org.springframework.jms.core.JmsTemplate;</p>
+
+<p>/<em>*
+ *
+ * @author ShunLi
+ </em>/
+public class SenderAndReceiver implements MessageListener{</p>
+
+<pre><code>private JmsTemplate jmsTemplate;
+
+public JmsTemplate getJmsTemplate() {
+   return jmsTemplate;
+}
+
+public void setJmsTemplate(JmsTemplate jmsTemplate) {
+   this.jmsTemplate = jmsTemplate;
+}
+
+public void sendMessage() {
+   jmsTemplate.convertAndSend("Hello world!(" + System.currentTimeMillis() + ")");
+}
+
+public void onMessage(Message msg) {
+   try {
+       System.out.println("msg is "+((TextMessage)msg).getText());
+   } catch (JMSException e) {
+       e.printStackTrace();
+   }
+}
+</code></pre>
+
+<p>}</p>
+
+<pre><code>public static void main(String[] args) {
+   ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+   SenderAndReceiver jmsQueueTemplate = (SenderAndReceiver) ctx.getBean("batchSenderAndReceiver");
+   jmsQueueTemplate.sendMessage();
+}
+</code></pre>
+
+<p>```</p>
+
+<p>4). 注意点 <br/>
+4.1. java.naming.factory.initial=weblogic.jndi.WLInitialContextFactory 需要在classpath 下面加上 weblogic.jar   <br/>
+4.2. SenderAndReceiver 即是Sender 又是 Listener（Recevier）         <br/>
+4.3. 大致处理流程是这样的</p>
+
+<pre><code>Sender send msg -&gt; Queue/Topic -&gt; 触发Listener（异步），Listener onMessage 处理 收到的 Message。   
+</code></pre>
+
+<p>p.s. 测试代码不太优美，SenderAndReceiver 既作为了一个消息发布者，又作为了消息接收者，实践中，尽量分开</p>
+
+<p>5). 补充知识      <br/>
+传递域：点对点（PTP）消息传递域和发布/订阅消息传递域。       <br/>
+点对点消息传递域的特点如下：</p>
+
+<pre><code>每个消息只能有一个消费者。
+消息的生产者和消费者之间没有时间上的相关性。无论消费者在生产者发送消息的时候是否处于运行状态，它都可以提取消息。
+</code></pre>
+
+<p>发布/订阅消息传递域的特点如下：</p>
+
+<pre><code>每个消息可以有多个消费者。
+生产者和消费者之间有时间上的相关性。订阅一个主题的消费者只能消费自它订阅之后发布的消息。
+</code></pre>
+
+<p>JMS规范允许客户创建持久订阅，这在一定程度上放松了时间上的相关性要求。持久订阅允许消费者消费它在未处于激活状态时发送的消息。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[不同概率的抽奖]]></title>
@@ -438,12 +581,19 @@ Gift [index=7, gitfId=P7, giftName=物品7, probability=0.0080], count=7961, pro
 格式化一个盘作为Ubuntu安装分区（如何删除卷，计算机管理 -> 磁盘管理，选择需要格式的盘，右键删除卷）</p>
 
 <p>2). 安装EasyBCD         <br/>
-安装Ubuntu这部分请参考 <a href="http://zxdker.com/post/ubuntu-11-04-win7-yingpan-anzhuang-shuangxitong-tuwen-jiaocheng.htm">ubuntu 11.04在win7下安装无损硬盘安装双系统的图文教程</a>
+安装Ubuntu这部分请参考 <a href="http://www.linuxbsdos.com/2012/10/11/dual-boot-windows-7-and-ubuntu-12-04-on-a-pc-with-uefi-hardware/">Dual-boot Windows 7 and Ubuntu 12.04 on a PC with UEFI hardware</a>，<a href="http://hi.baidu.com/moonlight_0/item/c7c424b8f169cdfc62388eb4">ubuntu 11.04在win7下安装无损硬盘安装双系统的图文教程</a>
 这篇文章中写的也很详细，图文并茂，而且我试过，都没有问题。说说安装过程中可能需要注意的几个地方：      <br/>
 a)  <em>sudo umount -l /isodevice</em>       <br/>
 这个不清楚，网上都要做，我也做了，我觉得现在这个版本（10.04LTS）应该解决了这个问题，以后有机会可以试试不加这个会如何。     <br/>
 b)  <em>分区</em>          <br/>
-我选择的是手动分区， 整个区大概有18G，swap 分区1G（我内存2G），/ 分区为 8G，剩下的都给了 /home 分区（也可以自动分区）。</p>
+我选择的是手动分区， 整个区大概有18G，swap 分区1G（我内存2G），/ 分区为 8G，剩下的都给了 /home 分区（也可以自动分区）。    <br/>
+c) <em>部分参考配置</em>
+<code>
+title Install Ubuntu
+root (hd0,0)
+kernel (hd0,0)/vmlinuz boot=casper iso-scan/filename=/ubuntu-11.04-desktop-i386.iso ro quiet splash locale=zh_CN.UTF-8
+initrd (hd0,0)/initrd.lz
+</code></p>
 
 <h3>Ubuntu的使用</h3>
 
@@ -460,6 +610,7 @@ sudo update-grub
 参考这个 <a href="http://lookluk.blogbus.com/logs/56313760.html">Ubuntu 9.10 修改Grub启动项等待时间</a>
 <code>
 sudo gedit /etc/default/grub
+sudo update-grub
 </code>
 修改 GRUB_TIMEOUT=10，默认10s，修改为自己想要的吧（e.g. GRUB_TIMEOUT=3）</p>
 
@@ -498,11 +649,13 @@ df -h #查硬盘
 简单，下载chrome（deb包），一般默认就会使用“软件管理器”打开，即可安装，或者使用sudo dpkg -i xxx.deb 命令。   <br/>
 安装好了，当然要卸载默认的浏览器了——Firefox。个人选择chrome，是觉得比较轻便，随着现在的更加稳定（比如同步收藏夹什么的），现在已经变得很方便了，在不同的机器里用同一个账号几乎不会感觉到有什么差别的。</p>
 
-<p>7). 安装wine    <br/>
+<p><del>
+7). 安装wine            <br/>
 a)  安装    <br/>
 安装应该很简单，关键是一些配置，比如关于中文字体方面的可能麻烦的，可以参考 <a href="http://wiki.ubuntu.org.cn/Wine">Ubuntu Wine Wiki</a> 和 <a href="http://forum.ubuntu.org.cn/viewtopic.php?t=72933">Wine完全使用指南——从基本到高级</a>         <br/>
 b)  中文乱码      <br/>
-还是没搞定，本想通过wine来安装一个Evernote和QQ的，不过还是有很多问题，现在也只能通过浏览器，以后很必须的时候再想办法了，e.g.安装个虚拟机。</p>
+还是没搞定，本想通过wine来安装一个Evernote和QQ的，不过还是有很多问题，现在也只能通过浏览器，以后很必须的时候再想办法了，e.g.安装个虚拟机。
+</del></p>
 
 <p>8). 解决切换到Windows7系统后，时间错误的问题              <br/>
 我从Ubuntu切换到Windows7后，发现时间是不正确的，修改方法参考 <a href="http://quanyu.blog.163.com/blog/static/12374147220109244824774/">解决Winddows和Ubuntu的时间差</a>
@@ -546,7 +699,10 @@ vi pwf #进入编辑模式，粘贴下面的代码后保存</p>
 <p>```</p>
 
 <p>11).     如果想删除Ubuntu系统，那么如何做了     <br/>
-比较简单，参考这篇文章就可以搞定了，<a href="http://www.cppblog.com/koson/archive/2010/03/24/110433.html">win7，ubuntu双系统删除ubuntu</a>。</p>
+比较简单，参考这篇文章就可以搞定了，<a href="http://www.sysint.no/nedlasting/mbrfix.htm">MBR Fix - Fix MBR problems</a>，<a href="http://www.cppblog.com/koson/archive/2010/03/24/110433.html">win7，ubuntu双系统删除ubuntu</a>。 <br/>
+<code>
+MbrFix /drive 0 fixmbr /yes
+</code></p>
 
 <p>12).     快捷键    <br/>
 完整的Ubuntu里的快捷键可以看这里：<a href="http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE">Gnome快捷键</a> ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。      <br/>
@@ -579,19 +735,108 @@ alias vi=vim</p>
 tail ../logs/catalina.out -f
 ```</p>
 
-<p>15). 后台运行
+<p>15). 后台运行     <br/>
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  &amp; 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 <a href="http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/">Linux 技巧：让进程在后台可靠运行的几种方法</a></p>
+
+<p>16). 开启ssh服务
+<code>bash
+sudo apt-get install openssh-server
+</code></p>
+
+<p>17）使用root用户 <br/>
+终端下执行命令的时候经常需要root用户的情况下，可以最开始就使用root用户
+<code>
+sudo su
+</code>
+或者直接在Ubuntu中使用用root帐号
+<code>
+sudo passwd root
+</code>
+设置密码后就可以用使用root账号了</p>
+
+<p>18) 修改为英文   <br/>
+10.04 版本还是有点问题，修改后，home文件夹下的类似“下载”文件夹还是中文，下次安装的时候记得默认选择英文语言</p>
+
+<p>19) ubuntu下终端路径只显示当前目录<br/>
+参考 <a href="http://www.issacy.com/archives/519.html">ubuntu下终端路径只显示当前目录</a></p>
+
+<p>20) 安装jdk <br/>
+参考<a href="http://blog.csdn.net/yang_hui1986527/article/details/6677450">Ubuntu 11.04 下安装配置 JDK 7</a> 和 <a href="http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Java安装配置</a>
+<code>bash ~/.bashrc
+export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_38
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+</code></p>
+
+<p>21) 安装Tomcat  <br/>
+下载并解压即可</p>
+
+<p>22) 固定ip      <br/>
+开通ssh服务后，如果ip经常变动的话，就会很不方便。固定ip就会更会的提供服务。     <br/>
+参考<a href="http://blog.csdn.net/tzb251316192/article/details/7520210">ubuntu 12.04 以固定 IP 地址连接网络并配置DNS</a>
+``` bash /etc/network/interfaces
+auto eth0
+iface eth0 inet static</p>
+
+<pre><code>address 192.168.1.105
+netmask 255.255.255.0
+gateway 192.168.1.1
+dns-nameservers 202.96.134.133 202.96.128.166
+</code></pre>
+
+<p>```</p>
+
+<p>23) 安装Memcached       <br/>
+Memcached 的安装可以自己编译或者直接安装，请参考<a href="http://www.mike.org.cn/articles/ubuntu-install-memcached/">Ubuntu下安装Memcached</a> 这篇文章，写的很详细，出现的问题也给出了解决方案。      <br/>
+这里就仅贴出启动和关闭Memcached的shell
+``` bash startup.sh</p>
+
+<h1>!/bin/bash</h1>
+
+<p>ulimit -SHn 65000
+ulimit -l unlimited</p>
+
+<p>/usr/local/memcached/bin/memcached  -d -p 11211 -m 1024 -u root -P /tmp/memcached.pid
+<code>
+</code> bash shutdown.sh</p>
+
+<h1>!/bin/bash</h1>
+
+<p>kill <code>cat /tmp/memcached.pid</code></p>
+
+<p>ps -ef |grep memcached|awk '{print $2}'|xargs -l -t kill
+<code>
+</code> bash memcached(开机自启动)
+ln -s  /usr/local/memcached/bin/startup.sh /etc/init.d/memcached
+update-rc.d /etc/init.d/memcached defaults
+```</p>
+
+<p>24) 安装nginx   <br/>
+编译安装最新稳定版nginx请看<a href="http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html">Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp</a>,写的很详细，其中nginx开机自启动的文章 <a href="http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html">Ubuntu Nginx 开机自启动</a> 也很不错</p>
+
+<p>25)</p>
 
 <p>xx).    待续…</p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 QQ：506817493 或 Email：<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x6c;&#101;&#x65;&#115;&#104;&#x75;&#x6e;&#108;&#105;&#64;&#x71;&#113;&#46;&#x63;&#111;&#109;">&#108;&#101;&#101;&#x73;&#104;&#x75;&#x6e;&#x6c;&#x69;&#x40;&#113;&#113;&#x2e;&#99;&#111;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+<p>注:
+上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
+
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 Email：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#108;&#x65;&#101;&#x73;&#104;&#117;&#110;&#x6c;&#105;&#64;&#113;&#113;&#46;&#x63;&#111;&#109;">&#108;&#101;&#101;&#115;&#x68;&#x75;&#x6e;&#108;&#x69;&#64;&#113;&#113;&#46;&#99;&#x6f;&#109;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
-2012年4月14日<br>
-最后更新于2012年4月26日
+2012年4月14日
 </p>
 
+
+<h3>更新历史</h3>
+
+<p>2013-01-08 继续更新使用中遇到的问题并安装一些服务软件 [22,23,24]         <br/>
+2013-01-06 添加开启ssh服务等内容 [16,17,18,19,20,21] <br/>
+2013-01-03 更新文章的死亡链接，使用后添加更多的注意点<br/>
+2012-04-26 添加重启tomcat服务器脚本和后台运行 [14,15]   <br/>
+2012-04-14 初步完成部分的使用习惯</p>
 ]]></content>
   </entry>
   
