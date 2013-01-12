@@ -156,23 +156,17 @@ tail ../logs/catalina.out -f
 
 15). 后台运行		
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  & 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 [Linux 技巧：让进程在后台可靠运行的几种方法](http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/)		
-
-16). 开启ssh服务
+		
+16). 开启ssh服务		
+使用`sudo apt-get install openssh-server`来安装ssh服务，后面发现在每次使用ssh登录系统的时候，都需要等待比较长的时间，也比较好解决			
 ``` bash
-sudo apt-get install openssh-server
-```
+echo "UseDNS no" >> /etc/ssh/sshd_config
+sudo service ssh restart
+```	
 	
 17）使用root用户	
-终端下执行命令的时候经常需要root用户的情况下，可以最开始就使用root用户
-```
-sudo su
-```
-或者直接在Ubuntu中使用用root帐号
-```
-sudo passwd root
-```
-设置密码后就可以用使用root账号了
-	
+终端下执行命令的时候经常需要root用户的情况下，可以`sudo su`在命令开始就使用root用户，或者`sudo passwd root`直接在Ubuntu中使用用root帐号，设置密码后就可以用使用root账号了
+		
 18) 修改为英文		
 10.04 版本还是有点问题，修改后，home文件夹下的类似“下载”文件夹还是中文，下次安装的时候记得默认选择英文语言
 	
@@ -243,6 +237,7 @@ xx).	待续…
 </p>
 
 ### 更新历史	
+2013-01-12 解决ssh登录等待时间长的问题 [16]		
 2013-01-08 继续更新使用中遇到的问题并安装一些服务软件 [22,23,24]			
 2013-01-06 添加开启ssh服务等内容 [16,17,18,19,20,21]	
 2013-01-03 更新文章的死亡链接，使用后添加更多的注意点	
