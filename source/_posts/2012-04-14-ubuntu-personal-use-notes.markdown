@@ -144,48 +144,19 @@ source .bashrc # 立即生效
 ```
 {% img /images/ubuntu-personal-use-notes/load.png %}			
 		
-14). 重启tomcat服务器		
-又是shell编程，可见了解shell很重要啊。新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。
-```  bash restart.sh
-#!/bin/sh
-
-ps -ef|grep tomcat |awk '{print $2}' |xargs kill -9
-./startup.sh
-tail ../logs/catalina.out -f
-```
-
-15). 后台运行		
+14). 后台运行		
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  & 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 [Linux 技巧：让进程在后台可靠运行的几种方法](http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/)		
 		
-16). 开启ssh服务		
-使用`sudo apt-get install openssh-server`来安装ssh服务，后面发现在每次使用ssh登录系统的时候，都需要等待比较长的时间，也比较好解决			
-``` bash
-echo "UseDNS no" >> /etc/ssh/sshd_config
-sudo service ssh restart
-```	
-	
-17）使用root用户	
+15). 使用root用户	
 终端下执行命令的时候经常需要root用户的情况下，可以`sudo su`在命令开始就使用root用户，或者`sudo passwd root`直接在Ubuntu中使用用root帐号，设置密码后就可以用使用root账号了
-		
-18) 修改为英文		
+			
+16). 修改为英文		
 10.04 版本还是有点问题，修改后，home文件夹下的类似“下载”文件夹还是中文，下次安装的时候记得默认选择英文语言
 	
-19) ubuntu下终端路径只显示当前目录	
+17). ubuntu下终端路径只显示当前目录			
 参考 [ubuntu下终端路径只显示当前目录](http://www.issacy.com/archives/519.html)
 	
-20) 安装jdk	
-参考[Ubuntu 11.04 下安装配置 JDK 7](http://blog.csdn.net/yang_hui1986527/article/details/6677450) 和 [Java安装配置](http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE)
-``` bash ~/.bashrc
-export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_38
-export JRE_HOME=${JAVA_HOME}/jre
-export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
-export PATH=${JAVA_HOME}/bin:$PATH
-```
-	
-21) 安装Tomcat	
-下载并解压即可
-	
-22) 固定ip		
+18). 固定ip		
 开通ssh服务后，如果ip经常变动的话，就会很不方便。固定ip就会更会的提供服务。		
 参考[ubuntu 12.04 以固定 IP 地址连接网络并配置DNS](http://blog.csdn.net/tzb251316192/article/details/7520210)
 ``` bash /etc/network/interfaces
@@ -196,50 +167,14 @@ iface eth0 inet static
     gateway 192.168.1.1
     dns-nameservers 202.96.134.133 202.96.128.166
 ```
-
-23) 安装Memcached			
-Memcached 的安装可以自己编译或者直接安装，请参考[Ubuntu下安装Memcached](http://www.mike.org.cn/articles/ubuntu-install-memcached/) 这篇文章，写的很详细，出现的问题也给出了解决方案。		
-这里就仅贴出启动和关闭Memcached的shell
-``` bash startup.sh
-#!/bin/bash
-
-ulimit -SHn 65000
-ulimit -l unlimited
-
-/usr/local/memcached/bin/memcached  -d -p 11211 -m 1024 -u root -P /tmp/memcached.pid
-```
-``` bash shutdown.sh
-#!/bin/bash
-kill `cat /tmp/memcached.pid`
-
-ps -ef |grep memcached|awk '{print $2}'|xargs -l -t kill 
-```
-``` bash memcached(开机自启动)
-ln -s  /usr/local/memcached/bin/startup.sh /etc/init.d/memcached
-update-rc.d /etc/init.d/memcached defaults
-```
-
-24) 安装nginx		
-编译安装最新稳定版nginx请看[Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp](http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html),写的很详细，其中nginx开机自启动的文章 [Ubuntu Nginx 开机自启动](http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html) 也很不错
-		
-25)
-		
-xx).	待续…		
 		
 注:
-上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo	
+上面的有部分命令都是以root用户执行的，如果权限不够，请加上sudo	
 	
-如果有什么建议或问题的话，可以通过微博 <http://weibo.com/lishunli> 或 Email：<leeshunli@qq.com> 联系到我，大家一起交流学习。		
+如果有什么建议或问题的话，可以通过微博 [@李顺利Me](http://weibo.com/lishunli) 或 Email：<leeshunli@qq.com> 联系到我，大家一起交流学习。		
 	
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>		
-2012年4月14日
+2012年4月14日<br>
+最后更新于2013年1月13日
 </p>
-
-### 更新历史	
-2013-01-12 解决ssh登录等待时间长的问题 [16]		
-2013-01-08 继续更新使用中遇到的问题并安装一些服务软件 [22,23,24]			
-2013-01-06 添加开启ssh服务等内容 [16,17,18,19,20,21]	
-2013-01-03 更新文章的死亡链接，使用后添加更多的注意点	
-2012-04-26 添加重启tomcat服务器脚本和后台运行 [14,15]		
-2012-04-14 初步完成部分的使用习惯	
