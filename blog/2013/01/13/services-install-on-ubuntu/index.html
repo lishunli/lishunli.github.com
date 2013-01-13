@@ -1,0 +1,591 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ubuntu下常见服务的安装笔记 - 等待着你</title>
+  <meta name="author" content="李顺利">
+  
+  
+  <meta name="description" content="lishunlis' github homepage">
+  <meta name="keywords" content="lishunli, 李顺利, java, javaee, code, it, javase, ruby, groovy, share, linux, shell, tips">
+ 
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="等待着你" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-27888702-8']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">等待着你</a></h1>
+  
+    <h2>码民 软件控 喜欢学习 热衷分享 挚爱Java</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:lishunli.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">博客</a></li>
+  <li><a href="/blog/aboutme">关于我</a></li>
+  <li><a href="/blog/archives">博客归档</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Ubuntu下常见服务的安装笔记</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T22:13:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>前面写过一篇博文<a href="http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>，大致介绍了一下如何安装ubuntu和一些使用技巧。最近在学习一些常用的服务，比如nginx，mc等，这里做些笔记。</p>
+
+<!-- more -->
+
+
+<h2>开启ssh服务</h2>
+
+<p>使用<code>sudo apt-get install openssh-server</code>来安装ssh服务，后面发现在每次使用ssh登录系统的时候，都需要等待比较长的时间，也比较好解决</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">echo</span> <span class="s2">&quot;UseDNS no&quot;</span> &gt;&gt; /etc/ssh/sshd_config
+</span><span class='line'>sudo service ssh restart
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<h2>安装jdk</h2>
+
+<p>参考<a href="http://blog.csdn.net/yang_hui1986527/article/details/6677450">Ubuntu 11.04 下安装配置 JDK 7</a> 和 <a href="http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Java安装配置</a></p>
+
+<figure class='code'><figcaption><span>~/.bashrc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vi ~/.bashrc
+</span><span class='line'><span class="c">#在最后加上下面的环境配置语句</span>
+</span><span class='line'><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/jdk1.6.0_38
+</span><span class='line'><span class="nb">export </span><span class="nv">JRE_HOME</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/jre
+</span><span class='line'><span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/lib:<span class="k">${</span><span class="nv">JRE_HOME</span><span class="k">}</span>/lib
+</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/bin:<span class="nv">$PATH</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装Tomcat</h2>
+
+<p>下载并解压即可，可以修改一些默认的配置，比如8080端口，和Root下默认的manage页面（删除webapps/ROOT/下所有文件，添加index.html）,定制一下404页面（可以支持公益<a href="http://yibo.iyiyun.com/">益播-公益广告</a>）</p>
+
+<p>重启tomcat服务器是经常要做的一件事情，请新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。</p>
+
+<figure class='code'><figcaption><span>restart.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'>ps -ef|grep tomcat |awk <span class="s1">&#39;{print $2}&#39;</span> |xargs <span class="nb">kill</span> -9
+</span><span class='line'>./startup.sh
+</span><span class='line'>tail ../logs/catalina.out -f
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装Memcached</h2>
+
+<p>Memcached 的安装可以自己编译或者直接安装，请参考<a href="http://www.mike.org.cn/articles/ubuntu-install-memcached/">Ubuntu下安装Memcached</a> 这篇文章，写的很详细，出现的问题也给出了解决方案。      <br/>
+这里就仅贴出启动和关闭Memcached的shell</p>
+
+<figure class='code'><figcaption><span>startup.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">ulimit</span> -SHn 65000
+</span><span class='line'><span class="nb">ulimit</span> -l unlimited
+</span><span class='line'>
+</span><span class='line'>/usr/local/memcached/bin/memcached  -d -p 11211 -m 1024 -u root -P /tmp/memcached.pid
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>shutdown.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="nb">kill</span> <span class="sb">`</span>cat /tmp/memcached.pid<span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'>ps -ef |grep memcached|awk <span class="s1">&#39;{print $2}&#39;</span>|xargs -l -t <span class="nb">kill</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>memcached(开机自启动)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s  /usr/local/memcached/bin/startup.sh /etc/init.d/memcached
+</span><span class='line'>update-rc.d memcached defaults
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装nginx</h2>
+
+<p>编译安装最新稳定版nginx请看<a href="http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html">Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp</a>,写的很详细，其中nginx开机自启动的文章 <a href="http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html">Ubuntu Nginx 开机自启动</a> 也很不错      <br/>
+我的启动和关闭shell</p>
+
+<figure class='code'><figcaption><span>restartup.sh(也可以做启动shell)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">PATH</span><span class="o">=</span>/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+</span><span class='line'><span class="nb">export </span>PATH
+</span><span class='line'>
+</span><span class='line'><span class="nb">ulimit</span> -HSn 65535
+</span><span class='line'><span class="nb">ulimit</span> -a
+</span><span class='line'>
+</span><span class='line'><span class="nb">cd</span> <span class="sb">`</span>dirname <span class="nv">$0</span><span class="sb">`</span>
+</span><span class='line'><span class="nv">base_dir</span><span class="o">=</span><span class="sb">`</span><span class="nb">pwd</span><span class="sb">`</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">is_force_restart</span><span class="o">=</span>0
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="nv">$# </span>-gt 0 -a <span class="s2">&quot;x$1&quot;</span> <span class="o">=</span> <span class="s2">&quot;xrestart&quot;</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">    </span><span class="nv">is_force_restart</span><span class="o">=</span>1
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">ports</span><span class="o">=</span><span class="s2">&quot;80&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>p in <span class="k">${</span><span class="nv">ports</span><span class="k">}</span>
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">    if</span> <span class="o">[</span> <span class="k">${</span><span class="nv">is_force_restart</span><span class="k">}</span> -eq 1 <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">        </span><span class="nb">echo</span> <span class="s2">&quot;kill process for port ${p}...&quot;</span>
+</span><span class='line'>        fuser -s -n tcp -k -9 <span class="k">${</span><span class="nv">p</span><span class="k">}</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">done</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">for </span>one_port in <span class="k">${</span><span class="nv">ports</span><span class="k">}</span>
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">    </span>nc -z localhost <span class="k">${</span><span class="nv">one_port</span><span class="k">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -ne 0 <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">        </span><span class="nb">echo</span> <span class="s2">&quot;start process for port ${one_port}...&quot;</span>
+</span><span class='line'>        /usr/local/nginx/sbin/nginx
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'><span class="k">        </span><span class="nb">echo</span> <span class="s2">&quot;process for port ${one_port} is running!&quot;</span>
+</span><span class='line'>    <span class="k">fi</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>shutdown.sh(很暴力)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">nginx_pid</span><span class="o">=</span><span class="s2">&quot;/usr/local/nginx/logs/nginx.pid&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> -f <span class="nv">$nginx_pid</span> <span class="o">]</span>; <span class="k">then</span>
+</span><span class='line'><span class="k">        </span><span class="nb">kill</span> <span class="sb">`</span>cat <span class="nv">$nginx_pid</span><span class="sb">`</span>
+</span><span class='line'><span class="k">fi</span>
+</span><span class='line'>
+</span><span class='line'>ps -ef |grep nginx|awk <span class="s1">&#39;{print $2}&#39;</span>|xargs -l -t <span class="nb">kill</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<figure class='code'><figcaption><span>nginx(开机自启动)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s  /usr/local/nginx/sbin/restart.sh /etc/init.d/nginx
+</span><span class='line'>update-rc.d nginx defaults
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>安装Mysql</h2>
+
+<p>使用<code>apt-get install mysql-server</code>来安装mysql服务端，同时终端会请求输入root用户密码，这里本人设置的密码是<code>lishunli</code>。</p>
+
+<p>如果要远程登录，请先使用<code>mysql -uroot -plishunli</code>进入mysql控制台，再使用<code>grant all privileges on *.* to root@"%" identified by "lishunli";</code>分配所有表远程连接的权限给root用户，最后退出mysql控制台，编辑<code>/etc/mysql/my.cnf</code>，在该文件中找到 bind-address = 127.0.0.1 的位置，将其更改为 bind-address=你本机的网络IP，比如我这就是<code>bind-address = 192.168.1.105</code>    。参考<a href="http://blogread.cn/it/article/521?f=wb">MySql重启命令与数据库安装目录</a> 和 <a href="http://wiki.ubuntu.org.cn/MySQL%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97">MySQL安装指南</a></p>
+
+<p>后来发现远程连接mysql很慢，网上给出的解决办法是在<code>/etc/mysql/my.cnf</code>配置文件中的<code>[mysqld]</code>后面加上<code>skip-name-resolve</code>，再<code>/etc/init.d/mysql restart</code>重启mysql即可。引自<a href="http://www.helloox.com/760.html">MYSQL远程连接速度慢的解决方法</a></p>
+
+<p>Mysql默认的编码格式是latin格式，当然修改成utf8更加方便处理中文</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>vi /etc/mysql/my.cnf
+</span><span class='line'><span class="c">#在[mysqld]下面加入一行</span>
+</span><span class='line'><span class="nv">character_set_server</span> <span class="o">=</span> utf8
+</span><span class='line'><span class="c">#在[mysql]下面加入一行</span>
+</span><span class='line'>default-character-set <span class="o">=</span> utf8
+</span><span class='line'>/etc/init.d/mysql restart
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>注:
+上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</strong></p>
+
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#x6c;&#x65;&#101;&#x73;&#x68;&#117;&#x6e;&#x6c;&#105;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#108;&#101;&#101;&#115;&#104;&#117;&#110;&#x6c;&#x69;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#109;</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2013年1月13日
+</p>
+
+
+<h3>更新历史</h3>
+
+<p>2013-01-13 添加mysql服务，并修改一些默认配置    <br/>
+2013-01-12 解决ssh登录等待时间长的问题，添加nginx启动和关闭shell      <br/>
+2013-01-08 继续更新使用中遇到的问题并安装一些服务软件            <br/>
+2013-01-06 添加开启ssh服务等内容</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">李顺利</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-13T22:13:00+08:00" pubdate data-updated="true">Jan 13<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/tips/'>Tips</a>, <a class='category' href='/blog/categories/ubuntu/'>Ubuntu</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <span>
+  <iframe 
+    width="86" 
+    scrolling="no" 
+    height="16" 
+    frameborder="0" 
+    src=
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu/&amp;type=6&amp;ralateUid=1563517210&amp;language=zh_cn" allowtransparency="true">
+  </iframe>
+  </span>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu/" data-via="" data-counturl="http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+<hr style="border-bottom:1px dotted #bdbabd;height:1px;border-top:0px;border-left:0px;border-right:0px;" />
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/12/16/jms-usage-in-spring-and-weblogic/" title="Previous Post: Spring + Weblogic 下的JMS使用">&laquo; Spring + Weblogic 下的JMS使用</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>关于我</h1>
+<p>
+QQ:506817493</br>
+MSN:lishunli(at)live.com</br>
+Email:lishunli.me(at)gmail.com</br>
+weibo:<a href="http://weibo.com/lishunli" target="_blank">@李顺利Me</a></br>
+Twitter:<a href="https://twitter.com/lishunli" target="_blank">@lishunli</a></br>
+Facebook:lishunli</br>
+</p>
+</section>
+
+
+<section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/13/services-install-on-ubuntu/">Ubuntu下常见服务的安装笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/16/jms-usage-in-spring-and-weblogic/">Spring + Weblogic 下的JMS使用</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/10/16/lottery-within-different-probability/">不同概率的抽奖</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>分类</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/linux/'>Linux (2)</a></li>
+<li class='category'><a href='/blog/categories/soapui/'>SoapUI (1)</a></li>
+<li class='category'><a href='/blog/categories/tips/'>Tips (4)</a></li>
+<li class='category'><a href='/blog/categories/ubuntu/'>Ubuntu (2)</a></li>
+<li class='category'><a href='/blog/categories/concurrent/'>concurrent (2)</a></li>
+<li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
+<li class='category'><a href='/blog/categories/jdk/'>jdk (2)</a></li>
+<li class='category'><a href='/blog/categories/others/'>others (2)</a></li>
+<li class='category'><a href='/blog/categories/ssh/'>ssh (1)</a></li>
+
+  </ul>
+</section><section>
+  <h1>博客链接</h1>
+  <ul>
+    <li>
+      <a href="http://coolshell.cn/">酷壳CoolShell</a>
+    </li>
+    <li>
+      <a href="http://blogjava.net/lishunli">李顺利</a>
+    </li>
+	<li>
+      <a href="https://code.google.com/p/usc/">USC's Google Code</a>
+    </li>
+  </ul>
+</section>
+
+
+<section>
+  <h1><a href = "http://weibo.com/lishunli" target="_blank">新浪微博</a></h1>
+  <ul id="weibo">
+    <li>
+      <iframe 
+        width="100%" 
+        height="550" 
+        class="share_self" 
+        frameborder="0" 
+        scrolling="no" 
+        src="http://widget.weibo.com/weiboshow/index.php?width=0&height=550&ptype=1&speed=0&skin=&isTitle=0&noborder=1&isWeibo=1&isFans=&uid=1563517210&verifier=16a8c253">
+      </iframe>
+    </li>
+  </ul>
+</section>
+
+
+
+
+
+
+<section>
+<h1>豆瓣</h1>
+<div>
+<script type="text/javascript" src="http://www.douban.com/service/badge/lishunli/?show=collection&amp;n=12&amp;columns=3" ></script>
+</div>
+</section>
+<section>
+  <h1>分享</h1>
+  <p>
+   <img class="center" alt="License" src="/images/license.png" />
+  本站所有作品采用<a href="http://creativecommons.org/licenses/by-nc-sa/2.5/cn/">知识共享署名-非商业性使用-相同方式共享 2.5 中国大陆许可协议</a>进行许可。
+  </p>
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - <a href="http://blogjava.net/lishunli" target="_blank">李顺利</a> -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'lishunli';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu/';
+        var disqus_url = 'http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

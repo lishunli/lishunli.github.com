@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 等待着你]]></title>
   <link href="http://lishunli.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://lishunli.github.com/"/>
-  <updated>2013-01-10T20:27:35+08:00</updated>
+  <updated>2013-01-13T22:49:32+08:00</updated>
   <id>http://lishunli.github.com/</id>
   <author>
     <name><![CDATA[李顺利]]></name>
@@ -12,6 +12,192 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu下常见服务的安装笔记]]></title>
+    <link href="http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu/"/>
+    <updated>2013-01-13T22:13:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2013/01/13/services-install-on-ubuntu</id>
+    <content type="html"><![CDATA[<p>前面写过一篇博文<a href="http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>，大致介绍了一下如何安装ubuntu和一些使用技巧。最近在学习一些常用的服务，比如nginx，mc等，这里做些笔记。</p>
+
+<!-- more -->
+
+
+<h2>开启ssh服务</h2>
+
+<p>使用<code>sudo apt-get install openssh-server</code>来安装ssh服务，后面发现在每次使用ssh登录系统的时候，都需要等待比较长的时间，也比较好解决          <br/>
+<code>bash
+echo "UseDNS no" &gt;&gt; /etc/ssh/sshd_config
+sudo service ssh restart
+</code></p>
+
+<h2>安装jdk</h2>
+
+<p>参考<a href="http://blog.csdn.net/yang_hui1986527/article/details/6677450">Ubuntu 11.04 下安装配置 JDK 7</a> 和 <a href="http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Java安装配置</a>
+``` bash ~/.bashrc
+vi ~/.bashrc</p>
+
+<h1>在最后加上下面的环境配置语句</h1>
+
+<p>export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_38
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+```</p>
+
+<h2>安装Tomcat</h2>
+
+<p>下载并解压即可，可以修改一些默认的配置，比如8080端口，和Root下默认的manage页面（删除webapps/ROOT/下所有文件，添加index.html）,定制一下404页面（可以支持公益<a href="http://yibo.iyiyun.com/">益播-公益广告</a>）</p>
+
+<p>重启tomcat服务器是经常要做的一件事情，请新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。
+```  bash restart.sh</p>
+
+<h1>!/bin/sh</h1>
+
+<p>ps -ef|grep tomcat |awk '{print $2}' |xargs kill -9
+./startup.sh
+tail ../logs/catalina.out -f
+```</p>
+
+<h2>安装Memcached</h2>
+
+<p>Memcached 的安装可以自己编译或者直接安装，请参考<a href="http://www.mike.org.cn/articles/ubuntu-install-memcached/">Ubuntu下安装Memcached</a> 这篇文章，写的很详细，出现的问题也给出了解决方案。      <br/>
+这里就仅贴出启动和关闭Memcached的shell
+``` bash startup.sh</p>
+
+<h1>!/bin/bash</h1>
+
+<p>ulimit -SHn 65000
+ulimit -l unlimited</p>
+
+<p>/usr/local/memcached/bin/memcached  -d -p 11211 -m 1024 -u root -P /tmp/memcached.pid
+<code>
+</code> bash shutdown.sh</p>
+
+<h1>!/bin/bash</h1>
+
+<p>kill <code>cat /tmp/memcached.pid</code></p>
+
+<p>ps -ef |grep memcached|awk '{print $2}'|xargs -l -t kill
+<code>
+</code> bash memcached(开机自启动)
+ln -s  /usr/local/memcached/bin/startup.sh /etc/init.d/memcached
+update-rc.d memcached defaults
+```</p>
+
+<h2>安装nginx</h2>
+
+<p>编译安装最新稳定版nginx请看<a href="http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html">Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp</a>,写的很详细，其中nginx开机自启动的文章 <a href="http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html">Ubuntu Nginx 开机自启动</a> 也很不错      <br/>
+我的启动和关闭shell
+``` bash restartup.sh(也可以做启动shell)</p>
+
+<h1>!/bin/sh</h1>
+
+<p>PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
+export PATH</p>
+
+<p>ulimit -HSn 65535
+ulimit -a</p>
+
+<p>cd <code>dirname $0</code>
+base_dir=<code>pwd</code></p>
+
+<p>is_force_restart=0
+if [ $# -gt 0 -a "x$1" = "xrestart" ]; then</p>
+
+<pre><code>is_force_restart=1
+</code></pre>
+
+<p>fi</p>
+
+<p>ports="80"</p>
+
+<p>for p in ${ports}
+do</p>
+
+<pre><code>if [ ${is_force_restart} -eq 1 ]; then
+    echo "kill process for port ${p}..."
+    fuser -s -n tcp -k -9 ${p}
+fi
+</code></pre>
+
+<p>done</p>
+
+<p>for one_port in ${ports}
+do</p>
+
+<pre><code>nc -z localhost ${one_port}
+if [ $? -ne 0 ]; then
+    echo "start process for port ${one_port}..."
+    /usr/local/nginx/sbin/nginx
+else
+    echo "process for port ${one_port} is running!"
+fi
+</code></pre>
+
+<p>done
+<code>
+</code> bash shutdown.sh(很暴力)</p>
+
+<h1>!/bin/bash</h1>
+
+<p>nginx_pid="/usr/local/nginx/logs/nginx.pid"</p>
+
+<p>if [ -f $nginx_pid ]; then</p>
+
+<pre><code>    kill `cat $nginx_pid`
+</code></pre>
+
+<p>fi</p>
+
+<p>ps -ef |grep nginx|awk '{print $2}'|xargs -l -t kill
+<code>
+</code> bash nginx(开机自启动)
+ln -s  /usr/local/nginx/sbin/restart.sh /etc/init.d/nginx
+update-rc.d nginx defaults
+```</p>
+
+<h2>安装Mysql</h2>
+
+<p>使用<code>apt-get install mysql-server</code>来安装mysql服务端，同时终端会请求输入root用户密码，这里本人设置的密码是<code>lishunli</code>。</p>
+
+<p>如果要远程登录，请先使用<code>mysql -uroot -plishunli</code>进入mysql控制台，再使用<code>grant all privileges on *.* to root@"%" identified by "lishunli";</code>分配所有表远程连接的权限给root用户，最后退出mysql控制台，编辑<code>/etc/mysql/my.cnf</code>，在该文件中找到 bind-address = 127.0.0.1 的位置，将其更改为 bind-address=你本机的网络IP，比如我这就是<code>bind-address = 192.168.1.105</code>    。参考<a href="http://blogread.cn/it/article/521?f=wb">MySql重启命令与数据库安装目录</a> 和 <a href="http://wiki.ubuntu.org.cn/MySQL%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97">MySQL安装指南</a></p>
+
+<p>后来发现远程连接mysql很慢，网上给出的解决办法是在<code>/etc/mysql/my.cnf</code>配置文件中的<code>[mysqld]</code>后面加上<code>skip-name-resolve</code>，再<code>/etc/init.d/mysql restart</code>重启mysql即可。引自<a href="http://www.helloox.com/760.html">MYSQL远程连接速度慢的解决方法</a></p>
+
+<p>Mysql默认的编码格式是latin格式，当然修改成utf8更加方便处理中文
+``` bash
+vi /etc/mysql/my.cnf</p>
+
+<h1>在[mysqld]下面加入一行</h1>
+
+<p>character_set_server = utf8</p>
+
+<h1>在[mysql]下面加入一行</h1>
+
+<p>default-character-set = utf8
+/etc/init.d/mysql restart
+```</p>
+
+<p><strong>注:
+上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</strong></p>
+
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#108;&#x65;&#x65;&#115;&#104;&#117;&#x6e;&#108;&#105;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#101;&#x65;&#x73;&#x68;&#x75;&#110;&#108;&#x69;&#x40;&#x71;&#x71;&#x2e;&#99;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2013年1月13日
+</p>
+
+
+<h3>更新历史</h3>
+
+<p>2013-01-13 添加mysql服务，并修改一些默认配置    <br/>
+2013-01-12 解决ssh登录等待时间长的问题，添加nginx启动和关闭shell      <br/>
+2013-01-08 继续更新使用中遇到的问题并安装一些服务软件            <br/>
+2013-01-06 添加开启ssh服务等内容</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[我是这样使用Ubuntu的]]></title>
@@ -173,55 +359,19 @@ alias vi=vim</p>
 ```
 <img src="/images/ubuntu-personal-use-notes/load.png"></p>
 
-<p>14). 重启tomcat服务器    <br/>
-又是shell编程，可见了解shell很重要啊。新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。
-```  bash restart.sh</p>
-
-<h1>!/bin/sh</h1>
-
-<p>ps -ef|grep tomcat |awk '{print $2}' |xargs kill -9
-./startup.sh
-tail ../logs/catalina.out -f
-```</p>
-
-<p>15). 后台运行     <br/>
+<p>14). 后台运行     <br/>
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  &amp; 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 <a href="http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/">Linux 技巧：让进程在后台可靠运行的几种方法</a></p>
 
-<p>16). 开启ssh服务
-<code>bash
-sudo apt-get install openssh-server
-</code></p>
+<p>15). 使用root用户 <br/>
+终端下执行命令的时候经常需要root用户的情况下，可以<code>sudo su</code>在命令开始就使用root用户，或者<code>sudo passwd root</code>直接在Ubuntu中使用用root帐号，设置密码后就可以用使用root账号了</p>
 
-<p>17）使用root用户 <br/>
-终端下执行命令的时候经常需要root用户的情况下，可以最开始就使用root用户
-<code>
-sudo su
-</code>
-或者直接在Ubuntu中使用用root帐号
-<code>
-sudo passwd root
-</code>
-设置密码后就可以用使用root账号了</p>
-
-<p>18) 修改为英文   <br/>
+<p>16). 修改为英文      <br/>
 10.04 版本还是有点问题，修改后，home文件夹下的类似“下载”文件夹还是中文，下次安装的时候记得默认选择英文语言</p>
 
-<p>19) ubuntu下终端路径只显示当前目录<br/>
+<p>17). ubuntu下终端路径只显示当前目录       <br/>
 参考 <a href="http://www.issacy.com/archives/519.html">ubuntu下终端路径只显示当前目录</a></p>
 
-<p>20) 安装jdk <br/>
-参考<a href="http://blog.csdn.net/yang_hui1986527/article/details/6677450">Ubuntu 11.04 下安装配置 JDK 7</a> 和 <a href="http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Java安装配置</a>
-<code>bash ~/.bashrc
-export JAVA_HOME=/usr/lib/jvm/jdk1.6.0_38
-export JRE_HOME=${JAVA_HOME}/jre
-export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
-export PATH=${JAVA_HOME}/bin:$PATH
-</code></p>
-
-<p>21) 安装Tomcat  <br/>
-下载并解压即可</p>
-
-<p>22) 固定ip      <br/>
+<p>18). 固定ip     <br/>
 开通ssh服务后，如果ip经常变动的话，就会很不方便。固定ip就会更会的提供服务。     <br/>
 参考<a href="http://blog.csdn.net/tzb251316192/article/details/7520210">ubuntu 12.04 以固定 IP 地址连接网络并配置DNS</a>
 ``` bash /etc/network/interfaces
@@ -236,56 +386,17 @@ dns-nameservers 202.96.134.133 202.96.128.166
 
 <p>```</p>
 
-<p>23) 安装Memcached       <br/>
-Memcached 的安装可以自己编译或者直接安装，请参考<a href="http://www.mike.org.cn/articles/ubuntu-install-memcached/">Ubuntu下安装Memcached</a> 这篇文章，写的很详细，出现的问题也给出了解决方案。      <br/>
-这里就仅贴出启动和关闭Memcached的shell
-``` bash startup.sh</p>
-
-<h1>!/bin/bash</h1>
-
-<p>ulimit -SHn 65000
-ulimit -l unlimited</p>
-
-<p>/usr/local/memcached/bin/memcached  -d -p 11211 -m 1024 -u root -P /tmp/memcached.pid
-<code>
-</code> bash shutdown.sh</p>
-
-<h1>!/bin/bash</h1>
-
-<p>kill <code>cat /tmp/memcached.pid</code></p>
-
-<p>ps -ef |grep memcached|awk '{print $2}'|xargs -l -t kill
-<code>
-</code> bash memcached(开机自启动)
-ln -s  /usr/local/memcached/bin/startup.sh /etc/init.d/memcached
-update-rc.d /etc/init.d/memcached defaults
-```</p>
-
-<p>24) 安装nginx   <br/>
-编译安装最新稳定版nginx请看<a href="http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html">Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp</a>,写的很详细，其中nginx开机自启动的文章 <a href="http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html">Ubuntu Nginx 开机自启动</a> 也很不错</p>
-
-<p>25)</p>
-
-<p>xx).    待续…</p>
-
 <p>注:
-上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
+上面的有部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 Email：<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6c;&#x65;&#x65;&#115;&#x68;&#x75;&#x6e;&#x6c;&#x69;&#x40;&#x71;&#x71;&#46;&#x63;&#x6f;&#x6d;">&#108;&#101;&#x65;&#115;&#104;&#117;&#110;&#108;&#105;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#108;&#x65;&#101;&#x73;&#x68;&#117;&#110;&#108;&#105;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#x6c;&#x65;&#x65;&#115;&#x68;&#x75;&#110;&#x6c;&#x69;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
-2012年4月14日
+2012年4月14日<br>
+最后更新于2013年1月13日
 </p>
 
-
-<h3>更新历史</h3>
-
-<p>2013-01-08 继续更新使用中遇到的问题并安装一些服务软件 [22,23,24]         <br/>
-2013-01-06 添加开启ssh服务等内容 [16,17,18,19,20,21] <br/>
-2013-01-03 更新文章的死亡链接，使用后添加更多的注意点<br/>
-2012-04-26 添加重启tomcat服务器脚本和后台运行 [14,15]   <br/>
-2012-04-14 初步完成部分的使用习惯</p>
 ]]></content>
   </entry>
   

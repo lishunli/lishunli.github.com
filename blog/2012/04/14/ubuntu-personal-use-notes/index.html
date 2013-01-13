@@ -310,73 +310,19 @@ vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的�
 
 <p><img src="/images/ubuntu-personal-use-notes/load.png"></p>
 
-<p>14). 重启tomcat服务器    <br/>
-又是shell编程，可见了解shell很重要啊。新建一个restart.sh，并赋予执行的权限（chmod 744），里面写上下面的shell script，那么每次想重启tomcat的时候，到tomcat/bin目录下，执行./restart.sh就可以了（当然你可以配置tomcat/bin到path下）。</p>
-
-<figure class='code'><figcaption><span>restart.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'>
-</span><span class='line'>ps -ef|grep tomcat |awk <span class="s1">&#39;{print $2}&#39;</span> |xargs <span class="nb">kill</span> -9
-</span><span class='line'>./startup.sh
-</span><span class='line'>tail ../logs/catalina.out -f
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>15). 后台运行     <br/>
+<p>14). 后台运行     <br/>
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  &amp; 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 <a href="http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/">Linux 技巧：让进程在后台可靠运行的几种方法</a></p>
 
-<p>16). 开启ssh服务</p>
+<p>15). 使用root用户 <br/>
+终端下执行命令的时候经常需要root用户的情况下，可以<code>sudo su</code>在命令开始就使用root用户，或者<code>sudo passwd root</code>直接在Ubuntu中使用用root帐号，设置密码后就可以用使用root账号了</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install openssh-server
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>17）使用root用户 <br/>
-终端下执行命令的时候经常需要root用户的情况下，可以最开始就使用root用户</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo su
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或者直接在Ubuntu中使用用root帐号</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo passwd root
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>设置密码后就可以用使用root账号了</p>
-
-<p>18) 修改为英文   <br/>
+<p>16). 修改为英文      <br/>
 10.04 版本还是有点问题，修改后，home文件夹下的类似“下载”文件夹还是中文，下次安装的时候记得默认选择英文语言</p>
 
-<p>19) ubuntu下终端路径只显示当前目录<br/>
+<p>17). ubuntu下终端路径只显示当前目录       <br/>
 参考 <a href="http://www.issacy.com/archives/519.html">ubuntu下终端路径只显示当前目录</a></p>
 
-<p>20) 安装jdk <br/>
-参考<a href="http://blog.csdn.net/yang_hui1986527/article/details/6677450">Ubuntu 11.04 下安装配置 JDK 7</a> 和 <a href="http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Java安装配置</a></p>
-
-<figure class='code'><figcaption><span>~/.bashrc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nb">export </span><span class="nv">JAVA_HOME</span><span class="o">=</span>/usr/lib/jvm/jdk1.6.0_38
-</span><span class='line'><span class="nb">export </span><span class="nv">JRE_HOME</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/jre
-</span><span class='line'><span class="nb">export </span><span class="nv">CLASSPATH</span><span class="o">=</span>.:<span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/lib:<span class="k">${</span><span class="nv">JRE_HOME</span><span class="k">}</span>/lib
-</span><span class='line'><span class="nb">export </span><span class="nv">PATH</span><span class="o">=</span><span class="k">${</span><span class="nv">JAVA_HOME</span><span class="k">}</span>/bin:<span class="nv">$PATH</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>21) 安装Tomcat  <br/>
-下载并解压即可</p>
-
-<p>22) 固定ip      <br/>
+<p>18). 固定ip     <br/>
 开通ssh服务后，如果ip经常变动的话，就会很不方便。固定ip就会更会的提供服务。     <br/>
 参考<a href="http://blog.csdn.net/tzb251316192/article/details/7520210">ubuntu 12.04 以固定 IP 地址连接网络并配置DNS</a></p>
 
@@ -395,68 +341,17 @@ vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的�
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>23) 安装Memcached       <br/>
-Memcached 的安装可以自己编译或者直接安装，请参考<a href="http://www.mike.org.cn/articles/ubuntu-install-memcached/">Ubuntu下安装Memcached</a> 这篇文章，写的很详细，出现的问题也给出了解决方案。      <br/>
-这里就仅贴出启动和关闭Memcached的shell</p>
-
-<figure class='code'><figcaption><span>startup.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">ulimit</span> -SHn 65000
-</span><span class='line'><span class="nb">ulimit</span> -l unlimited
-</span><span class='line'>
-</span><span class='line'>/usr/local/memcached/bin/memcached  -d -p 11211 -m 1024 -u root -P /tmp/memcached.pid
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>shutdown.sh</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="nb">kill</span> <span class="sb">`</span>cat /tmp/memcached.pid<span class="sb">`</span>
-</span><span class='line'>
-</span><span class='line'>ps -ef |grep memcached|awk <span class="s1">&#39;{print $2}&#39;</span>|xargs -l -t <span class="nb">kill</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<figure class='code'><figcaption><span>memcached(开机自启动)</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>ln -s  /usr/local/memcached/bin/startup.sh /etc/init.d/memcached
-</span><span class='line'>update-rc.d /etc/init.d/memcached defaults
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>24) 安装nginx   <br/>
-编译安装最新稳定版nginx请看<a href="http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html">Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp</a>,写的很详细，其中nginx开机自启动的文章 <a href="http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html">Ubuntu Nginx 开机自启动</a> 也很不错</p>
-
-<p>25)</p>
-
-<p>xx).    待续…</p>
-
 <p>注:
-上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
+上面的有部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">http://weibo.com/lishunli</a> 或 Email：<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x6c;&#101;&#x65;&#x73;&#104;&#117;&#x6e;&#x6c;&#x69;&#64;&#113;&#x71;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#101;&#x65;&#x73;&#x68;&#x75;&#110;&#108;&#105;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;</a> 联系到我，大家一起交流学习。</p>
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#108;&#x65;&#x65;&#115;&#x68;&#x75;&#110;&#x6c;&#x69;&#64;&#x71;&#x71;&#46;&#99;&#111;&#x6d;">&#108;&#101;&#x65;&#x73;&#x68;&#x75;&#x6e;&#108;&#x69;&#x40;&#113;&#x71;&#46;&#99;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
-2012年4月14日
+2012年4月14日<br>
+最后更新于2013年1月13日
 </p>
 
-
-<h3>更新历史</h3>
-
-<p>2013-01-08 继续更新使用中遇到的问题并安装一些服务软件 [22,23,24]         <br/>
-2013-01-06 添加开启ssh服务等内容 [16,17,18,19,20,21] <br/>
-2013-01-03 更新文章的死亡链接，使用后添加更多的注意点<br/>
-2012-04-26 添加重启tomcat服务器脚本和后台运行 [14,15]   <br/>
-2012-04-14 初步完成部分的使用习惯</p>
 </div>
 
 
@@ -554,6 +449,10 @@ Facebook:lishunli</br>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/13/services-install-on-ubuntu/">Ubuntu下常见服务的安装笔记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/12/16/jms-usage-in-spring-and-weblogic/">Spring + Weblogic 下的JMS使用</a>
       </li>
     
@@ -569,19 +468,15 @@ Facebook:lishunli</br>
         <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/03/30/first-last-day/">技术分享——献给可爱的你们</a>
-      </li>
-    
   </ul>
 </section>
 <section>
   <h1>分类</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+    <li class='category'><a href='/blog/categories/linux/'>Linux (2)</a></li>
 <li class='category'><a href='/blog/categories/soapui/'>SoapUI (1)</a></li>
-<li class='category'><a href='/blog/categories/tips/'>Tips (3)</a></li>
-<li class='category'><a href='/blog/categories/ubuntu/'>Ubuntu (1)</a></li>
+<li class='category'><a href='/blog/categories/tips/'>Tips (4)</a></li>
+<li class='category'><a href='/blog/categories/ubuntu/'>Ubuntu (2)</a></li>
 <li class='category'><a href='/blog/categories/concurrent/'>concurrent (2)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
 <li class='category'><a href='/blog/categories/jdk/'>jdk (2)</a></li>
