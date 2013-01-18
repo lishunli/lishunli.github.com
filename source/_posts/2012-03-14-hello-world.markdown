@@ -69,7 +69,7 @@ Liquid error: undefined method `Py_IsInitialized’ for RubyPython::Python:Modul
 
 * 中文问题	
 Windows下如果有中文的话，在generate步骤就会失败，网上给出的解决方法也很简单，就是设置自己本机的环境变量		
-![](http://usc.googlecode.com/svn/files/github/images/hello-world/env_vars.png)	
+![](http://usc.googlecode.com/svn/files/github/images/hello-world/env_vars.png)		
 具体的就是这样设置的
 ```
 set LC_ALL=zh_CN.UTF-8

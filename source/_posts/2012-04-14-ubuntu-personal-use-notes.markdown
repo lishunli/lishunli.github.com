@@ -179,7 +179,7 @@ set expandtab
 set autoindent
 ```
 		
-20). 
+20). 		
 注:
 上面的有部分命令都是以root用户执行的，如果权限不够，请加上sudo	
 	
