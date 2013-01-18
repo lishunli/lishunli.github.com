@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tips | 等待着你]]></title>
   <link href="http://lishunli.github.com/blog/categories/tips/atom.xml" rel="self"/>
   <link href="http://lishunli.github.com/"/>
-  <updated>2013-01-13T22:49:32+08:00</updated>
+  <updated>2013-01-18T20:29:50+08:00</updated>
   <id>http://lishunli.github.com/</id>
   <author>
     <name><![CDATA[李顺利]]></name>
@@ -182,7 +182,7 @@ vi /etc/mysql/my.cnf</p>
 <p><strong>注:
 上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</strong></p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#108;&#101;&#101;&#115;&#104;&#x75;&#x6e;&#108;&#x69;&#64;&#x71;&#113;&#46;&#99;&#111;&#109;">&#108;&#101;&#x65;&#115;&#x68;&#x75;&#110;&#108;&#105;&#64;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#108;&#x65;&#101;&#x73;&#104;&#x75;&#x6e;&#108;&#105;&#x40;&#x71;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#108;&#101;&#x65;&#115;&#x68;&#117;&#x6e;&#108;&#105;&#64;&#113;&#x71;&#46;&#x63;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
@@ -216,7 +216,7 @@ vi /etc/mysql/my.cnf</p>
 
 <p>     <br/>
 下图来自于Weblogic成功配置JMS后的截图，具体的配置过程网上很多，请参考完成。       <br/>
-<img src="/images/jms-usage-in-spring-and-weblogic/jsm-in-weblogic.png"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/jms-usage-in-spring-and-weblogic/jsm-in-weblogic.png"></p>
 
 <p>2). Spring 配置 applicationContext.xml</p>
 
@@ -829,7 +829,7 @@ lspci #查看主板信息
 free #查内存
 df -h #查硬盘
 </code>
-<img src="/images/ubuntu-personal-use-notes/config.png"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/ubuntu-personal-use-notes/config.png"></p>
 
 <p>6). 安装Chrome      <br/>
 简单，下载chrome（deb包），一般默认就会使用“软件管理器”打开，即可安装，或者使用sudo dpkg -i xxx.deb 命令。   <br/>
@@ -894,7 +894,7 @@ MbrFix /drive 0 fixmbr /yes
 完整的Ubuntu里的快捷键可以看这里：<a href="http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE">Gnome快捷键</a> ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。      <br/>
 修改如下：   <br/>
 打开终端输入： gconf-editor，到“Apps->Metacity->Global keybingdings" 出找 “show desktop”编辑值为<Super>d即可（win键在Ubuntu中名为<Super>）；找到“run_comman_termina”编辑值为<Super>r即可使用 win + R 来打开终端了。       <br/>
-<img src="/images/ubuntu-personal-use-notes/shortcuts.png">     <br/>
+<img src="http://usc.googlecode.com/svn/files/github/images/ubuntu-personal-use-notes/shortcuts.png">   <br/>
 如果想要更好的定制ubuntu的话，gconf-editor 里面有很多有用的东西，比如地址导航栏修改为显示路径等...</p>
 
 <p>13).     使用vim替换vi    <br/>
@@ -908,7 +908,7 @@ alias vi=vim</p>
 
 <p>source .bashrc # 立即生效
 ```
-<img src="/images/ubuntu-personal-use-notes/load.png"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/ubuntu-personal-use-notes/load.png"></p>
 
 <p>14). 后台运行     <br/>
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  &amp; 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 <a href="http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/">Linux 技巧：让进程在后台可靠运行的几种方法</a></p>
@@ -937,10 +937,25 @@ dns-nameservers 202.96.134.133 202.96.128.166
 
 <p>```</p>
 
-<p>注:
+<p>19). 使用4位空格代替vim中的Tab   <br/>
+参考<a href="http://my.oschina.net/renwofei423/blog/17338">vim tab键默认4空格</a>
+``` bash ~/.vimrc
+vi ~/.vimrc</p>
+
+<h1>.vimrc可能不存在，使用个人目录下的好处是避免强制别人使用你的vim配置</h1>
+
+<h1>添加下面配置</h1>
+
+<p>set ts=4
+set expandtab
+set autoindent
+```</p>
+
+<p>20).
+注:
 上面的有部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#58;&#x6c;&#101;&#101;&#x73;&#104;&#117;&#110;&#x6c;&#x69;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x65;&#101;&#x73;&#104;&#x75;&#x6e;&#108;&#x69;&#x40;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x6c;&#x65;&#x65;&#x73;&#x68;&#117;&#x6e;&#108;&#x69;&#64;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#108;&#x65;&#x65;&#x73;&#x68;&#117;&#x6e;&#108;&#x69;&#64;&#113;&#x71;&#x2e;&#99;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     

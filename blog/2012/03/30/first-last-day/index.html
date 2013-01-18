@@ -117,7 +117,7 @@
 <p>Everything可以快速的搜索你本地硬盘（仅支持NTFS格式）的所有文件，速度秒杀一切工具，缺点就是只能根据文件名来搜索，不能根据内容来（这个Google Desktop Search也不太好用），但是这已经足够了。  <br/>
 详情请 via <a href="http://xbeta.info/everything-search-tool.htm">善用佳软-Everything:速度最快的文件名搜索工具</a> 。    <br/>
 Tips：尽量加一个快速打开的快捷键，比如我设置为F7，并过滤一些不想显示的文件，比如 .class 文件。    <br/>
-<img src="/images/first-last-day/everything.gif" width="800" height="600" title="Everything" alt="Everything"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/everything.gif" width="800" height="600" title="Everything" alt="Everything"></p>
 
 <h4>1.2 Evernote</h4>
 
@@ -127,7 +127,7 @@ Tips：尽量加一个快速打开的快捷键，比如我设置为F7，并过�
 
 <p>Java开发中，很多会有依赖或者关联关系，有的时候，你想移动或者删除一个文件（夹），但是发现“它正在使用”，那这个时候你就可以使用<a href="http://www.emptyloop.com/unlocker/">Unlocker</a>, 它还可以帮助你，弹出USB的时候报设备正在使用的问题。</p>
 
-<p><img src="/images/first-last-day/screenshot-20120326102540.png"><img src="/images/first-last-day/snapshot-000.png"></p>
+<p><img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120326102540.png"><img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/snapshot-000.png"></p>
 
 <h4>1.4 Chrome</h4>
 
@@ -272,7 +272,7 @@ b) 修改 jboss_xxx\server\rs\deploy\oracle-xa-ds.xml 的 datasource，按照下
 
 
 <p>具体的效果，请看我如何操作：    <br/>
-<img src="/images/first-last-day/jdbcdslog-exp.gif" width="800" height="600" title="jdbcdslog-exp" alt="jdbcdslog-exp"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/jdbcdslog-exp.gif" width="800" height="600" title="jdbcdslog-exp" alt="jdbcdslog-exp"></p>
 
 <h4>2.2 TableDataCopier</h4>
 
@@ -286,7 +286,7 @@ b) 修改 jboss_xxx\server\rs\deploy\oracle-xa-ds.xml 的 datasource，按照下
 
 
 <p>也贴个运行图（仅支持 jdk1.6+）：      <br/>
-<img src="/images/first-last-day/table-data-copier.gif" width="800" height="600" title="TableDataCopier" alt="TableDataCopier"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/table-data-copier.gif" width="800" height="600" title="TableDataCopier" alt="TableDataCopier"></p>
 
 <h3>三、SoapUI</h3>
 
@@ -295,16 +295,16 @@ b) 修改 jboss_xxx\server\rs\deploy\oracle-xa-ds.xml 的 datasource，按照下
 <h4>3.1 File Import</h4>
 
 <p>MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用SoapUI做INT的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte[](File)的参数了，实际上，也很简单，看图就很清楚了（如果看不清，麻烦请另存后再看大图，全篇文章通用）。         <br/>
-<img src="/images/first-last-day/screenshot-20120327104943.png" width="562"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120327104943.png" width="562"></p>
 
 <h4>3.2 Property Transfer</h4>
 
 <p>Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 <a href="http://www.soapui.org/Functional-Testing/transfering-property-values.html">Transferring Property Values</a>。通过下面的实例图你就创建了一个Property Transfer并添加了一个Transfer Value，而每个Transfer Value都有两个部分，一个是Source，一个是Target，都可以选择不同的Step和不同的Property。     <br/>
-<img src="/images/first-last-day/screenshot-20120328181006.png">          <br/>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328181006.png">        <br/>
 如何配置这些内容，请看一个例子。e.g.</p>
 
 <p>在Mic2中，send msg step 需要一个参数，而这个参数是 login step 成功后的response，那么这种情况就可以这样：     <br/>
-<img src="/images/first-last-day/screenshot-20120328173450.png" width="602" height="436">     <br/>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328173450.png" width="602" height="436">   <br/>
 贴上要写的配置信息：</p>
 
 <figure class='code'><figcaption><span>Source</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -475,7 +475,7 @@ e.g.1</p>
 <h4>3.4 Load Tests</h4>
 
 <p><a href="http://www.soapui.org/Getting-Started/load-testing.html">Load Tests</a> 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。     <br/>
-<img src="/images/first-last-day/screenshot-20120328181558.png"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328181558.png"></p>
 
 <p>共享中有一份MIC2 SoapUI User Manual.doc的文档，是前面测试Mic2性能时候写的，加上MIC2-soapui-project.xml 和 MIC2 SoapUI Test.eml(email)，应该就包括了上面的所有SoapUI知识了。</p>
 
@@ -488,7 +488,7 @@ e.g.1</p>
 <h4>4.2 KeepResident</h4>
 
 <p><a href="http://suif.stanford.edu/pub/keepresident/index.html">KeepResident</a> 是一款改进Eclipse性能的插件，个人感觉还是不错的，大家可以试用下。我的配置如下：      <br/>
-<img src="/images/first-last-day/screenshot-20120326161418.png" width="458" height="360"></p>
+<img src="http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120326161418.png" width="458" height="360"></p>
 
 <h4>4.3 quickmarks</h4>
 
@@ -535,8 +535,8 @@ e.g.1</p>
 <h3>六、我的联系方式：</h3>
 
 <p>QQ: 506817493     <br/>
-E-mail: <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#108;&#x65;&#x65;&#x73;&#x68;&#x75;&#x6e;&#108;&#105;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#109;">&#x6c;&#x65;&#101;&#115;&#x68;&#x75;&#x6e;&#108;&#105;&#64;&#x71;&#x71;&#46;&#x63;&#x6f;&#109;</a> , <a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#x6c;&#105;&#115;&#x68;&#117;&#110;&#108;&#105;&#x2e;&#x6d;&#x65;&#x40;&#103;&#x6d;&#x61;&#x69;&#x6c;&#46;&#99;&#x6f;&#109;">&#x6c;&#x69;&#115;&#x68;&#x75;&#110;&#108;&#x69;&#x2e;&#109;&#x65;&#x40;&#103;&#109;&#97;&#x69;&#x6c;&#46;&#x63;&#x6f;&#x6d;</a>  <br/>
-MSN: <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6c;&#x69;&#115;&#x68;&#x75;&#x6e;&#108;&#105;&#x40;&#x6c;&#105;&#118;&#x65;&#46;&#x63;&#111;&#x6d;">&#x6c;&#x69;&#x73;&#104;&#x75;&#110;&#x6c;&#105;&#x40;&#x6c;&#x69;&#118;&#x65;&#x2e;&#99;&#111;&#109;</a>  <br/>
+E-mail: <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#108;&#x65;&#101;&#x73;&#104;&#117;&#110;&#x6c;&#105;&#64;&#x71;&#x71;&#46;&#x63;&#111;&#x6d;">&#x6c;&#x65;&#x65;&#x73;&#104;&#117;&#110;&#x6c;&#x69;&#64;&#x71;&#113;&#x2e;&#x63;&#111;&#109;</a> , <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#108;&#105;&#115;&#104;&#x75;&#x6e;&#x6c;&#105;&#46;&#x6d;&#101;&#x40;&#x67;&#109;&#x61;&#x69;&#108;&#46;&#99;&#111;&#x6d;">&#108;&#x69;&#x73;&#104;&#117;&#110;&#108;&#x69;&#x2e;&#109;&#x65;&#64;&#103;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#109;</a>  <br/>
+MSN: <a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#58;&#108;&#105;&#x73;&#x68;&#x75;&#x6e;&#x6c;&#105;&#64;&#108;&#x69;&#118;&#x65;&#x2e;&#x63;&#x6f;&#109;">&#x6c;&#105;&#x73;&#x68;&#x75;&#x6e;&#x6c;&#105;&#64;&#108;&#105;&#118;&#101;&#x2e;&#99;&#x6f;&#109;</a>  <br/>
 Weibo: <a href="http://weibo.com/lishunli">@李顺利Me</a>  <br/>
 Twitter: <a href="http://twitter.com/lishunli">@lishunli</a> <br/>
 Facebook: <a href="http://www.facebook.com/lishunli">李顺利</a>   <br/>
