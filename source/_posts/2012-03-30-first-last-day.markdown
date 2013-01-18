@@ -15,7 +15,7 @@ categories: others
 Everything可以快速的搜索你本地硬盘（仅支持NTFS格式）的所有文件，速度秒杀一切工具，缺点就是只能根据文件名来搜索，不能根据内容来（这个Google Desktop Search也不太好用），但是这已经足够了。	
 详情请 via [善用佳软-Everything:速度最快的文件名搜索工具](http://xbeta.info/everything-search-tool.htm) 。		
 Tips：尽量加一个快速打开的快捷键，比如我设置为F7，并过滤一些不想显示的文件，比如 .class 文件。		
-{% img /images/first-last-day/everything.gif 800 600 'Everything' 'Everything' %}
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/everything.gif 800 600 'Everything' 'Everything' %}
 
 #### 1.2 Evernote			
 一款极致的免费笔记资料管理软件，支持多平台（支持PC、手机多平台... 遗憾的是不支持Linux）的数据网络同步，有了它，你就可以随时记录一些“灵感”，让你不在担心“哎，昨天我想什么来着？”，借用[阿秋博客](http://liwenqiu.github.com/)里的一句话——The palest ink is better than the best memory。		
@@ -23,7 +23,7 @@ Tips：尽量加一个快速打开的快捷键，比如我设置为F7，并过�
 #### 1.3 Unlocker		
 Java开发中，很多会有依赖或者关联关系，有的时候，你想移动或者删除一个文件（夹），但是发现“它正在使用”，那这个时候你就可以使用[Unlocker](http://www.emptyloop.com/unlocker/), 它还可以帮助你，弹出USB的时候报设备正在使用的问题。	
 
-{% img /images/first-last-day/screenshot-20120326102540.png %}{% img /images/first-last-day/snapshot-000.png %}		
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120326102540.png %}{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/snapshot-000.png %}		
 
 #### 1.4 Chrome		
 这个不用我说了，只要你喜欢，什么浏览器都行，用着习惯就好。
@@ -107,7 +107,7 @@ c) 配置log4j，可以记录jdbcdslog 的 log，修改 jboss_xxx\server\rs\conf
 ```
 
 具体的效果，请看我如何操作：		
-{% img /images/first-last-day/jdbcdslog-exp.gif 800 600 'jdbcdslog-exp' 'jdbcdslog-exp' %}	
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/jdbcdslog-exp.gif 800 600 'jdbcdslog-exp' 'jdbcdslog-exp' %}	
 
 #### 2.2 TableDataCopier		
 TableDataCopier 是copy某个数据库中某个表的数据到另一个数据库中（存在同样的表结构），e.g. 能够copy SIT DB 的 mc_instr 到 Local DB 的 mc_instr。具体的可以看看它在google code的主页：<http://code.google.com/p/table-data-copier/>
@@ -117,21 +117,21 @@ TableDataCopier 是copy某个数据库中某个表的数据到另一个数据库
 svn checkout http://table-data-copier.googlecode.com/svn/trunk/
 ```
 也贴个运行图（仅支持 jdk1.6+）：		
-{% img /images/first-last-day/table-data-copier.gif 800 600 'TableDataCopier' 'TableDataCopier' %}	
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/table-data-copier.gif 800 600 'TableDataCopier' 'TableDataCopier' %}	
 
 ### 三、SoapUI		
 关于SoapUI的简单使用，大家都很清楚，这里就不说了，下面说的是一些不常见的用法，再加一些性能测试方面的经验（这部分好早好早以前Lilian就有想法叫我讲的，现在只能靠这个机会弥补下了）。
 #### 3.1 File Import
 MSSE 中还是有很多 File Import（Upload）类的Functions的，如果要用SoapUI做INT的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte\[](File)的参数了，实际上，也很简单，看图就很清楚了（如果看不清，麻烦请另存后再看大图，全篇文章通用）。			
-{% img /images/first-last-day/screenshot-20120327104943.png 562.5 514.5 'File Import' 'File Import'%}
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120327104943.png 562.5 514.5 'File Import' 'File Import'%}
 
 #### 3.2 Property Transfer
 Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 [Transferring Property Values](http://www.soapui.org/Functional-Testing/transfering-property-values.html)。通过下面的实例图你就创建了一个Property Transfer并添加了一个Transfer Value，而每个Transfer Value都有两个部分，一个是Source，一个是Target，都可以选择不同的Step和不同的Property。		
-{% img /images/first-last-day/screenshot-20120328181006.png %}			
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328181006.png %}			
 如何配置这些内容，请看一个例子。e.g.				
 			
 在Mic2中，send msg step 需要一个参数，而这个参数是 login step 成功后的response，那么这种情况就可以这样：		
-{% img /images/first-last-day/screenshot-20120328173450.png 602 436 %}		
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328173450.png 602 436 %}		
 贴上要写的配置信息：
 ``` xml Source
 declare namespace ns1='http://mic2.taifook.com/';
@@ -226,7 +226,7 @@ context.setProperty("loopCount", ++context.loopCount);
 
 #### 3.4 Load Tests		 
 [Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，很简单就可以创建了，在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。		
-{% img /images/first-last-day/screenshot-20120328181558.png %}			
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328181558.png %}			
 	
 共享中有一份MIC2 SoapUI User Manual.doc的文档，是前面测试Mic2性能时候写的，加上MIC2-soapui-project.xml 和 MIC2 SoapUI Test.eml(email)，应该就包括了上面的所有SoapUI知识了。
 
@@ -236,7 +236,7 @@ context.setProperty("loopCount", ++context.loopCount);
 
 #### 4.2 KeepResident	 
 [KeepResident](http://suif.stanford.edu/pub/keepresident/index.html) 是一款改进Eclipse性能的插件，个人感觉还是不错的，大家可以试用下。我的配置如下：		
-{% img /images/first-last-day/screenshot-20120326161418.png 458 360 %}
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120326161418.png 458 360 %}
 
 #### 4.3 quickmarks
 [quickmarks](http://eclipse-tools.sourceforge.net/quickmarks/index.html) 是Eclipse中的一款书签插件，很简单实用，追踪代码非常有帮助。使用超简单的， Ctrl+Shift+[0-9] 加上或者取消书签， Alt+[0-9] 打开对应的书签。

@@ -41,7 +41,7 @@ git@github.com:YourAcccountName/YourRepoName.git
 {% include_code lang:ruby github-multi-accounts/config %}
 
 无图无真相<br>
-![hello lishunli](/images/github-multi-accounts/infos.png)
+![hello lishunli](http://usc.googlecode.com/svn/files/github/images/github-multi-accounts/infos.png)
 
 这篇文章没有点点技术,主要用于以下用途：
 

@@ -9,15 +9,15 @@ categories: SoapUI
 <!-- more -->
 #### File Import
 很多时候会有 File Import（Upload）类的Functions的，如果要用SoapUI做集成测试的话，免不了要处理 byte[] 类型的参数，那么如何通过SoapUI传递byte\[](File)的参数了，实际上，也很简单，看图就很清楚了。			
-{% img /images/first-last-day/screenshot-20120327104943.png%}
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120327104943.png%}
 
 #### Property Transfer
 Property Transfer 就是在SoapUI不同的Test Steps之间传递数据，具体的可以看看文档 [Transferring Property Values](http://www.soapui.org/Functional-Testing/transfering-property-values.html)。通过下面的实例图你就创建了一个Property Transfer并添加了一个Transfer Value，而每个Transfer Value都有两个部分，一个是Source，一个是Target，都可以选择不同的Step和不同的Property。		
-{% img /images/first-last-day/screenshot-20120328181006.png %}			
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328181006.png %}			
 如何配置这些内容，请看一个例子。e.g.				
 			
 假设在一个系统中有一个function：send msg step，它需要一个参数，而这个参数是另一个Step：login 成功后的response，那么这种情况就可以这样：		
-{% img /images/first-last-day/screenshot-20120328173450.png %}		
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328173450.png %}		
 贴上要写的配置信息：
 ``` xml Source
 declare namespace ns1='http://mic2.taifook.com/';
@@ -112,7 +112,7 @@ context.setProperty("loopCount", ++context.loopCount);
 
 #### Load Tests		 
 [Load Tests](http://www.soapui.org/Getting-Started/load-testing.html) 就是使SoapUI连续多次执行一个Test Steps，目前我用到的是用它来做一些性能测试，很直观明了。使用它很简单，直接在【Load Tests】选项【New LoadTest】就可以了，大概会是下面的样子，具体的测试方法你就可以亲自试试了（比如Limit,Threads等配置）。		
-{% img /images/first-last-day/screenshot-20120328181558.png %}				
+{% img http://usc.googlecode.com/svn/files/github/images/first-last-day/screenshot-20120328181558.png %}				
 
 这个也是在工作中的一个分享，对象是有使用SoapUI经验的同事，所以，您看这部分，可能会有一些不清楚的，个人了解也不是很深，请大家尽量在官网多查查，希望对您探索SoapUI有点点帮助。
 

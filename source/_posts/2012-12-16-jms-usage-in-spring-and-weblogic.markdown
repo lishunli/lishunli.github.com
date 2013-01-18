@@ -14,7 +14,7 @@ categories: Tips
 1.3 创建 JMS 模块		
 <!-- more -->		
 下图来自于Weblogic成功配置JMS后的截图，具体的配置过程网上很多，请参考完成。			
-{% img /images/jms-usage-in-spring-and-weblogic/jsm-in-weblogic.png %}
+{% img http://usc.googlecode.com/svn/files/github/images/jms-usage-in-spring-and-weblogic/jsm-in-weblogic.png %}
 
 2). Spring 配置 applicationContext.xml
 

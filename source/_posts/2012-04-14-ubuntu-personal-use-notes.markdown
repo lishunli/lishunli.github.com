@@ -72,7 +72,7 @@ lspci #查看主板信息
 free #查内存
 df -h #查硬盘
 ```
-{% img /images/ubuntu-personal-use-notes/config.png %}		
+{% img http://usc.googlecode.com/svn/files/github/images/ubuntu-personal-use-notes/config.png %}		
 		
 6).	安装Chrome		
 简单，下载chrome（deb包），一般默认就会使用“软件管理器”打开，即可安装，或者使用sudo dpkg -i xxx.deb 命令。		
@@ -128,7 +128,7 @@ MbrFix /drive 0 fixmbr /yes
 完整的Ubuntu里的快捷键可以看这里：[Gnome快捷键](http://wiki.ubuntu.org.cn/Gnome%E5%BF%AB%E6%8D%B7%E9%94%AE) ，不过为了方便使用和习惯，我加了几个常用更便捷的快捷键。Ubuntu 的默认显示桌面的快捷键是 Ctrl + Alt + D组合键，还是挺复杂的，我想修改成像windows一样Win + D，这样就比较好用；Ubuntu 的打开终端的快捷键是 Ctrl + Alt + T组合键，想修改成类似windows风格的—— win + R 这个快捷键。		
 修改如下：		
 打开终端输入： gconf-editor，到“Apps->Metacity->Global keybingdings" 出找 “show desktop”编辑值为<Super>d即可（win键在Ubuntu中名为<Super>）；找到“run_comman_termina”编辑值为<Super>r即可使用 win + R 来打开终端了。			
-{% img /images/ubuntu-personal-use-notes/shortcuts.png %}		
+{% img http://usc.googlecode.com/svn/files/github/images/ubuntu-personal-use-notes/shortcuts.png %}		
 如果想要更好的定制ubuntu的话，gconf-editor 里面有很多有用的东西，比如地址导航栏修改为显示路径等...		
 
 13).	 使用vim替换vi		
@@ -142,7 +142,7 @@ alias vi=vim
 
 source .bashrc # 立即生效
 ```
-{% img /images/ubuntu-personal-use-notes/load.png %}			
+{% img http://usc.googlecode.com/svn/files/github/images/ubuntu-personal-use-notes/load.png %}			
 		
 14). 后台运行		
 在一些情况下，需要长时间的执行一些命令，正常情况下，linux执行命令的时候，会等待命令执行的结果（成功或失败），那么这个时候你可能就需要等待很长时间了，此时就可以把这些命令放到后台进行，也很简单，直接在命令后面加上  & 符号就可以了，在配合 fg, bg, jobs -l 等命令，就很轻松的干其它事情了。更详细的请参考 [Linux 技巧：让进程在后台可靠运行的几种方法](http://www.ibm.com/developerworks/cn/linux/l-cn-nohup/)		
@@ -168,6 +168,18 @@ iface eth0 inet static
     dns-nameservers 202.96.134.133 202.96.128.166
 ```
 		
+19). 使用4位空格代替vim中的Tab		
+参考[vim tab键默认4空格](http://my.oschina.net/renwofei423/blog/17338)
+``` bash ~/.vimrc 
+vi ~/.vimrc 
+# .vimrc可能不存在，使用个人目录下的好处是避免强制别人使用你的vim配置
+# 添加下面配置
+set ts=4
+set expandtab
+set autoindent
+```
+		
+20). 
 注:
 上面的有部分命令都是以root用户执行的，如果权限不够，请加上sudo	
 	

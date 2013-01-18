@@ -134,6 +134,7 @@ default-character-set = utf8
 ```
 		
 		
+
 **注:
 上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo**	
 	
