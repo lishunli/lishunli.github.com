@@ -25,10 +25,20 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="等待着你" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+    <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+			$(this).attr('target', '_blank');
+		});
+	}
+	 
+	$(document).bind('DOMNodeInserted', function(event) {
+		addBlankTargetForLinks();
+	});
+  </script>
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -273,10 +283,10 @@ Windows下如果有中文的话，在generate步骤就会失败，网上给出�
 <li>rake setup_github_pages</li>
 <li>rake generate, rake preview, rake deploy</li>
 <li>rake new_post[&#8220;title&#8221;]        新建的文章默认是ANSI编码的，这会导致generate步骤失败，请转换为UTF-8格式的文件后重新来过，如果还有问题，尝试其它的解决办法。</li>
+<li>完善markdown的链接
+顺利更新于2012年12月17日</li>
 </ol>
 
-
-<p>顺利更新于2012年12月17日</p>
 </div>
 
 
@@ -372,6 +382,10 @@ Facebook:lishunli</br>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/">在Octopress中为markdown的超链接加上target=&quot;_blank&quot;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/13/services-install-on-ubuntu/">Ubuntu下常见服务的安装笔记</a>
       </li>
     
@@ -387,10 +401,6 @@ Facebook:lishunli</br>
         <a href="/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -398,7 +408,7 @@ Facebook:lishunli</br>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/linux/'>Linux (2)</a></li>
 <li class='category'><a href='/blog/categories/soapui/'>SoapUI (1)</a></li>
-<li class='category'><a href='/blog/categories/tips/'>Tips (4)</a></li>
+<li class='category'><a href='/blog/categories/tips/'>Tips (5)</a></li>
 <li class='category'><a href='/blog/categories/ubuntu/'>Ubuntu (2)</a></li>
 <li class='category'><a href='/blog/categories/concurrent/'>concurrent (2)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>

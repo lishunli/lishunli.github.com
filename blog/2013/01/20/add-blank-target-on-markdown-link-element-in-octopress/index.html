@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: ssh - 等待着你</title>
+  <title>在Octopress中为markdown的超链接加上target=&quot;_blank&quot; - 等待着你</title>
   <meta name="author" content="李顺利">
   
   
-  <meta name="description" content="Category: ssh">
+  <meta name="description" content="lishunlis' github homepage">
   <meta name="keywords" content="lishunli, 李顺利, java, javaee, code, it, javase, ruby, groovy, share, linux, shell, tips">
  
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://lishunli.github.comblog/categories/ssh">
+  <link rel="canonical" href="http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -86,36 +86,161 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Ssh</h1>
+    
+      <h1 class="entry-title">在Octopress中为markdown的超链接加上target=&quot;_blank&quot;</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-20T21:42:00+08:00" pubdate data-updated="true">Jan 20<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>Markdown 支持两种形式的链接语法： 行内 和 参考 两种形式，两种都是使用角括号来把文字转成连结。而个人觉得大部分情况下还是使用行内的形式。</p>
 
-  
-  <h2>2012</h2>
-
-<article>
-  
-<h1><a href="/blog/2012/03/15/github-multi-accounts/">GitHub多账户使用</a></h1>
-<time datetime="2012-03-15T13:43:00+08:00" pubdate><span class='month'>Mar</span> <span class='day'>15</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/ssh/'>ssh</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<p>行内形式是直接在后面用括号直接接上链接：  <br/>
+<code>This is an [example link](http://example.com/).</code>     <br/>
+输出 HTML 为：    <br/>
+<code>&lt;p&gt;This is an &lt;a href="http://example.com/"&gt;example link&lt;/a&gt;.&lt;/p&gt;</code></p>
+
+<p>你也可以选择性地加上 title 属性：    <br/>
+<code>This is an [example link](http://example.com/ "With a Title").</code>      <br/>
+输出 HTML 为：    <br/>
+<code>&lt;p&gt;This is an &lt;a href="http://example.com/" title="With a Title"&gt;example link&lt;/a&gt;.&lt;/p&gt;</code></p>
+
+<p>以上引自<a href="http://wowubuntu.com/markdown/basic.html">Markdown 语法说明(简体中文版)</a></p>
+
+<p>但是你也看到了，生成的超链接默认是在本窗口打开的，为了有更好地阅读体验，我们往往是希望你在新窗口中打开超链接，而并不影响阅读本文。markdown目前应该还不支持这种语法的，当然markdown是支持html的，你可以直接使用<code>&lt;a href="http://blogjava.net/lishunli" target="_blank"&gt;my blog&lt;/a&gt;</code>来达到要求。</p>
+
+<p>使用markdown的原因是简洁，为了这个简单的需求而使用臃肿的html就有点得不偿失了，如果这样，还倒不如选择接受markdown这种默认的超链接形式。而jekyll/Octopress可以很自由地定制需要的功能，使 新窗口中打开链接 变得很容易。</p>
+
+<p>Octopress的Issues <a href="https://github.com/imathis/octopress/issues/410">Open links in a new window</a>就给出了比较完美的答案，简单hack a 标签。<br/>
+请在{YOUR_OCTOPRESS}\source_includes\custom\head.html文件后面添加下面的代码 (YOUR_OCTOPRESS是你Octopress的主目录)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">addBlankTargetForLinks</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;_blank&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;DOMNodeInserted&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">addBlankTargetForLinks</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码来源 <a href="https://gist.github.com/4523641">https://gist.github.com/4523641</a></p>
+
+<p>朋友们，<a href="http://blogjava.net/lishunli">test it, please click me</a></p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2013年1月20日
+</p>
+
+
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">李顺利</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-20T21:42:00+08:00" pubdate data-updated="true">Jan 20<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/tips/'>Tips</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <span>
+  <iframe 
+    width="86" 
+    scrolling="no" 
+    height="16" 
+    frameborder="0" 
+    src=
+      "http://hits.sinajs.cn/A1/weiboshare.html?url=http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/&amp;type=6&amp;ralateUid=1563517210&amp;language=zh_cn" allowtransparency="true">
+  </iframe>
+  </span>
+  
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/" data-via="" data-counturl="http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+<hr style="border-bottom:1px dotted #bdbabd;height:1px;border-top:0px;border-left:0px;border-right:0px;" />
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/13/services-install-on-ubuntu/" title="Previous Post: Ubuntu下常见服务的安装笔记">&laquo; Ubuntu下常见服务的安装笔记</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -244,7 +369,10 @@ Facebook:lishunli</br>
       var disqus_shortname = 'lishunli';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/';
+        var disqus_url = 'http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

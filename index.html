@@ -25,10 +25,20 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="等待着你" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+    <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+			$(this).attr('target', '_blank');
+		});
+	}
+	 
+	$(document).bind('DOMNodeInserted', function(event) {
+		addBlankTargetForLinks();
+	});
+  </script>
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -77,6 +87,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/">在Octopress中为markdown的超链接加上target=&quot;_blank&quot;</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-20T21:42:00+08:00" pubdate data-updated="true">Jan 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Markdown 支持两种形式的链接语法： 行内 和 参考 两种形式，两种都是使用角括号来把文字转成连结。而个人觉得大部分情况下还是使用行内的形式。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -454,50 +505,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/14/hello-world/">Hello World</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-14T21:33:00+08:00" pubdate data-updated="true">Mar 14<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>程序员的第一篇博客，一般都是Hello World，我也习俗下。</p>
-
-<h2>以下用几种方式(Octopress)来贴HelloWorld的代码</h2>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/03/14/hello-world/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -523,6 +533,10 @@ Facebook:lishunli</br>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/">在Octopress中为markdown的超链接加上target=&quot;_blank&quot;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/13/services-install-on-ubuntu/">Ubuntu下常见服务的安装笔记</a>
       </li>
     
@@ -538,10 +552,6 @@ Facebook:lishunli</br>
         <a href="/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -549,7 +559,7 @@ Facebook:lishunli</br>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/linux/'>Linux (2)</a></li>
 <li class='category'><a href='/blog/categories/soapui/'>SoapUI (1)</a></li>
-<li class='category'><a href='/blog/categories/tips/'>Tips (4)</a></li>
+<li class='category'><a href='/blog/categories/tips/'>Tips (5)</a></li>
 <li class='category'><a href='/blog/categories/ubuntu/'>Ubuntu (2)</a></li>
 <li class='category'><a href='/blog/categories/concurrent/'>concurrent (2)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>

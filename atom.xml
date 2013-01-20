@@ -4,7 +4,7 @@
   <title><![CDATA[等待着你]]></title>
   <link href="http://lishunli.github.com/atom.xml" rel="self"/>
   <link href="http://lishunli.github.com/"/>
-  <updated>2013-01-20T20:31:12+08:00</updated>
+  <updated>2013-01-20T22:43:28+08:00</updated>
   <id>http://lishunli.github.com/</id>
   <author>
     <name><![CDATA[李顺利]]></name>
@@ -12,6 +12,70 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Octopress中为markdown的超链接加上target=&quot;_blank&quot;]]></title>
+    <link href="http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/"/>
+    <updated>2013-01-20T21:42:00+08:00</updated>
+    <id>http://lishunli.github.com/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress</id>
+    <content type="html"><![CDATA[<p>Markdown 支持两种形式的链接语法： 行内 和 参考 两种形式，两种都是使用角括号来把文字转成连结。而个人觉得大部分情况下还是使用行内的形式。</p>
+
+<!-- more -->
+
+
+<p>行内形式是直接在后面用括号直接接上链接：  <br/>
+<code>This is an [example link](http://example.com/).</code>     <br/>
+输出 HTML 为：    <br/>
+<code>&lt;p&gt;This is an &lt;a href="http://example.com/"&gt;example link&lt;/a&gt;.&lt;/p&gt;</code></p>
+
+<p>你也可以选择性地加上 title 属性：    <br/>
+<code>This is an [example link](http://example.com/ "With a Title").</code>      <br/>
+输出 HTML 为：    <br/>
+<code>&lt;p&gt;This is an &lt;a href="http://example.com/" title="With a Title"&gt;example link&lt;/a&gt;.&lt;/p&gt;</code></p>
+
+<p>以上引自<a href="http://wowubuntu.com/markdown/basic.html">Markdown 语法说明(简体中文版)</a></p>
+
+<p>但是你也看到了，生成的超链接默认是在本窗口打开的，为了有更好地阅读体验，我们往往是希望你在新窗口中打开超链接，而并不影响阅读本文。markdown目前应该还不支持这种语法的，当然markdown是支持html的，你可以直接使用<code>&lt;a href="http://blogjava.net/lishunli" target="_blank"&gt;my blog&lt;/a&gt;</code>来达到要求。</p>
+
+<p>使用markdown的原因是简洁，为了这个简单的需求而使用臃肿的html就有点得不偿失了，如果这样，还倒不如选择接受markdown这种默认的超链接形式。而jekyll/Octopress可以很自由地定制需要的功能，使 新窗口中打开链接 变得很容易。</p>
+
+<p>Octopress的Issues <a href="https://github.com/imathis/octopress/issues/410">Open links in a new window</a>就给出了比较完美的答案，简单hack a 标签。<br/>
+请在{YOUR_OCTOPRESS}\source_includes\custom\head.html文件后面添加下面的代码 (YOUR_OCTOPRESS是你Octopress的主目录)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">addBlankTargetForLinks</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;a[href^=&quot;http&quot;]&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;target&#39;</span><span class="p">,</span> <span class="s1">&#39;_blank&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">bind</span><span class="p">(</span><span class="s1">&#39;DOMNodeInserted&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">addBlankTargetForLinks</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码来源 <a href="https://gist.github.com/4523641">https://gist.github.com/4523641</a></p>
+
+<p>朋友们，<a href="http://blogjava.net/lishunli">test it, please click me</a></p>
+
+<p align="right">
+<a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
+2013年1月20日
+</p>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Ubuntu下常见服务的安装笔记]]></title>
@@ -249,7 +313,7 @@ ps. ssh服务最好需要固定的ip，如果做，请参考<a href="http://blog
 <p><strong>注:
 上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</strong></p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#108;&#101;&#x65;&#x73;&#104;&#x75;&#x6e;&#108;&#105;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#x6c;&#x65;&#x65;&#x73;&#104;&#x75;&#110;&#108;&#x69;&#64;&#113;&#x71;&#46;&#x63;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x6c;&#101;&#101;&#x73;&#104;&#117;&#110;&#108;&#105;&#x40;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#108;&#101;&#101;&#115;&#x68;&#117;&#110;&#108;&#105;&#x40;&#113;&#x71;&#46;&#99;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
@@ -1171,7 +1235,7 @@ vim比vi强大多了，vim属于vi的超集，而且能够解决很多习惯的�
 注:
 上面的有部分命令都是以root用户执行的，如果权限不够，请加上sudo</p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#x3a;&#x6c;&#x65;&#x65;&#115;&#x68;&#117;&#110;&#x6c;&#x69;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#108;&#x65;&#101;&#x73;&#x68;&#x75;&#x6e;&#108;&#x69;&#x40;&#113;&#x71;&#46;&#x63;&#x6f;&#x6d;</a> 联系到我，大家一起交流学习。</p>
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#108;&#101;&#101;&#115;&#104;&#x75;&#110;&#108;&#x69;&#64;&#x71;&#113;&#x2e;&#99;&#111;&#109;">&#108;&#101;&#101;&#x73;&#104;&#x75;&#x6e;&#x6c;&#105;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
@@ -1826,8 +1890,8 @@ e.g.1</p>
 <h3>六、我的联系方式：</h3>
 
 <p>QQ: 506817493     <br/>
-E-mail: <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#108;&#101;&#101;&#115;&#x68;&#117;&#110;&#x6c;&#x69;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#108;&#101;&#x65;&#x73;&#104;&#x75;&#x6e;&#x6c;&#105;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a> , <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x6c;&#x69;&#x73;&#104;&#117;&#x6e;&#x6c;&#105;&#46;&#x6d;&#101;&#x40;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#x6f;&#x6d;">&#x6c;&#105;&#x73;&#104;&#117;&#110;&#108;&#105;&#46;&#x6d;&#x65;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#111;&#109;</a>  <br/>
-MSN: <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x6c;&#x69;&#115;&#104;&#117;&#110;&#x6c;&#105;&#x40;&#108;&#105;&#118;&#101;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x69;&#115;&#104;&#x75;&#x6e;&#108;&#x69;&#x40;&#x6c;&#105;&#118;&#x65;&#46;&#x63;&#x6f;&#109;</a>  <br/>
+E-mail: <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x6c;&#x65;&#101;&#115;&#104;&#117;&#x6e;&#108;&#105;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#101;&#101;&#x73;&#104;&#x75;&#110;&#108;&#x69;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#109;</a> , <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x6c;&#105;&#115;&#104;&#x75;&#110;&#x6c;&#105;&#46;&#109;&#x65;&#x40;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#109;">&#108;&#105;&#x73;&#104;&#117;&#110;&#x6c;&#105;&#46;&#x6d;&#x65;&#x40;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;</a>  <br/>
+MSN: <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x6c;&#105;&#x73;&#104;&#x75;&#x6e;&#x6c;&#x69;&#64;&#108;&#x69;&#118;&#x65;&#46;&#99;&#x6f;&#x6d;">&#x6c;&#x69;&#x73;&#x68;&#117;&#110;&#108;&#105;&#x40;&#108;&#x69;&#x76;&#101;&#46;&#99;&#x6f;&#109;</a>  <br/>
 Weibo: <a href="http://weibo.com/lishunli">@李顺利Me</a>  <br/>
 Twitter: <a href="http://twitter.com/lishunli">@lishunli</a> <br/>
 Facebook: <a href="http://www.facebook.com/lishunli">李顺利</a>   <br/>
@@ -2452,10 +2516,10 @@ Windows下如果有中文的话，在generate步骤就会失败，网上给出�
 <li>rake setup_github_pages</li>
 <li>rake generate, rake preview, rake deploy</li>
 <li>rake new_post[&#8220;title&#8221;]        新建的文章默认是ANSI编码的，这会导致generate步骤失败，请转换为UTF-8格式的文件后重新来过，如果还有问题，尝试其它的解决办法。</li>
+<li>完善markdown的链接
+顺利更新于2012年12月17日</li>
 </ol>
 
-
-<p>顺利更新于2012年12月17日</p>
 ]]></content>
   </entry>
   

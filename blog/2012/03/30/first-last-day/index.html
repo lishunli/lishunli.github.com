@@ -25,10 +25,20 @@
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="等待着你" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
+    <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+	function addBlankTargetForLinks () {
+	  $('a[href^="http"]').each(function(){
+			$(this).attr('target', '_blank');
+		});
+	}
+	 
+	$(document).bind('DOMNodeInserted', function(event) {
+		addBlankTargetForLinks();
+	});
+  </script>
   
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -535,8 +545,8 @@ e.g.1</p>
 <h3>六、我的联系方式：</h3>
 
 <p>QQ: 506817493     <br/>
-E-mail: <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#108;&#101;&#101;&#115;&#x68;&#117;&#110;&#x6c;&#x69;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#108;&#101;&#x65;&#x73;&#104;&#x75;&#x6e;&#x6c;&#105;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a> , <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x6c;&#x69;&#x73;&#104;&#117;&#x6e;&#x6c;&#105;&#46;&#x6d;&#101;&#x40;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#x6f;&#x6d;">&#x6c;&#105;&#x73;&#104;&#117;&#110;&#108;&#105;&#46;&#x6d;&#x65;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#46;&#99;&#111;&#109;</a>  <br/>
-MSN: <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x6c;&#x69;&#115;&#104;&#117;&#110;&#x6c;&#105;&#x40;&#108;&#105;&#118;&#101;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#x69;&#115;&#104;&#x75;&#x6e;&#108;&#x69;&#x40;&#x6c;&#105;&#118;&#x65;&#46;&#x63;&#x6f;&#109;</a>  <br/>
+E-mail: <a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#58;&#x6c;&#x65;&#101;&#115;&#104;&#117;&#x6e;&#108;&#105;&#64;&#x71;&#113;&#x2e;&#x63;&#x6f;&#x6d;">&#x6c;&#101;&#101;&#x73;&#104;&#x75;&#110;&#108;&#x69;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#109;</a> , <a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x6c;&#105;&#115;&#104;&#x75;&#110;&#x6c;&#105;&#46;&#109;&#x65;&#x40;&#x67;&#109;&#x61;&#105;&#x6c;&#46;&#x63;&#111;&#109;">&#108;&#105;&#x73;&#104;&#117;&#110;&#x6c;&#105;&#46;&#x6d;&#x65;&#x40;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#111;&#x6d;</a>  <br/>
+MSN: <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#x6c;&#105;&#x73;&#104;&#x75;&#x6e;&#x6c;&#x69;&#64;&#108;&#x69;&#118;&#x65;&#46;&#99;&#x6f;&#x6d;">&#x6c;&#x69;&#x73;&#x68;&#117;&#110;&#108;&#105;&#x40;&#108;&#x69;&#x76;&#101;&#46;&#99;&#x6f;&#109;</a>  <br/>
 Weibo: <a href="http://weibo.com/lishunli">@李顺利Me</a>  <br/>
 Twitter: <a href="http://twitter.com/lishunli">@lishunli</a> <br/>
 Facebook: <a href="http://www.facebook.com/lishunli">李顺利</a>   <br/>
@@ -649,6 +659,10 @@ Facebook:lishunli</br>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/01/20/add-blank-target-on-markdown-link-element-in-octopress/">在Octopress中为markdown的超链接加上target=&quot;_blank&quot;</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/01/13/services-install-on-ubuntu/">Ubuntu下常见服务的安装笔记</a>
       </li>
     
@@ -664,10 +678,6 @@ Facebook:lishunli</br>
         <a href="/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2012/04/10/the-advanced-use-of-soapui/">SoapUI的进阶使用</a>
-      </li>
-    
   </ul>
 </section>
 <section>
@@ -675,7 +685,7 @@ Facebook:lishunli</br>
   <ul id="categories">
     <li class='category'><a href='/blog/categories/linux/'>Linux (2)</a></li>
 <li class='category'><a href='/blog/categories/soapui/'>SoapUI (1)</a></li>
-<li class='category'><a href='/blog/categories/tips/'>Tips (4)</a></li>
+<li class='category'><a href='/blog/categories/tips/'>Tips (5)</a></li>
 <li class='category'><a href='/blog/categories/ubuntu/'>Ubuntu (2)</a></li>
 <li class='category'><a href='/blog/categories/concurrent/'>concurrent (2)</a></li>
 <li class='category'><a href='/blog/categories/github/'>github (1)</a></li>
