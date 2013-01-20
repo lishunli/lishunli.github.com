@@ -4,7 +4,7 @@
   <title><![CDATA[Category: others | 等待着你]]></title>
   <link href="http://lishunli.github.com/blog/categories/others/atom.xml" rel="self"/>
   <link href="http://lishunli.github.com/"/>
-  <updated>2013-01-18T20:29:50+08:00</updated>
+  <updated>2013-01-20T20:31:12+08:00</updated>
   <id>http://lishunli.github.com/</id>
   <author>
     <name><![CDATA[李顺利]]></name>
@@ -341,8 +341,8 @@ testRunner.testCase.testSuite.getTestCaseByName("Approval").setPropertyValue("bo
 <h3>六、我的联系方式：</h3>
 
 <p>QQ: 506817493     <br/>
-E-mail: <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#x6c;&#x65;&#x65;&#x73;&#x68;&#x75;&#110;&#x6c;&#105;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#108;&#101;&#101;&#x73;&#104;&#x75;&#x6e;&#x6c;&#x69;&#x40;&#x71;&#113;&#46;&#99;&#111;&#x6d;</a> , <a href="&#109;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#108;&#105;&#115;&#104;&#x75;&#110;&#108;&#105;&#46;&#109;&#x65;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;">&#108;&#x69;&#x73;&#x68;&#x75;&#x6e;&#108;&#x69;&#x2e;&#109;&#x65;&#64;&#103;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#x6f;&#109;</a>  <br/>
-MSN: <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x6c;&#105;&#115;&#x68;&#x75;&#110;&#108;&#x69;&#64;&#108;&#105;&#x76;&#x65;&#x2e;&#x63;&#111;&#109;">&#108;&#105;&#115;&#x68;&#x75;&#110;&#108;&#x69;&#x40;&#108;&#x69;&#x76;&#x65;&#46;&#x63;&#x6f;&#x6d;</a>  <br/>
+E-mail: <a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x6c;&#101;&#x65;&#115;&#x68;&#117;&#x6e;&#x6c;&#105;&#x40;&#x71;&#x71;&#x2e;&#99;&#111;&#109;">&#x6c;&#x65;&#x65;&#x73;&#104;&#117;&#110;&#108;&#x69;&#64;&#x71;&#x71;&#x2e;&#99;&#111;&#109;</a> , <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#58;&#x6c;&#105;&#x73;&#x68;&#x75;&#x6e;&#x6c;&#105;&#46;&#x6d;&#x65;&#x40;&#x67;&#109;&#x61;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#x6d;">&#108;&#105;&#x73;&#104;&#x75;&#110;&#108;&#105;&#x2e;&#109;&#101;&#64;&#103;&#x6d;&#97;&#105;&#x6c;&#46;&#x63;&#111;&#109;</a>  <br/>
+MSN: <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#108;&#x69;&#115;&#x68;&#x75;&#x6e;&#x6c;&#105;&#x40;&#108;&#105;&#118;&#x65;&#46;&#99;&#111;&#109;">&#108;&#105;&#115;&#104;&#x75;&#x6e;&#x6c;&#x69;&#64;&#x6c;&#105;&#118;&#x65;&#x2e;&#99;&#x6f;&#109;</a>  <br/>
 Weibo: <a href="http://weibo.com/lishunli">@李顺利Me</a>  <br/>
 Twitter: <a href="http://twitter.com/lishunli">@lishunli</a> <br/>
 Facebook: <a href="http://www.facebook.com/lishunli">李顺利</a>   <br/>
@@ -482,7 +482,7 @@ Liquid error: No such file or directory - python -c “import sys; print sys.exe
 这个官网已经有介绍了，应该比较简单。</p></li>
 <li><p>中文问题<br/>
 Windows下如果有中文的话，在generate步骤就会失败，网上给出的解决方法也很简单，就是设置自己本机的环境变量   <br/>
-<img src="http://usc.googlecode.com/svn/files/github/images/hello-world/env_vars.png" alt="" />
+<img src="http://usc.googlecode.com/svn/files/github/images/hello-world/env_vars.png" alt="" />   <br/>
 具体的就是这样设置的
 <code>
 set LC_ALL=zh_CN.UTF-8

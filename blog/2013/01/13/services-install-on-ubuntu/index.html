@@ -103,12 +103,12 @@
   </header>
 
 
-<div class="entry-content"><p>前面写过一篇博文<a href="http://lishunli.github.com/blog/2012/04/14/ubuntu-personal-use-notes/">我是这样使用Ubuntu的</a>，大致介绍了一下如何安装ubuntu和一些使用技巧。最近在学习一些常用的服务，比如nginx，mc等，这里做些笔记。</p>
+<div class="entry-content"><p>前面写过一篇博文<a href="http://www.blogjava.net/lishunli/archive/2012/04/26/376655.html">我是这样使用Ubuntu的</a>，大致介绍了一下如何安装ubuntu和一些使用技巧。最近在学习一些常用的服务，比如nginx，mc等，这里做些笔记。</p>
 
 <!-- more -->
 
 
-<h2>开启ssh服务</h2>
+<h3>开启ssh服务</h3>
 
 <p>使用<code>sudo apt-get install openssh-server</code>来安装ssh服务，后面发现在每次使用ssh登录系统的时候，都需要等待比较长的时间，也比较好解决</p>
 
@@ -119,9 +119,10 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p></p>
+<p>
+ps. ssh服务最好需要固定的ip，如果做，请参考<a href="http://blog.csdn.net/tzb251316192/article/details/7520210">ubuntu 12.04 以固定 IP 地址连接网络并配置DNS</a></p>
 
-<h2>安装jdk</h2>
+<h3>安装jdk</h3>
 
 <p>参考<a href="http://blog.csdn.net/yang_hui1986527/article/details/6677450">Ubuntu 11.04 下安装配置 JDK 7</a> 和 <a href="http://wiki.ubuntu.org.cn/Java%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE">Java安装配置</a></p>
 
@@ -140,7 +141,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>安装Tomcat</h2>
+<h3>安装Tomcat</h3>
 
 <p>下载并解压即可，可以修改一些默认的配置，比如8080端口，和Root下默认的manage页面（删除webapps/ROOT/下所有文件，添加index.html）,定制一下404页面（可以支持公益<a href="http://yibo.iyiyun.com/">益播-公益广告</a>）</p>
 
@@ -159,7 +160,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>安装Memcached</h2>
+<h3>安装Memcached</h3>
 
 <p>Memcached 的安装可以自己编译或者直接安装，请参考<a href="http://www.mike.org.cn/articles/ubuntu-install-memcached/">Ubuntu下安装Memcached</a> 这篇文章，写的很详细，出现的问题也给出了解决方案。      <br/>
 这里就仅贴出启动和关闭Memcached的shell</p>
@@ -197,7 +198,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>安装nginx</h2>
+<h3>安装nginx</h3>
 
 <p>编译安装最新稳定版nginx请看<a href="http://www.cnblogs.com/sink_cup/archive/2011/06/29/ubuntu_nginx_php_mongodb_memcache_mysql_ssl_gmail_smtp.html">Ubuntu 11.10 x64编译安装nginx、PHP 5.3.8、mysql、mongodb、memcached、ssl、smtp</a>,写的很详细，其中nginx开机自启动的文章 <a href="http://www.cnblogs.com/lexus/archive/2010/12/21/1913109.html">Ubuntu Nginx 开机自启动</a> 也很不错      <br/>
 我的启动和关闭shell</p>
@@ -305,7 +306,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>安装Mysql</h2>
+<h3>安装Mysql</h3>
 
 <p>使用<code>apt-get install mysql-server</code>来安装mysql服务端，同时终端会请求输入root用户密码，这里本人设置的密码是<code>lishunli</code>。</p>
 
@@ -333,7 +334,7 @@
 <p><strong>注:
 上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo</strong></p>
 
-<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#x6d;&#97;&#105;&#108;&#x74;&#x6f;&#58;&#108;&#101;&#101;&#115;&#x68;&#x75;&#110;&#x6c;&#x69;&#x40;&#x71;&#x71;&#x2e;&#99;&#111;&#109;">&#x6c;&#x65;&#x65;&#115;&#104;&#x75;&#110;&#x6c;&#x69;&#x40;&#x71;&#x71;&#46;&#99;&#x6f;&#109;</a> 联系到我，大家一起交流学习。</p>
+<p>如果有什么建议或问题的话，可以通过微博 <a href="http://weibo.com/lishunli">@李顺利Me</a> 或 Email：<a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#108;&#101;&#x65;&#x73;&#104;&#x75;&#x6e;&#108;&#105;&#64;&#113;&#x71;&#46;&#99;&#x6f;&#109;">&#x6c;&#x65;&#x65;&#x73;&#104;&#x75;&#110;&#108;&#x69;&#64;&#113;&#x71;&#46;&#x63;&#111;&#109;</a> 联系到我，大家一起交流学习。</p>
 
 <p align="right">
 <a href = "http://blogjava.net/lishunli" target="_blank">顺利</a><br>     
@@ -341,7 +342,7 @@
 </p>
 
 
-<h3>更新历史</h3>
+<h4>更新历史</h4>
 
 <p>2013-01-13 添加mysql服务，并修改一些默认配置    <br/>
 2013-01-12 解决ssh登录等待时间长的问题，添加nginx启动和关闭shell      <br/>
