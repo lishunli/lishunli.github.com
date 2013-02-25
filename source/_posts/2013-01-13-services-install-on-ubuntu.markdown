@@ -134,8 +134,50 @@ default-character-set = utf8
 /etc/init.d/mysql restart
 ```
 		
-		
-
+###安装redis###
+安装很简单，参考官网上面的即可
+``` bash
+wget http://redis.googlecode.com/files/redis-2.6.10.tar.gz
+tar xzf redis-2.6.10.tar.gz
+cd redis-2.6.10
+make
+```
+make之前先用 `make test` 进行测试下，发现会有`You need Tcl 8.5 installed to run the Redis test...` 这样的错误，意思是redis需要Tcl 8.5+，目前本ubuntu机器没有，那就安装了，`apt-get install tcl8.5` 即可解决make的tcl依赖问题		
+	
+安装后可以进行一些简单的测试，redis-2.6.10/src 里面有 redis-server（服务端，默认不是静默开启，请不要关闭） 和 redis-cli（客户端），就可以进行一些简单的操作，具体的命令请参考官网[Command reference – Redis](http://redis.io/commands) 或者 @huangz1990 共享的redis命令中文翻译页面 [Redis 命令参考](https://redis.readthedocs.org/en/latest/)。	
+	
+redis安装好后，可以配置开机启动，官网安装文档中也给出了ubuntu如何配置redis开机启动，在 [Redis Quick Start](http://redis.io/topics/quickstart)的 Installing Redis more properly 部分，整理出步骤
+``` bash
+# 确保你已经复制 redis-server 和 redis-cli 脚本到 /usr/local/bin下，默认安装的时候已经完成
+# 创建一写文件夹来放置redis的配置文件和数据
+sudo mkdir /etc/redis
+sudo mkdir /var/redis
+# 复制init脚步，在redis发行包的utils下已经有这个脚本，e.g. /usr/local/redis-2.6.10/utils/redis_init_script
+sudo cp utils/redis_init_script /etc/init.d/redis_6379
+# 可以根据需要修改init脚步，默认最好，如果想修改默认的端口号可以根据需要修改
+sudo vi /etc/init.d/redis_6379
+# 创建数据文件夹
+sudo mkdir /var/redis/6379
+# 复制默认的配置文件
+sudo cp redis.conf /etc/redis/6379.conf
+# 修改默认的配置文件
+sudo vi /etc/redis/6379.conf
+	# 设置静默安装
+		daemonize yes
+	# 设置pid文件
+		pidfile /var/run/redis_6379.pid
+	# 设置日志文件（可以根据需要修改日志级别）
+		logfile /var/log/redis_6379.log
+	# 设置主目录（很重要）
+		dir /var/redis/6379
+# 配置开机启动
+sudo update-rc.d redis_6379 defaults
+# 启动服务
+/etc/init.d/redis_6379 start
+```
+好了，如果没有问题至此redis_6379已经安装成功并能开机启动。	
+	
+	
 **注:
 上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo**	
 	
@@ -146,7 +188,8 @@ default-character-set = utf8
 2013年1月13日
 </p>
 
-#### 更新历史	
+#### 更新历史
+2013-02-25 添加安装redis服务，并配置开机启动	
 2013-01-13 添加mysql服务，并修改一些默认配置		
 2013-01-12 解决ssh登录等待时间长的问题，添加nginx启动和关闭shell		
 2013-01-08 继续更新使用中遇到的问题并安装一些服务软件				
