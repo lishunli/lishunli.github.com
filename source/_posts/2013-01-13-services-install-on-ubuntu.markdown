@@ -148,7 +148,7 @@ make之前先用 `make test` 进行测试下，发现会有`You need Tcl 8.5 ins
 	
 redis安装好后，可以配置开机启动，官网安装文档中也给出了ubuntu如何配置redis开机启动，在 [Redis Quick Start](http://redis.io/topics/quickstart)的 Installing Redis more properly 部分，整理出步骤
 ``` bash
-# 确保你已经复制 redis-server 和 redis-cli 脚本到 /usr/local/bin下，默认安装的时候已经完成
+# 确保你已经复制 redis-server 和 redis-cli 脚本到 /usr/local/bin下，编译的时候 make && make install 即可
 # 创建一写文件夹来放置redis的配置文件和数据
 sudo mkdir /etc/redis
 sudo mkdir /var/redis
