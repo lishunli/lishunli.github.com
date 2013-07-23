@@ -178,6 +178,18 @@ sudo update-rc.d redis_6379 defaults
 好了，如果没有问题至此redis_6379已经安装成功并能开机启动。	
 	
 	
+###安装Git###
+到[git-core](https://code.google.com/p/git-core/downloads/list)下载最新的源码，并解压编译安装
+``` bash
+wget https://git-core.googlecode.com/files/git-1.8.3.4.tar.gz
+tar zvxf git-1.8.3.4.tar.gz
+cd git-1.8.3.4
+./configure
+make && make install
+git --version
+```	
+		
+
 **注:
 上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo**	
 	
@@ -189,6 +201,7 @@ sudo update-rc.d redis_6379 defaults
 </p>
 
 #### 更新历史
+2013-07-23 添加安装git服务
 2013-02-25 添加安装redis服务，并配置开机启动	
 2013-01-13 添加mysql服务，并修改一些默认配置		
 2013-01-12 解决ssh登录等待时间长的问题，添加nginx启动和关闭shell		
