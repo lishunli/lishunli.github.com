@@ -189,7 +189,42 @@ make && make install
 git --version
 ```	
 		
+###安装zsh###
+安装[zsh](http://www.zsh.org/) shell并通过[oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh/)配置
+``` bash
+apt-get install zsh
 
+wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+
+# 个人的一些插件安装
+# autojump
+git clone git://github.com/joelthelion/autojump.git
+cd autojump
+./install.sh
+
+```	
+`source ~/.zshrc` 或者重开Terminal即可享受zsh的快捷。	
+
+更多参考via		
+[终极 Shell | MacTalk-池建强的随想录](http://macshuo.com/?p=676)	
+[我在用的mac软件(2)-终端环境之zsh和z(*nix都适用) - Code Rush](http://foocoder.com/blog/wo-zai-yong-de-macruan-jian-2.html/)		
+[使用 Zsh 的九个理由](http://lostjs.com/2012/09/27/zsh/) ps. 原文有些图片已经404了，大家google下可以看到很多copy
+
+个人的zsh配置
+``` bash ~/.zshrc
+# autojump
+[[ -s /etc/profile.d/autojump.zsh ]] && . /etc/profile.d/autojump.zsh
+
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+
+# alias
+alias vi='vim'
+alias grep='grep --color=auto'
+
+```			
+		
+		
 **注:
 上面的大部分命令都是以root用户执行的，如果权限不够，请加上sudo**	
 	
@@ -201,7 +236,8 @@ git --version
 </p>
 
 #### 更新历史
-2013-07-23 添加安装git服务
+2013-07-28 添加安装zsh shell	
+2013-07-23 添加安装git服务	
 2013-02-25 添加安装redis服务，并配置开机启动	
 2013-01-13 添加mysql服务，并修改一些默认配置		
 2013-01-12 解决ssh登录等待时间长的问题，添加nginx启动和关闭shell		
